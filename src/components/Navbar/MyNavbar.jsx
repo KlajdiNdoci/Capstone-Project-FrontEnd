@@ -28,18 +28,19 @@ const MyNavbar = () => {
     <>
       <Navbar fixed="top" expand="lg" style={{ height: "80px", backgroundColor: "#171D25" }} className="p-0">
         <Container fluid="xl" style={{ height: "100%" }}>
-          <Row className="flex-grow-1 " style={{ height: "100%" }}>
+          <Row className="flex-grow-1 justify-content-center" style={{ height: "100%" }}>
             <Col xs={1} lg={4} className="p-1  align-items-center d-none d-md-flex">
               <Link to="/" className="me-2">
                 <img
                   src="https://res.cloudinary.com/klajdindoci/image/upload/v1701440271/6a72da74-fe3b-4a3a-86e7-9007c9c0d445_1_pyuxtp.png"
-                  width={60}
-                  alt="Platform icon"
-                  className="object-fit-cover me-2"
+                  alt="Platform logo"
+                  width={50}
+                  height={50}
+                  className="m-auto"
                 />
               </Link>
 
-              <Form style={{ maxWidth: "280px" }} className="flex-grow-1 d-none d-lg-block ">
+              <Form style={{ maxWidth: "500px", border: "none" }} className="flex-grow-1 d-none d-lg-block">
                 <InputGroup>
                   <Form.Control
                     type="search"
@@ -47,12 +48,12 @@ const MyNavbar = () => {
                     onChange={handleChange}
                     placeholder="Cerca"
                     className="border border-0"
-                    style={{ backgroundColor: "#316282" }}
+                    style={{ backgroundColor: "#316282", height: "50px", boxShadow: "none" }}
                   />
                   <InputGroup.Text
                     id="basic-addon1"
-                    className="border border-0 p-0 px-2"
-                    style={{ backgroundColor: "#64B8E7" }}
+                    className="border border-0 p-0 px-2 justify-content-center"
+                    style={{ backgroundColor: "#64B8E7", width: "50px" }}
                   >
                     <Search />
                   </InputGroup.Text>
@@ -60,55 +61,58 @@ const MyNavbar = () => {
               </Form>
             </Col>
             <Col
-              xs={1}
-              className="nav-link d-flex justify-content-center d-md-none"
+              xs={2}
+              className="nav-link d-flex justify-content-center d-md-none m-auto"
               style={{
                 color: "#8d8d8d",
                 height: "100%",
                 backgroundColor: "transparent",
               }}
             >
-              <Link to="/profile/" className="m-auto">
-                <img src={user?.image} width={32} height={32} className="rounded-circle object-fit-cover" alt="user" />
+              <Link to="/" className="my-auto">
+                <img
+                  src="https://res.cloudinary.com/klajdindoci/image/upload/v1701440271/6a72da74-fe3b-4a3a-86e7-9007c9c0d445_1_pyuxtp.png"
+                  alt="Platform logo"
+                  width={50}
+                  height={50}
+                />
               </Link>
             </Col>
-            <Col className="py-2 px-0 d-flex d-md-none ">
-              <Form className="d-flex flex-grow-1 justify-content-center">
+            <Col className="d-flex d-md-none my-auto p-0">
+              <Form className="d-flex flex-grow-1 justify-content-center align-items-middle">
                 <InputGroup>
-                  <InputGroup.Text
-                    id="basic-addon1"
-                    className="border border-0 p-0 px-2"
-                    style={{ backgroundColor: "#EDF3F8" }}
-                  >
-                    <Search />
-                  </InputGroup.Text>
                   <Form.Control
                     type="search"
                     value={query}
                     onChange={handleChange}
                     placeholder="Cerca"
                     className="border border-0"
-                    style={{ backgroundColor: "#EDF3F8" }}
+                    style={{ backgroundColor: "#316282", height: "50px", boxShadow: "none" }}
                   />
+                  <InputGroup.Text
+                    id="basic-addon1"
+                    className="border border-0 p-0 px-2 justify-content-center"
+                    style={{ backgroundColor: "#64B8E7", width: "50px" }}
+                  >
+                    <Search />
+                  </InputGroup.Text>
                 </InputGroup>
               </Form>
             </Col>
-            <Col xs={1} className="d-md-none" style={{ height: "100%" }}>
-              <Link
-                className="nav-link d-flex flex-column p-0 align-items-center  justify-content-center "
-                style={{ color: "#8d8d8d", height: "100%" }}
-              ></Link>
-            </Col>
-            <Col xs={1} className="d-md-none" style={{ height: "100%" }}>
-              <Link
-                to="/comments/"
-                className="nav-link d-flex flex-column p-0 align-items-center justify-content-center "
-                style={{ color: "#8d8d8d", height: "100%" }}
-              ></Link>
+            <Col xs={2} className="d-md-none m-auto p-0 d-flex justify-content-center" style={{ height: "100%" }}>
+              <Link to="/profile/" className="d-flex">
+                <img
+                  src={user?.avatar}
+                  width={50}
+                  className="object-fit-cover m-auto"
+                  alt="user"
+                  style={{ border: "solid 2px #4D95B1" }}
+                />
+              </Link>
             </Col>
 
-            <Col xs={10} lg={7} className="align-items-center flex-grow-1 d-none d-md-flex">
-              <Row className="flex-grow-1" style={{ height: "100%" }}>
+            <Col xs={10} lg={7} className="d-none d-md-flex">
+              <Row style={{ height: "100%" }}>
                 <Col className="d-lg-none" style={{ height: "100%" }}>
                   <Link
                     className="nav-link d-flex flex-column p-0 align-items-center justify-content-center "
@@ -126,7 +130,7 @@ const MyNavbar = () => {
                     }`}
                     style={{ color: "#8d8d8d", height: "100%" }}
                   >
-                    <span className="d-none d-md-block"> Home</span>
+                    <span className="d-none d-md-block fs-6 fw-medium text-white"> HOME</span>
                   </Link>
                 </Col>
                 <Col style={{ height: "100%" }}>
@@ -137,10 +141,10 @@ const MyNavbar = () => {
                     }`}
                     style={{ color: "#8d8d8d", height: "100%" }}
                   >
-                    <span className="d-none d-md-block">Rete</span>
+                    <span className="d-none d-md-block fs-6 fw-medium text-white">GAMES</span>
                   </Link>
                 </Col>
-                <Col style={{ height: "100%" }}>
+                <Col style={{ height: "100%" }} className={`${user ? "d-block" : "d-none"}`}>
                   <Link
                     to="/jobs/none"
                     className={`nav-link d-flex flex-column p-0 align-items-center justify-content-center ${
@@ -148,7 +152,7 @@ const MyNavbar = () => {
                     }`}
                     style={{ color: "#8d8d8d", height: "100%" }}
                   >
-                    <span className="d-none d-md-block"> Lavoro</span>
+                    <span className="d-none d-md-block fs-6 fw-medium text-white">{user?.username.toUpperCase()}</span>
                   </Link>
                 </Col>
                 <Col style={{ height: "100%" }}>
@@ -159,28 +163,14 @@ const MyNavbar = () => {
                     }`}
                     style={{ color: "#8d8d8d", height: "100%" }}
                   >
-                    <span className="d-none d-md-block"> Messaggistica</span>
-                  </Link>
-                </Col>
-                <Col style={{ height: "100%" }}>
-                  <Link
-                    to="/notifications/"
-                    className={`nav-link d-flex flex-column p-0 align-items-center justify-content-center ${
-                      location.pathname.includes("/notifications") ? "active" : ""
-                    }`}
-                    style={{ color: "#8d8d8d", height: "100%" }}
-                  >
-                    <span className="d-none d-md-block">Notifiche</span>
+                    <span className="d-none d-md-block fs-6 fw-medium text-white"> NEWS</span>
                   </Link>
                 </Col>
               </Row>
-              <Col className=" d-none d-md-block" style={{ height: "100%" }}>
-                <Dropdown
-                  className="nav-link d-flex flex-column p-0 align-items-center justify-content-center"
-                  style={{ height: "100%" }}
-                >
+              <Col className="d-none d-md-flex justify-content-end" style={{ height: "100%" }}>
+                <Dropdown className="nav-link d-flex p-0" style={{ height: "100%" }}>
                   <Dropdown.Toggle
-                    className="nav-link"
+                    className="nav-link me-3"
                     id="dropdown-basic"
                     style={{
                       color: "#8d8d8d",
@@ -188,21 +178,15 @@ const MyNavbar = () => {
                       backgroundColor: "transparent",
                     }}
                   >
-                    <div className="m-auto">
-                      <img
-                        src={user?.avatar}
-                        style={{
-                          width: "20px",
-                          height: "20px",
-                          borderRadius: "50%",
-                        }}
-                        alt="user"
-                        className="object-fit-cover"
-                      />
-
-                      <span>{user?.username}</span>
-                    </div>
+                    <span>{user?.username}</span>
                   </Dropdown.Toggle>
+                  <img
+                    src={user?.avatar}
+                    width={50}
+                    className="object-fit-cover m-auto"
+                    alt="user"
+                    style={{ border: "solid 2px #4D95B1" }}
+                  />
 
                   <Dropdown.Menu
                     className="border rounded-0 rounded-start rounded-bottom my-navbar-dropdown pb-0 shadow-sm mt-2 "
@@ -213,13 +197,12 @@ const MyNavbar = () => {
                       <div className="d-flex">
                         <div className="p-2">
                           <img
-                            src={user?.image}
+                            src={user?.avatar}
                             style={{
-                              width: "48px",
-                              height: "48px",
+                              width: "50px",
+                              height: "50px",
                               borderRadius: "50%",
                             }}
-                            // className="rounded-circle"
                             alt="user"
                             className="object-fit-cover"
                           />
