@@ -4,11 +4,11 @@ export const IS_ERROR_MY_PROFILE = "IS_ERROR_MY_PROFILE";
 
 export const getCurrentUserAction = () => {
   return async dispatch => {
-    const URL = process.env.SERVER_URL;
+    const URL = process.env.REACT_APP_SERVER_URL + "/users/me";
     const method = {
       method: "GET",
       headers: {
-        Authorization: "Bearer " + process.env.BEARER_TOKEN,
+        Authorization: "Bearer " + process.env.REACT_APP_BEARER_TOKEN,
       },
     };
 

@@ -1,8 +1,8 @@
-import { combineReducers, configureStore } from "@reduxjs/toolkit";
-import persistReducer from "redux-persist/es/persistReducer";
 import { encryptTransform } from "redux-persist-transform-encrypt";
-import persistStore from "redux-persist/es/persistStore";
 import storage from "redux-persist/lib/storage";
+import { combineReducers, configureStore } from "@reduxjs/toolkit";
+import { persistStore, persistReducer } from "redux-persist";
+import currentUserReducer from "../reducers/currentUserReducer";
 
 const persistConfig = {
   key: "root",
@@ -14,7 +14,9 @@ const persistConfig = {
   ],
 };
 
-const totalReducer = combineReducers({});
+const totalReducer = combineReducers({
+  currentUser: currentUserReducer,
+});
 
 const persistedReducer = persistReducer(persistConfig, totalReducer);
 
