@@ -78,7 +78,7 @@ const MyNavbar = () => {
                 />
               </Link>
             </Col>
-            <Col className="d-flex d-md-none my-auto p-0">
+            <Col xs={8} md={3} className="d-flex d-lg-none my-auto p-0">
               <Form className="d-flex flex-grow-1 justify-content-center align-items-middle">
                 <InputGroup>
                   <Form.Control
@@ -111,46 +111,38 @@ const MyNavbar = () => {
               </Link>
             </Col>
 
-            <Col className="d-lg-none" style={{ height: "100%" }}>
-              <Link
-                className="nav-link d-flex flex-column p-0 align-items-center justify-content-center "
-                style={{ color: "#8d8d8d", height: "100%" }}
-              >
-                <Search size={20} />
-              </Link>
-            </Col>
-            <Col style={{ height: "100%" }}>
+            <Col className="d-none d-md-block" style={{ height: "100%" }}>
               <Link
                 to="/"
-                className={`nav-link d-flex flex-column p-0 align-items-center justify-content-center ${
-                  location.pathname === "/" ? "active" : ""
+                className={`d-flex flex-column p-0 align-items-center justify-content-center ${
+                  location.pathname === "/" ? "active" : "text-white text-decoration-none"
                 }`}
-                style={{ color: "#8d8d8d", height: "100%" }}
+                style={{ height: "100%" }}
               >
-                <span className="d-none d-md-block fs-6 fw-medium text-white"> HOME</span>
+                <span className="d-none d-md-block fs-6 fw-medium">HOME</span>
               </Link>
             </Col>
-            <Col style={{ height: "100%" }}>
+            <Col className="d-none d-md-block" style={{ height: "100%" }}>
               <Link
-                to="/mynetwork/"
-                className={`nav-link d-flex flex-column p-0 align-items-center justify-content-center ${
-                  location.pathname.includes("/mynetwork/") ? "active" : ""
+                to="/games/"
+                className={`d-flex flex-column p-0 align-items-center justify-content-center ${
+                  location.pathname.includes("/games/") ? "active" : "text-white text-decoration-none"
                 }`}
-                style={{ color: "#8d8d8d", height: "100%" }}
+                style={{ height: "100%" }}
               >
-                <span className="d-none d-md-block fs-6 fw-medium text-white">GAMES</span>
+                <span className="d-none d-md-block fs-6 fw-medium">GAMES</span>
               </Link>
             </Col>
 
-            <Col style={{ height: "100%" }}>
+            <Col className="d-none d-md-block" style={{ height: "100%" }}>
               <Link
-                to="/messaging/"
-                className={`nav-link d-flex flex-column p-0 align-items-center justify-content-center ${
-                  location.pathname.includes("/messaging/") ? "active" : ""
+                to="/news/"
+                className={`d-flex flex-column p-0 align-items-center justify-content-center ${
+                  location.pathname.includes("/news/") ? "active" : "text-white text-decoration-none"
                 }`}
-                style={{ color: "#8d8d8d", height: "100%" }}
+                style={{ height: "100%" }}
               >
-                <span className="d-none d-md-block fs-6 fw-medium text-white"> NEWS</span>
+                <span className="d-none d-md-block fs-6 fw-medium "> NEWS</span>
               </Link>
             </Col>
 
@@ -158,7 +150,7 @@ const MyNavbar = () => {
               <Dropdown className="nav-link p-0 d-flex" style={{ height: "100%" }}>
                 <div className="d-flex align-items-center">
                   <Dropdown.Toggle
-                    className="nav-link me-3"
+                    className="nav-link me-3 d-none d-lg-block"
                     id="dropdown-basic"
                     style={{
                       color: "#8d8d8d",
