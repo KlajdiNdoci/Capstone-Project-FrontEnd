@@ -1,26 +1,51 @@
-import { useEffect, useState } from "react";
-import { Button, Col, Container, Dropdown, Form, InputGroup, Navbar, Row } from "react-bootstrap";
+import { useEffect, useRef, useState } from "react";
+import { Col, Container, Dropdown, Form, InputGroup, Navbar, Row } from "react-bootstrap";
 import { useDispatch, useSelector } from "react-redux";
-import { Link, useLocation, useNavigate } from "react-router-dom";
+import { Link, useLocation } from "react-router-dom";
 
 import { Search } from "react-bootstrap-icons";
 import Bottombar from "./Bottombar";
-import { getCurrentUserAction } from "../../redux/actions";
+import { getCurrentUserAction, getSuggestions } from "../../redux/actions";
 
 const MyNavbar = () => {
   const [query, setQuery] = useState("");
+  const [showSuggestions, setShowSuggestions] = useState(false);
   const dispatch = useDispatch();
   const location = useLocation();
-  const navigate = useNavigate();
+  const suggestionsRef = useRef(null);
 
   const user = useSelector(state => state.currentUser.content);
+  const suggestions = useSelector(state => state.suggestions.content.content);
 
   const handleChange = e => {
-    setQuery(e.target.value);
+    const newQuery = e.target.value;
+    setQuery(newQuery);
+
+    if (newQuery.length >= 3) {
+      dispatch(getSuggestions(newQuery));
+      setShowSuggestions(true);
+    } else {
+      setShowSuggestions(false);
+    }
+  };
+
+  const handleClickOutsideSuggestions = e => {
+    if (suggestionsRef.current && !suggestionsRef.current.contains(e.target)) {
+      setShowSuggestions(false);
+    }
+  };
+  const handleSearchBarClick = e => {
+    e.stopPropagation();
+    setShowSuggestions(true);
   };
 
   useEffect(() => {
     dispatch(getCurrentUserAction());
+    document.addEventListener("click", handleClickOutsideSuggestions);
+    return () => {
+      document.removeEventListener("click", handleClickOutsideSuggestions);
+    };
+
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
@@ -46,6 +71,7 @@ const MyNavbar = () => {
                     type="search"
                     value={query}
                     onChange={handleChange}
+                    onClick={handleSearchBarClick}
                     placeholder="Cerca"
                     className="border border-0"
                     style={{ backgroundColor: "#316282", height: "50px", boxShadow: "none" }}
@@ -57,6 +83,19 @@ const MyNavbar = () => {
                   >
                     <Search />
                   </InputGroup.Text>
+                  {query.length >= 3 && showSuggestions && (
+                    <div ref={suggestionsRef} className="suggestions-container">
+                      {suggestions.map((suggestion, index) => (
+                        <div key={index} className="suggestion d-flex">
+                          <img src={suggestion.gameCover} alt="cover" className="me-3" width={100} />
+                          <div>
+                            <div> {suggestion.title}</div>
+                            <div>{suggestion.averageRating}</div>
+                          </div>
+                        </div>
+                      ))}
+                    </div>
+                  )}
                 </InputGroup>
               </Form>
             </Col>
@@ -100,7 +139,7 @@ const MyNavbar = () => {
               </Form>
             </Col>
             <Col xs={2} className="d-md-none m-auto p-0 d-flex justify-content-center" style={{ height: "100%" }}>
-              <Link to="/profile/" className="d-flex">
+              <Link to="/profile/me" className="d-flex">
                 <img
                   src={user?.avatar}
                   width={50}
@@ -160,7 +199,7 @@ const MyNavbar = () => {
                   >
                     <span>{user?.username}</span>
                   </Dropdown.Toggle>
-                  <Link to={"/profile"}>
+                  <Link to={"/profile/me"}>
                     <img
                       src={user?.avatar}
                       width={50}
@@ -176,9 +215,9 @@ const MyNavbar = () => {
                   drop={"start"}
                   style={{ backgroundColor: "#3D4450", fontSize: 15 }}
                 >
-                  <Dropdown.Item className="text-white  py-2">View my profile</Dropdown.Item>
-                  <Dropdown.Item className="text-white  py-2">Language</Dropdown.Item>
-                  <Dropdown.Item className="text-white  py-2">Sign out of account</Dropdown.Item>
+                  <Dropdown.Item className="py-2 dropdown-item">View my profile</Dropdown.Item>
+                  <Dropdown.Item className="py-2 dropdown-item">Language</Dropdown.Item>
+                  <Dropdown.Item className="py-2 dropdown-item">Sign out of account</Dropdown.Item>
                 </Dropdown.Menu>
               </Dropdown>
             </Col>

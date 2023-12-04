@@ -50,3 +50,32 @@ body {
   text-underline-offset: 5px;
   text-decoration-thickness: 2px;
 }
+
+.suggestions-container {
+  position: absolute;
+  top: 100%;
+  left: 0;
+  width: 150%;
+  background-color: #3d4450;
+  box-shadow: 0px 0px 19px 3px rgba(0, 0, 0, 0.56);
+  z-index: 2;
+}
+
+.suggestion {
+  padding: 8px;
+  cursor: pointer;
+  color: white;
+  font-weight: 400;
+}
+
+.suggestion:hover {
+  background-color: #f2f2f2;
+  color: black;
+}
+
+.dropdown-item {
+  color: white;
+}
+.dropdown-item:hover {
+  color: black;
+}

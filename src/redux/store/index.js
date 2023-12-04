@@ -3,6 +3,7 @@ import storage from "redux-persist/lib/storage";
 import { combineReducers, configureStore } from "@reduxjs/toolkit";
 import { persistStore, persistReducer } from "redux-persist";
 import currentUserReducer from "../reducers/currentUserReducer";
+import suggestionsReducer from "../reducers/suggestionsReducer";
 
 const persistConfig = {
   key: "root",
@@ -16,6 +17,7 @@ const persistConfig = {
 
 const totalReducer = combineReducers({
   currentUser: currentUserReducer,
+  suggestions: suggestionsReducer,
 });
 
 const persistedReducer = persistReducer(persistConfig, totalReducer);
