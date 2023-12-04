@@ -1,5 +1,5 @@
 import { useEffect, useRef, useState } from "react";
-import { Col, Container, Dropdown, Form, InputGroup, Navbar, Row } from "react-bootstrap";
+import { Button, Col, Container, Dropdown, Form, InputGroup, Navbar, Row } from "react-bootstrap";
 import { useDispatch, useSelector } from "react-redux";
 import { Link, useLocation } from "react-router-dom";
 
@@ -18,16 +18,19 @@ const MyNavbar = () => {
   const suggestions = useSelector(state => state.suggestions.content.content);
 
   const handleChange = e => {
-    const newQuery = e.target.value;
-    setQuery(newQuery);
-
-    if (newQuery.length >= 3) {
-      dispatch(getSuggestions(newQuery));
-      setShowSuggestions(true);
-    } else {
-      setShowSuggestions(false);
-    }
+    setQuery(e.target.value);
+    setShowSuggestions(true);
   };
+
+  useEffect(() => {
+    const debounceTimeout = setTimeout(() => {
+      if (query.length >= 3) {
+        dispatch(getSuggestions(query));
+      }
+    }, 1000);
+    return () => clearTimeout(debounceTimeout);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [query]);
 
   const handleClickOutsideSuggestions = e => {
     if (suggestionsRef.current && !suggestionsRef.current.contains(e.target)) {
@@ -37,6 +40,10 @@ const MyNavbar = () => {
   const handleSearchBarClick = e => {
     e.stopPropagation();
     setShowSuggestions(true);
+  };
+
+  const handleSubmit = e => {
+    e.preventDefault();
   };
 
   useEffect(() => {
@@ -65,7 +72,11 @@ const MyNavbar = () => {
                 />
               </Link>
 
-              <Form style={{ maxWidth: "500px", border: "none" }} className="flex-grow-1 d-none d-lg-block">
+              <Form
+                style={{ maxWidth: "500px", border: "none" }}
+                className="flex-grow-1 d-none d-lg-block"
+                onSubmit={handleSubmit}
+              >
                 <InputGroup>
                   <Form.Control
                     type="search"
@@ -76,13 +87,14 @@ const MyNavbar = () => {
                     className="border border-0"
                     style={{ backgroundColor: "#316282", height: "50px", boxShadow: "none" }}
                   />
-                  <InputGroup.Text
+                  <Button
                     id="basic-addon1"
-                    className="border border-0 p-0 px-2 justify-content-center"
+                    className="border border-0 p-0 px-2 justify-content-center text-black"
                     style={{ backgroundColor: "#64B8E7", width: "50px" }}
+                    type="submit"
                   >
                     <Search />
-                  </InputGroup.Text>
+                  </Button>
                   {query.length >= 3 && showSuggestions && (
                     <div ref={suggestionsRef} className="suggestions-container">
                       {suggestions.map((suggestion, index) => (
@@ -118,7 +130,7 @@ const MyNavbar = () => {
               </Link>
             </Col>
             <Col xs={8} className="d-flex d-lg-none my-auto p-0">
-              <Form className="d-flex flex-grow-1 justify-content-center align-items-middle">
+              <Form className="d-flex flex-grow-1 justify-content-center align-items-middle" onSubmit={handleSubmit}>
                 <InputGroup>
                   <Form.Control
                     type="search"
@@ -129,13 +141,14 @@ const MyNavbar = () => {
                     className="border border-0"
                     style={{ backgroundColor: "#316282", height: "50px", boxShadow: "none" }}
                   />
-                  <InputGroup.Text
+                  <Button
                     id="basic-addon1"
-                    className="border border-0 p-0 px-2 justify-content-center"
+                    className="border border-0 p-0 px-2 justify-content-center text-black"
                     style={{ backgroundColor: "#64B8E7", width: "50px" }}
+                    type="submit"
                   >
                     <Search />
-                  </InputGroup.Text>
+                  </Button>
                   {query.length >= 3 && showSuggestions && (
                     <div ref={suggestionsRef} className="suggestions-container-mobile">
                       {suggestions.map((suggestion, index) => (
