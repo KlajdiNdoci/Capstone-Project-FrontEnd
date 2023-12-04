@@ -54,7 +54,7 @@ const MyNavbar = () => {
       <Navbar fixed="top" expand="lg" style={{ height: "80px", backgroundColor: "#171D25" }} className="p-0">
         <Container fluid="xl" style={{ height: "100%" }}>
           <Row className="flex-grow-1 justify-content-center" style={{ height: "100%" }}>
-            <Col xs={1} lg={4} className="p-1  align-items-center d-none d-md-flex">
+            <Col xs={2} lg={4} className="p-1  align-items-center d-none d-md-flex justify-content-center">
               <Link to="/" className="me-2">
                 <img
                   src="https://res.cloudinary.com/klajdindoci/image/upload/v1701440271/6a72da74-fe3b-4a3a-86e7-9007c9c0d445_1_pyuxtp.png"
@@ -88,8 +88,8 @@ const MyNavbar = () => {
                       {suggestions.map((suggestion, index) => (
                         <div key={index} className="suggestion d-flex">
                           <img src={suggestion.gameCover} alt="cover" className="me-3" width={100} />
-                          <div>
-                            <div> {suggestion.title}</div>
+                          <div className="text-truncate">
+                            <div className="text-truncate">{suggestion.title}</div>
                             <div>{suggestion.averageRating}</div>
                           </div>
                         </div>
@@ -117,13 +117,14 @@ const MyNavbar = () => {
                 />
               </Link>
             </Col>
-            <Col xs={8} md={3} className="d-flex d-lg-none my-auto p-0">
+            <Col xs={8} className="d-flex d-lg-none my-auto p-0">
               <Form className="d-flex flex-grow-1 justify-content-center align-items-middle">
                 <InputGroup>
                   <Form.Control
                     type="search"
                     value={query}
                     onChange={handleChange}
+                    onClick={handleSearchBarClick}
                     placeholder="Cerca"
                     className="border border-0"
                     style={{ backgroundColor: "#316282", height: "50px", boxShadow: "none" }}
@@ -135,6 +136,19 @@ const MyNavbar = () => {
                   >
                     <Search />
                   </InputGroup.Text>
+                  {query.length >= 3 && showSuggestions && (
+                    <div ref={suggestionsRef} className="suggestions-container-mobile">
+                      {suggestions.map((suggestion, index) => (
+                        <div key={index} className="suggestion d-flex">
+                          <img src={suggestion.gameCover} alt="cover" className="me-3" width={100} />
+                          <div className="text-truncate">
+                            <div className="text-truncate">{suggestion.title}</div>
+                            <div>{suggestion.averageRating}</div>
+                          </div>
+                        </div>
+                      ))}
+                    </div>
+                  )}
                 </InputGroup>
               </Form>
             </Col>
@@ -150,7 +164,7 @@ const MyNavbar = () => {
               </Link>
             </Col>
 
-            <Col className="d-none d-md-block" style={{ height: "100%" }}>
+            <Col className="d-none d-lg-block" style={{ height: "100%" }}>
               <Link
                 to="/"
                 className={`d-flex flex-column p-0 align-items-center justify-content-center ${
@@ -161,7 +175,7 @@ const MyNavbar = () => {
                 <span className="d-none d-md-block fs-6 fw-medium">HOME</span>
               </Link>
             </Col>
-            <Col className="d-none d-md-block" style={{ height: "100%" }}>
+            <Col className="d-none d-lg-block" style={{ height: "100%" }}>
               <Link
                 to="/games/"
                 className={`d-flex flex-column p-0 align-items-center justify-content-center ${
@@ -173,7 +187,7 @@ const MyNavbar = () => {
               </Link>
             </Col>
 
-            <Col className="d-none d-md-block" style={{ height: "100%" }}>
+            <Col className="d-none d-lg-block" style={{ height: "100%" }}>
               <Link
                 to="/news/"
                 className={`d-flex flex-column p-0 align-items-center justify-content-center ${
@@ -185,7 +199,7 @@ const MyNavbar = () => {
               </Link>
             </Col>
 
-            <Col className="d-none d-md-block" style={{ height: "100%" }}>
+            <Col className="d-none d-md-flex justify-content-center" style={{ height: "100%" }}>
               <Dropdown className="nav-link p-0 d-flex" style={{ height: "100%" }}>
                 <div className="d-flex align-items-center">
                   <Dropdown.Toggle
@@ -224,7 +238,7 @@ const MyNavbar = () => {
           </Row>
         </Container>
       </Navbar>
-      <div className="d-md-none">
+      <div className="d-lg-none">
         <Bottombar />
       </div>
     </>
