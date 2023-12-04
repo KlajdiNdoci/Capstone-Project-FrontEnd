@@ -111,64 +111,52 @@ const MyNavbar = () => {
               </Link>
             </Col>
 
-            <Col xs={10} lg={7} className="d-none d-md-flex">
-              <Row style={{ height: "100%" }}>
-                <Col className="d-lg-none" style={{ height: "100%" }}>
-                  <Link
-                    className="nav-link d-flex flex-column p-0 align-items-center justify-content-center "
-                    style={{ color: "#8d8d8d", height: "100%" }}
-                  >
-                    <Search size={20} />
-                    <span className="d-none d-md-block">Cerca</span>
-                  </Link>
-                </Col>
-                <Col style={{ height: "100%" }}>
-                  <Link
-                    to="/"
-                    className={`nav-link d-flex flex-column p-0 align-items-center justify-content-center ${
-                      location.pathname === "/" ? "active" : ""
-                    }`}
-                    style={{ color: "#8d8d8d", height: "100%" }}
-                  >
-                    <span className="d-none d-md-block fs-6 fw-medium text-white"> HOME</span>
-                  </Link>
-                </Col>
-                <Col style={{ height: "100%" }}>
-                  <Link
-                    to="/mynetwork/"
-                    className={`nav-link d-flex flex-column p-0 align-items-center justify-content-center ${
-                      location.pathname.includes("/mynetwork/") ? "active" : ""
-                    }`}
-                    style={{ color: "#8d8d8d", height: "100%" }}
-                  >
-                    <span className="d-none d-md-block fs-6 fw-medium text-white">GAMES</span>
-                  </Link>
-                </Col>
-                <Col style={{ height: "100%" }} className={`${user ? "d-block" : "d-none"}`}>
-                  <Link
-                    to="/jobs/none"
-                    className={`nav-link d-flex flex-column p-0 align-items-center justify-content-center ${
-                      location.pathname.includes("jobs") ? "active" : ""
-                    }`}
-                    style={{ color: "#8d8d8d", height: "100%" }}
-                  >
-                    <span className="d-none d-md-block fs-6 fw-medium text-white">{user?.username.toUpperCase()}</span>
-                  </Link>
-                </Col>
-                <Col style={{ height: "100%" }}>
-                  <Link
-                    to="/messaging/"
-                    className={`nav-link d-flex flex-column p-0 align-items-center justify-content-center ${
-                      location.pathname.includes("/messaging/") ? "active" : ""
-                    }`}
-                    style={{ color: "#8d8d8d", height: "100%" }}
-                  >
-                    <span className="d-none d-md-block fs-6 fw-medium text-white"> NEWS</span>
-                  </Link>
-                </Col>
-              </Row>
-              <Col className="d-none d-md-flex justify-content-end" style={{ height: "100%" }}>
-                <Dropdown className="nav-link d-flex p-0" style={{ height: "100%" }}>
+            <Col className="d-lg-none" style={{ height: "100%" }}>
+              <Link
+                className="nav-link d-flex flex-column p-0 align-items-center justify-content-center "
+                style={{ color: "#8d8d8d", height: "100%" }}
+              >
+                <Search size={20} />
+              </Link>
+            </Col>
+            <Col style={{ height: "100%" }}>
+              <Link
+                to="/"
+                className={`nav-link d-flex flex-column p-0 align-items-center justify-content-center ${
+                  location.pathname === "/" ? "active" : ""
+                }`}
+                style={{ color: "#8d8d8d", height: "100%" }}
+              >
+                <span className="d-none d-md-block fs-6 fw-medium text-white"> HOME</span>
+              </Link>
+            </Col>
+            <Col style={{ height: "100%" }}>
+              <Link
+                to="/mynetwork/"
+                className={`nav-link d-flex flex-column p-0 align-items-center justify-content-center ${
+                  location.pathname.includes("/mynetwork/") ? "active" : ""
+                }`}
+                style={{ color: "#8d8d8d", height: "100%" }}
+              >
+                <span className="d-none d-md-block fs-6 fw-medium text-white">GAMES</span>
+              </Link>
+            </Col>
+
+            <Col style={{ height: "100%" }}>
+              <Link
+                to="/messaging/"
+                className={`nav-link d-flex flex-column p-0 align-items-center justify-content-center ${
+                  location.pathname.includes("/messaging/") ? "active" : ""
+                }`}
+                style={{ color: "#8d8d8d", height: "100%" }}
+              >
+                <span className="d-none d-md-block fs-6 fw-medium text-white"> NEWS</span>
+              </Link>
+            </Col>
+
+            <Col className="d-none d-md-block" style={{ height: "100%" }}>
+              <Dropdown className="nav-link p-0 d-flex" style={{ height: "100%" }}>
+                <div className="d-flex align-items-center">
                   <Dropdown.Toggle
                     className="nav-link me-3"
                     id="dropdown-basic"
@@ -180,75 +168,27 @@ const MyNavbar = () => {
                   >
                     <span>{user?.username}</span>
                   </Dropdown.Toggle>
-                  <img
-                    src={user?.avatar}
-                    width={50}
-                    className="object-fit-cover m-auto"
-                    alt="user"
-                    style={{ border: "solid 2px #4D95B1" }}
-                  />
-
-                  <Dropdown.Menu
-                    className="border rounded-0 rounded-start rounded-bottom my-navbar-dropdown pb-0 shadow-sm mt-2 "
-                    drop={"start"}
-                    style={{ backgroundColor: "white" }}
-                  >
-                    <div className="text-decoration-none dropdown-item p-2 " style={{ backgroundColor: "white" }}>
-                      <div className="d-flex">
-                        <div className="p-2">
-                          <img
-                            src={user?.avatar}
-                            style={{
-                              width: "50px",
-                              height: "50px",
-                              borderRadius: "50%",
-                            }}
-                            alt="user"
-                            className="object-fit-cover"
-                          />
-                        </div>
-                        <div className="flex-grow-1">
-                          <h6>
-                            {user?.name} {user?.surname}
-                          </h6>
-
-                          <p>{user?.title}</p>
-                        </div>
-                      </div>
-
-                      <Button
-                        id="navbar-button"
-                        variant="outline-primary"
-                        className="rounded-pill py-0"
-                        size="sm"
-                        style={{
-                          backgroundColor: "transparent",
-                          color: "#0d6efd",
-                          width: "100%",
-                        }}
-                        onClick={() => {
-                          navigate("/profile/");
-                          dispatch(getCurrentUserAction());
-                        }}
-                      >
-                        Visualizza profilo
-                      </Button>
-                    </div>
-                    <hr className="m-0" />
-                    <h6 className="pt-3 ps-3">Account</h6>
-                    <Dropdown.Item>Prova premium gratis</Dropdown.Item>
-                    <Dropdown.Item>Impostazioni e privacy</Dropdown.Item>
-                    <Dropdown.Item>Guida</Dropdown.Item>
-                    <Dropdown.Item>Lingua</Dropdown.Item>
-                    <hr className="m-0" />
-                    <h6 className="pt-3 ps-3">Gestisci</h6>
-                    <Dropdown.Item>Post e attivitá</Dropdown.Item>
-                    <Dropdown.Item className="text-truncate">Account per la pubblicazione di offerte</Dropdown.Item>
-                    <hr className="m-0" />
-                    <Dropdown.Item>Esci</Dropdown.Item>
-                  </Dropdown.Menu>
-                </Dropdown>
-              </Col>
+                  <Link to={"/profile"}>
+                    <img
+                      src={user?.avatar}
+                      width={50}
+                      className="object-fit-cover m-auto"
+                      alt="user"
+                      style={{ border: "solid 2px #4D95B1" }}
+                    />
+                  </Link>
+                </div>
+                <Dropdown.Menu
+                  id="profile-dropdown"
+                  className="border-0 rounded-0 my-navbar-dropdown p-0 mt-2 "
+                  drop={"start"}
+                  style={{ backgroundColor: "#3D4450", fontSize: 15 }}
+                >
+                  <Dropdown.Item className="text-white  py-2">View my profile</Dropdown.Item>
+                  <Dropdown.Item className="text-white  py-2">Language</Dropdown.Item>
+                  <Dropdown.Item className="text-white  py-2">Sign out of account</Dropdown.Item>
+                </Dropdown.Menu>
+              </Dropdown>
             </Col>
           </Row>
         </Container>
