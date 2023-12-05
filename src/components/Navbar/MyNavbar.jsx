@@ -1,49 +1,61 @@
 import { useEffect, useRef, useState } from "react";
 import { Button, Col, Container, Dropdown, Form, InputGroup, Navbar, Row } from "react-bootstrap";
 import { useDispatch, useSelector } from "react-redux";
-import { Link, useLocation } from "react-router-dom";
+import { Link, useLocation, useNavigate } from "react-router-dom";
 
 import { Search } from "react-bootstrap-icons";
 import Bottombar from "./Bottombar";
-import { getCurrentUserAction, getSuggestions } from "../../redux/actions";
+import { getCurrentUserAction, getSuggestions, getSearchedGames } from "../../redux/actions";
 
 const MyNavbar = () => {
   const [query, setQuery] = useState("");
   const [showSuggestions, setShowSuggestions] = useState(false);
   const dispatch = useDispatch();
   const location = useLocation();
+  const navigate = useNavigate();
   const suggestionsRef = useRef(null);
+  const noResultsRef = useRef(null);
 
   const user = useSelector(state => state.currentUser.content);
   const suggestions = useSelector(state => state.suggestions.content.content);
 
   const handleChange = e => {
     setQuery(e.target.value);
-    setShowSuggestions(true);
   };
 
   useEffect(() => {
-    const debounceTimeout = setTimeout(() => {
-      if (query.length >= 3) {
+    if (query !== "") {
+      const debounceTimeout = setTimeout(() => {
         dispatch(getSuggestions(query));
-      }
-    }, 1000);
-    return () => clearTimeout(debounceTimeout);
+        setShowSuggestions(true);
+      }, 1000);
+      return () => clearTimeout(debounceTimeout);
+    } else {
+      setShowSuggestions(false);
+    }
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [query]);
 
   const handleClickOutsideSuggestions = e => {
-    if (suggestionsRef.current && !suggestionsRef.current.contains(e.target)) {
+    if (suggestionsRef.current && showSuggestions && !suggestionsRef.current.contains(e.target)) {
+      setShowSuggestions(false);
+    } else if (noResultsRef.current && showSuggestions && !noResultsRef.current.contains(e.target)) {
       setShowSuggestions(false);
     }
   };
+
   const handleSearchBarClick = e => {
     e.stopPropagation();
-    setShowSuggestions(true);
+    if (query !== "") {
+      setShowSuggestions(true);
+    } else {
+      setShowSuggestions(false);
+    }
   };
 
-  const handleSubmit = e => {
+  const handleSubmit = async e => {
     e.preventDefault();
+    window.location.href = "/games/search?q=" + query;
   };
 
   useEffect(() => {
@@ -56,13 +68,17 @@ const MyNavbar = () => {
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
+  useEffect(() => {
+    setQuery("");
+  }, [location]);
+
   return (
     <>
       <Navbar fixed="top" expand="lg" style={{ height: "80px", backgroundColor: "#171D25" }} className="p-0">
         <Container fluid="xl" style={{ height: "100%" }}>
           <Row className="flex-grow-1 justify-content-center" style={{ height: "100%" }}>
             <Col xs={2} lg={4} className="p-1  align-items-center d-none d-md-flex justify-content-center">
-              <Link to="/" className="me-2">
+              <Link to="/" className="mx-2">
                 <img
                   src="https://res.cloudinary.com/klajdindoci/image/upload/v1701440271/6a72da74-fe3b-4a3a-86e7-9007c9c0d445_1_pyuxtp.png"
                   alt="Platform logo"
@@ -95,17 +111,30 @@ const MyNavbar = () => {
                   >
                     <Search />
                   </Button>
-                  {query.length >= 3 && showSuggestions && (
+
+                  {showSuggestions && (
                     <div ref={suggestionsRef} className="suggestions-container">
-                      {suggestions.map((suggestion, index) => (
-                        <div key={index} className="suggestion d-flex">
-                          <img src={suggestion.gameCover} alt="cover" className="me-3" width={100} />
-                          <div className="text-truncate">
-                            <div className="text-truncate">{suggestion.title}</div>
-                            <div>{suggestion.averageRating}</div>
-                          </div>
+                      {suggestions.length === 0 ? (
+                        <div ref={noResultsRef} className="suggestion p-3">
+                          No results found
                         </div>
-                      ))}
+                      ) : (
+                        suggestions.map(suggestion => (
+                          <div
+                            className="suggestion d-flex"
+                            onClick={() => {
+                              navigate("/games/" + suggestion.id);
+                            }}
+                            key={suggestion.id}
+                          >
+                            <img src={suggestion.gameCover} alt="cover" className="me-3" width={100} />
+                            <div className="text-truncate">
+                              <div className="text-truncate">{suggestion.title}</div>
+                              <div>{suggestion.averageRating}</div>
+                            </div>
+                          </div>
+                        ))
+                      )}
                     </div>
                   )}
                 </InputGroup>
@@ -149,17 +178,29 @@ const MyNavbar = () => {
                   >
                     <Search />
                   </Button>
-                  {query.length >= 3 && showSuggestions && (
+                  {showSuggestions && (
                     <div ref={suggestionsRef} className="suggestions-container-mobile">
-                      {suggestions.map((suggestion, index) => (
-                        <div key={index} className="suggestion d-flex">
-                          <img src={suggestion.gameCover} alt="cover" className="me-3" width={100} />
-                          <div className="text-truncate">
-                            <div className="text-truncate">{suggestion.title}</div>
-                            <div>{suggestion.averageRating}</div>
-                          </div>
+                      {suggestions.length === 0 ? (
+                        <div ref={noResultsRef} className="suggestion p-3">
+                          No results found
                         </div>
-                      ))}
+                      ) : (
+                        suggestions.map(suggestion => (
+                          <div
+                            className="suggestion d-flex"
+                            onClick={() => {
+                              navigate("/game/" + suggestion.id);
+                            }}
+                            key={suggestion.id}
+                          >
+                            <img src={suggestion.gameCover} alt="cover" className="me-3" width={100} />
+                            <div className="text-truncate">
+                              <div className="text-truncate">{suggestion.title}</div>
+                              <div>{suggestion.averageRating}</div>
+                            </div>
+                          </div>
+                        ))
+                      )}
                     </div>
                   )}
                 </InputGroup>

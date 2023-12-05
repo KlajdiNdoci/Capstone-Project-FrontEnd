@@ -1,4 +1,4 @@
-import { GET_GAME, IS_LOADING_GAME, IS_ERROR_GAME } from "../actions";
+import { GET_SINGLE_GAME, IS_LOADING_SINGLE_GAME, IS_ERROR_SINGLE_GAME } from "../actions";
 
 const initialState = {
   content: [],
@@ -6,19 +6,19 @@ const initialState = {
   isError: false,
 };
 
-const gameReducer = (state = initialState, action) => {
+const singleReducer = (state = initialState, action) => {
   switch (action.type) {
-    case GET_GAME:
+    case GET_SINGLE_GAME:
       return {
         ...state,
         content: action.payload,
       };
-    case IS_LOADING_GAME:
+    case IS_LOADING_SINGLE_GAME:
       return {
         ...state,
         isLoading: action.payload,
       };
-    case IS_ERROR_GAME:
+    case IS_ERROR_SINGLE_GAME:
       return {
         ...state,
         isError: action.payload,
@@ -29,4 +29,4 @@ const gameReducer = (state = initialState, action) => {
   }
 };
 
-export default gameReducer;
+export default singleReducer;
