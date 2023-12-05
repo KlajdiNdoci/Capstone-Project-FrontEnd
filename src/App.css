@@ -117,3 +117,14 @@ body {
 .carousel-images:hover {
   opacity: 100%;
 }
+
+.line-clamp {
+  overflow: hidden;
+  display: -webkit-box;
+  -webkit-line-clamp: 3;
+  -webkit-box-orient: vertical;
+}
+
+.overlay {
+  background-color: rgba(0, 0, 0, 0.555);
+}

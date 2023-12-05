@@ -13,10 +13,15 @@ export const GET_SINGLE_GAME = "GET_SINGLE_GAME";
 export const IS_LOADING_SINGLE_GAME = "IS_LOADING_SINGLE_GAME";
 export const IS_ERROR_SINGLE_GAME = "IS_ERROR_SINGLE_GAME";
 
-//SEARCHED GAMES
+//GAMES
 export const GET_GAMES = "GET_GAMES";
 export const IS_LOADING_GAMES = "IS_LOADING_GAMES";
 export const IS_ERROR_GAMES = "IS_ERROR_GAMES";
+
+//NEWS
+export const GET_NEWS = "GET_NEWS";
+export const IS_LOADING_NEWS = "IS_LOADING_NEWS";
+export const IS_ERROR_NEWS = "IS_ERROR_NEWS";
 
 export const getCurrentUserAction = () => {
   return async dispatch => {
@@ -106,14 +111,39 @@ export const getGames = size => {
     try {
       const resp = await fetch(URL, method);
       if (resp.ok) {
-        const suggestions = await resp.json();
-        dispatch({ type: GET_GAMES, payload: suggestions });
+        const games = await resp.json();
+        dispatch({ type: GET_GAMES, payload: games });
       }
     } catch (error) {
       console.error(error);
       dispatch({ type: IS_ERROR_GAMES });
     } finally {
       dispatch({ type: IS_LOADING_GAMES });
+    }
+  };
+};
+
+export const getNews = size => {
+  return async dispatch => {
+    const URL = process.env.REACT_APP_SERVER_URL + "/news?size=" + size;
+    const method = {
+      method: "GET",
+      headers: {
+        Authorization: "Bearer " + process.env.REACT_APP_BEARER_TOKEN,
+      },
+    };
+
+    try {
+      const resp = await fetch(URL, method);
+      if (resp.ok) {
+        const news = await resp.json();
+        dispatch({ type: GET_NEWS, payload: news });
+      }
+    } catch (error) {
+      console.error(error);
+      dispatch({ type: IS_ERROR_NEWS });
+    } finally {
+      dispatch({ type: IS_LOADING_NEWS });
     }
   };
 };

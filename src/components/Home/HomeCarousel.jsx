@@ -4,12 +4,15 @@ import { useDispatch, useSelector } from "react-redux";
 import { getGames } from "../../redux/actions";
 import { useState } from "react";
 import { Badge } from "react-bootstrap";
+import { useNavigate } from "react-router-dom";
+
 import { Android2, Apple, NintendoSwitch, Playstation, Steam, Xbox } from "react-bootstrap-icons";
 
 const HomeCarousel = () => {
   const dispatch = useDispatch();
   const games = useSelector(state => state.games.content.content);
   const [hoveredImageIndex, setHoveredImageIndex] = useState(null);
+  const navigate = useNavigate();
 
   const getPlatformIcon = platform => {
     switch (platform) {
@@ -49,9 +52,17 @@ const HomeCarousel = () => {
         FEATURED & RECOMMENDED
       </h3>
       {games && (
-        <Carousel className="my-box-shadow" style={{ backgroundColor: "#0E1821", border: "1px solid #1E2831" }}>
+        <Carousel
+          className="my-box-shadow mb-5"
+          style={{ backgroundColor: "#0E1821", border: "1px solid #1E2831", cursor: "pointer" }}
+        >
           {games.map(game => (
-            <Carousel.Item key={game.id}>
+            <Carousel.Item
+              key={game.id}
+              onClick={() => {
+                navigate("/games/" + game.id);
+              }}
+            >
               <div className="d-flex">
                 <img
                   src={hoveredImageIndex === null ? game.gameCover : game.gameImages[hoveredImageIndex]}

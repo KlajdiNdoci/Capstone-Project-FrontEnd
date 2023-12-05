@@ -1,4 +1,4 @@
-import { GET_GAMES, IS_LOADING_GAMES, IS_ERROR_GAMES } from "../actions";
+import { GET_NEWS, IS_LOADING_NEWS, IS_ERROR_NEWS } from "../actions";
 
 const initialState = {
   content: [],
@@ -6,19 +6,19 @@ const initialState = {
   isError: false,
 };
 
-const gamesReducer = (state = initialState, action) => {
+const newsReducer = (state = initialState, action) => {
   switch (action.type) {
-    case GET_GAMES:
+    case GET_NEWS:
       return {
         ...state,
         content: action.payload,
       };
-    case IS_LOADING_GAMES:
+    case IS_LOADING_NEWS:
       return {
         ...state,
         isLoading: action.payload,
       };
-    case IS_ERROR_GAMES:
+    case IS_ERROR_NEWS:
       return {
         ...state,
         isError: action.payload,
@@ -29,4 +29,4 @@ const gamesReducer = (state = initialState, action) => {
   }
 };
 
-export default gamesReducer;
+export default newsReducer;

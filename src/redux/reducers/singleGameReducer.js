@@ -6,7 +6,7 @@ const initialState = {
   isError: false,
 };
 
-const singleReducer = (state = initialState, action) => {
+const singleGameReducer = (state = initialState, action) => {
   switch (action.type) {
     case GET_SINGLE_GAME:
       return {
@@ -29,4 +29,4 @@ const singleReducer = (state = initialState, action) => {
   }
 };
 
-export default singleReducer;
+export default singleGameReducer;
