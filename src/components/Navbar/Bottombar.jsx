@@ -21,7 +21,7 @@ const BottomBar = () => {
                     }`}
                     style={{ height: "100%" }}
                   >
-                    <span className="fw-medium"> HOME</span>
+                    <span className="fw-medium fs-5"> HOME</span>
                   </Link>
                 </Col>
                 <Col style={{ height: "100%" }}>
@@ -32,7 +32,7 @@ const BottomBar = () => {
                     }`}
                     style={{ height: "100%" }}
                   >
-                    <span className="fw-medium">GAMES</span>
+                    <span className="fw-medium fs-5">GAMES</span>
                   </Link>
                 </Col>
                 <Col style={{ height: "100%" }}>
@@ -43,7 +43,7 @@ const BottomBar = () => {
                     }`}
                     style={{ height: "100%" }}
                   >
-                    <span className="fw-medium">NEWS</span>
+                    <span className="fw-medium fs-5">NEWS</span>
                   </Link>
                 </Col>
               </Row>

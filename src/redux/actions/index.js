@@ -14,9 +14,9 @@ export const IS_LOADING_SINGLE_GAME = "IS_LOADING_SINGLE_GAME";
 export const IS_ERROR_SINGLE_GAME = "IS_ERROR_SINGLE_GAME";
 
 //SEARCHED GAMES
-export const GET_SEARCHED_GAMES = "GET_SEARCHED_GAMES";
-export const IS_LOADING_SEARCHED_GAMES = "IS_LOADING_SEARCHED_GAMES";
-export const IS_ERROR_SEARCHED_GAMES = "IS_ERROR_SEARCHED_GAMES";
+export const GET_GAMES = "GET_GAMES";
+export const IS_LOADING_GAMES = "IS_LOADING_GAMES";
+export const IS_ERROR_GAMES = "IS_ERROR_GAMES";
 
 export const getCurrentUserAction = () => {
   return async dispatch => {
@@ -93,9 +93,9 @@ export const getSingleGame = gameId => {
   };
 };
 
-export const getSearchedGames = query => {
+export const getGames = size => {
   return async dispatch => {
-    const URL = process.env.REACT_APP_SERVER_URL + "/games/search?q=" + query;
+    const URL = process.env.REACT_APP_SERVER_URL + "/games?size=" + size;
     const method = {
       method: "GET",
       headers: {
@@ -107,13 +107,13 @@ export const getSearchedGames = query => {
       const resp = await fetch(URL, method);
       if (resp.ok) {
         const suggestions = await resp.json();
-        dispatch({ type: GET_SEARCHED_GAMES, payload: suggestions });
+        dispatch({ type: GET_GAMES, payload: suggestions });
       }
     } catch (error) {
       console.error(error);
-      dispatch({ type: IS_ERROR_SEARCHED_GAMES });
+      dispatch({ type: IS_ERROR_GAMES });
     } finally {
-      dispatch({ type: IS_LOADING_SEARCHED_GAMES });
+      dispatch({ type: IS_LOADING_GAMES });
     }
   };
 };

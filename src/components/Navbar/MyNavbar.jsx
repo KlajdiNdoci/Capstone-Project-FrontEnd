@@ -5,7 +5,7 @@ import { Link, useLocation, useNavigate } from "react-router-dom";
 
 import { Search } from "react-bootstrap-icons";
 import Bottombar from "./Bottombar";
-import { getCurrentUserAction, getSuggestions, getSearchedGames } from "../../redux/actions";
+import { getCurrentUserAction, getSuggestions } from "../../redux/actions";
 
 const MyNavbar = () => {
   const [query, setQuery] = useState("");
@@ -74,9 +74,9 @@ const MyNavbar = () => {
 
   return (
     <>
-      <Navbar fixed="top" expand="lg" style={{ height: "80px", backgroundColor: "#171D25" }} className="p-0">
-        <Container fluid="xl" style={{ height: "100%" }}>
-          <Row className="flex-grow-1 justify-content-center" style={{ height: "100%" }}>
+      <Navbar fixed="top" expand="lg" style={{ height: "80px", backgroundColor: "#171D25" }} className="p-0 ">
+        <Container fluid="lg" style={{ height: "100%" }}>
+          <Row className="flex-grow-1 justify-content-center " style={{ height: "100%" }}>
             <Col xs={2} lg={4} className="p-1  align-items-center d-none d-md-flex justify-content-center">
               <Link to="/" className="mx-2">
                 <img
@@ -109,7 +109,7 @@ const MyNavbar = () => {
                     style={{ backgroundColor: "#64B8E7", width: "50px" }}
                     type="submit"
                   >
-                    <Search />
+                    <Search className="fs-5" />
                   </Button>
 
                   {showSuggestions && (
@@ -176,7 +176,7 @@ const MyNavbar = () => {
                     style={{ backgroundColor: "#64B8E7", width: "50px" }}
                     type="submit"
                   >
-                    <Search />
+                    <Search className="fs-5" />
                   </Button>
                   {showSuggestions && (
                     <div ref={suggestionsRef} className="suggestions-container-mobile">
@@ -226,7 +226,7 @@ const MyNavbar = () => {
                 }`}
                 style={{ height: "100%" }}
               >
-                <span className="d-none d-md-block fs-6 fw-medium">HOME</span>
+                <span className="d-none d-md-block fs-5 fw-medium">HOME</span>
               </Link>
             </Col>
             <Col className="d-none d-lg-block" style={{ height: "100%" }}>
@@ -237,7 +237,7 @@ const MyNavbar = () => {
                 }`}
                 style={{ height: "100%" }}
               >
-                <span className="d-none d-md-block fs-6 fw-medium">GAMES</span>
+                <span className="d-none d-md-block fs-5 fw-medium">GAMES</span>
               </Link>
             </Col>
 
@@ -249,7 +249,7 @@ const MyNavbar = () => {
                 }`}
                 style={{ height: "100%" }}
               >
-                <span className="d-none d-md-block fs-6 fw-medium "> NEWS</span>
+                <span className="d-none d-md-block fs-5 fw-medium "> NEWS</span>
               </Link>
             </Col>
 
@@ -265,7 +265,7 @@ const MyNavbar = () => {
                       backgroundColor: "transparent",
                     }}
                   >
-                    <span>{user?.username}</span>
+                    <span className="fs-5">{user?.username}</span>
                   </Dropdown.Toggle>
                   <Link to={"/profile/me"}>
                     <img

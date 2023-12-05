@@ -4,7 +4,7 @@ import { combineReducers, configureStore } from "@reduxjs/toolkit";
 import { persistStore, persistReducer } from "redux-persist";
 import currentUserReducer from "../reducers/currentUserReducer";
 import suggestionsReducer from "../reducers/suggestionsReducer";
-import searchedGamesReducer from "../reducers/searchedGamesReducer";
+import gamesReducer from "../reducers/gamesReducer";
 import singleGameReducer from "../reducers/singleGameReducer";
 
 const persistConfig = {
@@ -20,7 +20,7 @@ const persistConfig = {
 const totalReducer = combineReducers({
   currentUser: currentUserReducer,
   suggestions: suggestionsReducer,
-  searchedGames: searchedGamesReducer,
+  games: gamesReducer,
   singleGame: singleGameReducer,
 });
 

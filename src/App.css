@@ -89,3 +89,21 @@ body {
 .dropdown-item:hover {
   color: black;
 }
+
+.carousel-control-next {
+  justify-content: end;
+  right: -5%;
+}
+
+.carousel-control-prev {
+  justify-content: start;
+  left: -5%;
+}
+
+.carousel-indicators {
+  bottom: -20%;
+}
+
+.my-box-shadow {
+  box-shadow: 0px 0px 19px 3px rgba(0, 0, 0, 0.56);
+}

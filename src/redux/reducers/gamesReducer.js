@@ -1,4 +1,4 @@
-import { GET_SEARCHED_GAMES, IS_LOADING_SEARCHED_GAMES, IS_ERROR_SEARCHED_GAMES } from "../actions";
+import { GET_GAMES, IS_LOADING_GAMES, IS_ERROR_GAMES } from "../actions";
 
 const initialState = {
   content: [],
@@ -8,17 +8,17 @@ const initialState = {
 
 const searchedGamesReducer = (state = initialState, action) => {
   switch (action.type) {
-    case GET_SEARCHED_GAMES:
+    case GET_GAMES:
       return {
         ...state,
         content: action.payload,
       };
-    case IS_LOADING_SEARCHED_GAMES:
+    case IS_LOADING_GAMES:
       return {
         ...state,
         isLoading: action.payload,
       };
-    case IS_ERROR_SEARCHED_GAMES:
+    case IS_ERROR_GAMES:
       return {
         ...state,
         isError: action.payload,
