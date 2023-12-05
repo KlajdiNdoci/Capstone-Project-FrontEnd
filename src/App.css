@@ -41,6 +41,12 @@ body {
   background-color: #1b2838;
 }
 
+#root {
+  height: 100vh;
+  display: flex;
+  flex-direction: column;
+}
+
 #profile-dropdown {
   box-shadow: 0px 0px 19px 3px rgba(0, 0, 0, 0.56);
 }
@@ -131,4 +137,8 @@ body {
 
 .cursor-pointer {
   cursor: pointer;
+}
+
+.container-lg {
+  padding-inline: 0;
 }
