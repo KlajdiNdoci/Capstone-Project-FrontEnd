@@ -99,7 +99,7 @@ const MyNavbar = () => {
                     value={query}
                     onChange={handleChange}
                     onClick={handleSearchBarClick}
-                    placeholder="Cerca"
+                    placeholder="Search"
                     className="border border-0"
                     style={{ backgroundColor: "#316282", height: "50px", boxShadow: "none" }}
                   />
@@ -166,7 +166,7 @@ const MyNavbar = () => {
                     value={query}
                     onChange={handleChange}
                     onClick={handleSearchBarClick}
-                    placeholder="Cerca"
+                    placeholder="Search"
                     className="border border-0"
                     style={{ backgroundColor: "#316282", height: "50px", boxShadow: "none" }}
                   />
