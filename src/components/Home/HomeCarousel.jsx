@@ -68,9 +68,8 @@ const HomeCarousel = () => {
                   src={hoveredImageIndex === null ? game.gameCover : game.gameImages[hoveredImageIndex]}
                   alt={game.title}
                   className="object-fit-cover me-3 carousel-cover"
-                  style={{ width: "65%" }}
                 />
-                <div className="d-flex flex-column text-white text-truncate" style={{ width: "100%" }}>
+                <div className="d-none d-lg-flex flex-column text-white text-truncate" style={{ width: "100%" }}>
                   <h3 className="text-truncate mt-4 mb-4 me-3">{game.title}</h3>
                   <div className="d-flex mb-3">
                     {[0, 1].map(index => (

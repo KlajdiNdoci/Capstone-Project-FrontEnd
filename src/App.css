@@ -142,3 +142,26 @@ body {
 .container-lg {
   padding-inline: 0;
 }
+
+.carousel-cover {
+  width: 65%;
+}
+
+@media (max-width: 992px) {
+  .carousel-cover {
+    width: 100%;
+  }
+
+  .carousel-control-next {
+    display: none;
+    right: 0;
+  }
+  .carousel-control-prev {
+    display: none;
+    left: 0;
+  }
+}
+
+.container-lg {
+  padding-inline: 3rem;
+}
