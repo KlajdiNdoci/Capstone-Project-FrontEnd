@@ -169,6 +169,7 @@ body {
 
 .thumbnail-container {
   overflow-x: auto;
+  cursor: pointer;
 }
 
 .custom-carousel .carousel-indicators {
@@ -185,6 +186,7 @@ body {
 
 .selected {
   box-shadow: 0px 0px 0px 3px #ffffff;
+  transition: box-shadow 0.3s ease-in-out;
 }
 
 ::-webkit-scrollbar {

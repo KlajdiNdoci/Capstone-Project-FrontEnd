@@ -11,30 +11,10 @@ const GameDetails = () => {
   const game = useSelector(state => state.singleGame.content);
   const dispatch = useDispatch();
 
-  const getPlatformIcon = platform => {
-    switch (platform) {
-      case "PC":
-        return <Steam />;
-      case "PLAYSTATION":
-        return <Playstation />;
-      case "XBOX":
-        return <Xbox />;
-      case "NINTENDO":
-        return <NintendoSwitch />;
-      case "IOS":
-        return <Apple />;
-      case "ANDROID":
-        return <Android2 />;
-      default:
-        return null;
-    }
-  };
-
   const allGameImages = game ? [game.trailer, ...game.gameImages] : [];
 
   useEffect(() => {
     dispatch(getSingleGame(gameId));
-    console.log(gameId);
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [gameId]);
 

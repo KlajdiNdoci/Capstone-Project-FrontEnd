@@ -1,5 +1,5 @@
-import React, { useState } from "react";
-import { Carousel, Container, Row, Col } from "react-bootstrap";
+import React, { useEffect, useState } from "react";
+import { Carousel, Row, Col } from "react-bootstrap";
 
 const GameCarousel = ({ images, game }) => {
   const [activeIndex, setActiveIndex] = useState(0);
@@ -11,39 +11,77 @@ const GameCarousel = ({ images, game }) => {
   return (
     <div className="my-5 text-white">
       <h3 className="mb-4 text-truncate">{game.title}</h3>
-      <div className="p-0" style={{ backgroundColor: "#0E1821", border: "1px solid #1E2831", cursor: "pointer" }}>
+      <div className="p-0" style={{ backgroundColor: "#0E1821", border: "1px solid #1E2831" }}>
         <Row>
           <Col lg={8}>
-            <Carousel activeIndex={activeIndex} onSelect={handleSelect} className="mb-3 custom-carousel">
-              {images.map((image, index) => (
+            <Carousel
+              activeIndex={activeIndex}
+              onSelect={handleSelect}
+              className="mb-3 custom-carousel"
+              interval={8000}
+            >
+              {images.map((item, index) => (
                 <Carousel.Item key={index}>
-                  <img src={image} alt={`Slide ${index + 1}`} className="d-block" width={"100%"} />
+                  {index === 0 ? (
+                    <video width="100%" controls>
+                      <source src={item} type="video/mp4" />
+                    </video>
+                  ) : (
+                    <img src={item} alt={`Slide ${index + 1}`} className="d-block" width={"100%"} />
+                  )}
                 </Carousel.Item>
               ))}
             </Carousel>
             <div className="d-flex justify-content-start mt-3 thumbnail-container p-1">
-              {images.map((image, index) => (
-                <img
-                  key={index}
-                  src={image}
-                  width={200}
-                  alt={`Thumbnail ${index + 1}`}
-                  className={`me-1 ${activeIndex === index ? "selected" : ""}`}
-                  onClick={() => setActiveIndex(index)}
-                />
+              {images.map((item, index) => (
+                <div key={index}>
+                  {index === 0 ? (
+                    <video
+                      width={200}
+                      className={`me-1 ${activeIndex === index ? "selected" : ""}`}
+                      onClick={() => {
+                        setActiveIndex(index);
+                      }}
+                    >
+                      <source src={item} type="video/mp4" />
+                    </video>
+                  ) : (
+                    <img
+                      key={index}
+                      src={item}
+                      width={200}
+                      alt={`Thumbnail ${index + 1}`}
+                      className={`me-1 ${activeIndex === index ? "selected" : ""}`}
+                      onClick={() => setActiveIndex(index)}
+                    />
+                  )}
+                </div>
               ))}
             </div>
           </Col>
-          <Col lg={4}>
+          <Col lg={4} style={{ fontSize: "0.8rem" }}>
             <Row className="flex-column">
               <Col xs={12} className="mb-3">
                 <img src={game.gameCover} alt="game-cover" width={"100%"} />
               </Col>
               <Col className="mb-3">
-                <div>{game.description}</div>
+                <div style={{ fontSize: "1.1rem" }}>{game.description}</div>
               </Col>
               <Col className="mb-3">
-                <div>RATING : {game.description}</div>
+                <Row>
+                  <Col>
+                    <span className="text-secondary">RATING :</span>
+                  </Col>
+                  <Col> {game.averageRating}</Col>
+                </Row>
+              </Col>
+              <Col className="mb-3">
+                <Row>
+                  <Col>
+                    <span className="text-secondary">RELEASE DATE :</span>
+                  </Col>
+                  <Col> {game.releaseDate}</Col>
+                </Row>
               </Col>
             </Row>
           </Col>
