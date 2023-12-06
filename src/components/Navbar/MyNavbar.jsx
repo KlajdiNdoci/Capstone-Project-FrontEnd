@@ -76,8 +76,8 @@ const MyNavbar = () => {
     <>
       <Navbar fixed="top" expand="lg" style={{ height: "80px", backgroundColor: "#171D25" }} className="p-0 ">
         <Container fluid="lg" style={{ height: "100%" }}>
-          <Row className="flex-grow-1 justify-content-center " style={{ height: "100%" }}>
-            <Col xs={2} lg={4} className="p-1  align-items-center d-none d-md-flex justify-content-start">
+          <Row className="flex-grow-1 justify-content-between " style={{ height: "100%" }}>
+            <Col xs="auto" className="p-1  align-items-center d-none d-md-flex justify-content-start">
               <Link to="/" className="mx-2">
                 <img
                   src="https://res.cloudinary.com/klajdindoci/image/upload/v1701440271/6a72da74-fe3b-4a3a-86e7-9007c9c0d445_1_pyuxtp.png"
@@ -157,7 +157,7 @@ const MyNavbar = () => {
                 />
               </Link>
             </Col>
-            <Col xs={7} md={8} className="d-flex d-lg-none my-auto">
+            <Col xs={7} sm={8} md={9} className="d-flex d-lg-none my-auto">
               <Form className="d-flex flex-grow-1 justify-content-center align-items-middle" onSubmit={handleSubmit}>
                 <InputGroup>
                   <Form.Control
@@ -252,7 +252,7 @@ const MyNavbar = () => {
               </Link>
             </Col>
 
-            <Col className="d-none d-md-flex justify-content-end" style={{ height: "100%" }}>
+            <Col xs="auto" className="d-none d-md-flex justify-content-end" style={{ height: "100%" }}>
               <Dropdown className="nav-link p-0 d-flex" style={{ height: "100%" }}>
                 <div className="d-flex align-items-center">
                   <Dropdown.Toggle
