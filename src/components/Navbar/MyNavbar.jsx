@@ -77,7 +77,7 @@ const MyNavbar = () => {
       <Navbar fixed="top" expand="lg" style={{ height: "80px", backgroundColor: "#171D25" }} className="p-0 ">
         <Container fluid="lg" style={{ height: "100%" }}>
           <Row className="flex-grow-1 justify-content-center " style={{ height: "100%" }}>
-            <Col xs={2} lg={4} className="p-1  align-items-center d-none d-md-flex justify-content-center">
+            <Col xs={2} lg={4} className="p-1  align-items-center d-none d-md-flex justify-content-start">
               <Link to="/" className="mx-2">
                 <img
                   src="https://res.cloudinary.com/klajdindoci/image/upload/v1701440271/6a72da74-fe3b-4a3a-86e7-9007c9c0d445_1_pyuxtp.png"
@@ -141,8 +141,7 @@ const MyNavbar = () => {
               </Form>
             </Col>
             <Col
-              xs={2}
-              className="nav-link d-flex justify-content-center d-md-none m-auto"
+              className="d-flex justify-content-start d-md-none m-auto pe-0"
               style={{
                 color: "#8d8d8d",
                 height: "100%",
@@ -158,7 +157,7 @@ const MyNavbar = () => {
                 />
               </Link>
             </Col>
-            <Col xs={8} className="d-flex d-lg-none my-auto p-0">
+            <Col xs={7} md={8} className="d-flex d-lg-none my-auto">
               <Form className="d-flex flex-grow-1 justify-content-center align-items-middle" onSubmit={handleSubmit}>
                 <InputGroup>
                   <Form.Control
@@ -206,7 +205,7 @@ const MyNavbar = () => {
                 </InputGroup>
               </Form>
             </Col>
-            <Col xs={2} className="d-md-none m-auto p-0 d-flex justify-content-center" style={{ height: "100%" }}>
+            <Col className="d-md-none m-auto d-flex justify-content-end ps-0" style={{ height: "100%" }}>
               <Link to="/profile/me" className="d-flex">
                 <img
                   src={user?.avatar}
@@ -253,7 +252,7 @@ const MyNavbar = () => {
               </Link>
             </Col>
 
-            <Col className="d-none d-md-flex justify-content-center" style={{ height: "100%" }}>
+            <Col className="d-none d-md-flex justify-content-end" style={{ height: "100%" }}>
               <Dropdown className="nav-link p-0 d-flex" style={{ height: "100%" }}>
                 <div className="d-flex align-items-center">
                   <Dropdown.Toggle
