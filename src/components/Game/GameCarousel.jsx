@@ -11,9 +11,10 @@ const GameCarousel = ({ images, game }) => {
   };
 
   const renderRatingStars = averageRating => {
+    const roundedRating = Math.round(averageRating * 2) / 2;
     const stars = [];
-    const fullStars = Math.floor(averageRating);
-    const hasHalfStar = averageRating % 1 !== 0;
+    const fullStars = Math.floor(roundedRating);
+    const hasHalfStar = roundedRating % 1 !== 0;
 
     for (let i = 0; i < fullStars; i++) {
       stars.push(<StarFill key={i} className="rating-color" />);
@@ -98,15 +99,15 @@ const GameCarousel = ({ images, game }) => {
               <Col xs={12} className="mb-3">
                 <img src={game.gameCover} alt="game-cover" width={"100%"} />
               </Col>
-              <Col className="mb-3">
-                <div className="line-clamp" style={{ fontSize: "1rem" }}>
+              <Col className="mb-3 ">
+                <div className="line-clamp mx-3 mx-lg-0" style={{ fontSize: "1rem" }}>
                   {game.description}
                 </div>
               </Col>
               <Col className="mb-3">
                 <Row>
                   <Col>
-                    <span className="text-secondary">RATING:</span>
+                    <span className="text-secondary mx-3 mx-lg-0">RATING:</span>
                   </Col>
                   <Col> {renderRatingStars(game.averageRating)}</Col>
                 </Row>
@@ -114,7 +115,7 @@ const GameCarousel = ({ images, game }) => {
               <Col className="mb-3">
                 <Row>
                   <Col>
-                    <span className="text-secondary">RELEASE DATE:</span>
+                    <span className="text-secondary mx-3 mx-lg-0">RELEASE DATE:</span>
                   </Col>
                   <Col> {game.releaseDate}</Col>
                 </Row>
@@ -122,7 +123,7 @@ const GameCarousel = ({ images, game }) => {
               <Col className="mb-3">
                 <Row>
                   <Col>
-                    <span className="text-secondary">DEVELOPER:</span>
+                    <span className="text-secondary mx-3 mx-lg-0">DEVELOPER:</span>
                   </Col>
                   <Col> {game.developer}</Col>
                 </Row>
@@ -130,16 +131,16 @@ const GameCarousel = ({ images, game }) => {
               <Col className="mb-3">
                 <Row>
                   <Col>
-                    <span className="text-secondary">PUBLISHER:</span>
+                    <span className="text-secondary mx-3 mx-lg-0">PUBLISHER:</span>
                   </Col>
                   <Col> {game.publisher}</Col>
                 </Row>
               </Col>
-              <div>
-                <div className="text-secondary">Game genres:</div>
+              <div className="mx-3 mx-lg-0 mb-3 mb-lg-0">
+                <div className="text-secondary ">Game genres:</div>
                 {game.genres.map((genre, index) => (
                   <>
-                    <Badge key={index} bg="secondary" className="rounded-0 p-1 me-1 mb-1">
+                    <Badge key={index} bg="secondary" className="rounded-0 p-1 me-1 mb-1 ">
                       {genre}
                     </Badge>
                   </>

@@ -14,7 +14,7 @@ const GameReviews = () => {
   useEffect(() => {
     setDays(31);
     if (days) {
-      dispatch(getGameReviewsMinusDays(gameId, days, 10, "likes"));
+      dispatch(getGameReviewsMinusDays(gameId, days, 5, "likes"));
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [gameId, days]);
@@ -30,7 +30,7 @@ const GameReviews = () => {
             {reviews.map(review => (
               <Row
                 key={review.id}
-                className="mb-3 text-white p-2"
+                className="mb-3 text-white py-2"
                 style={{ backgroundColor: "#16202D", borderTop: "1px solid #3A6E8A" }}
               >
                 <Col xs={4}>
