@@ -206,10 +206,11 @@ const MyNavbar = () => {
               </Form>
             </Col>
             <Col className="d-md-none m-auto d-flex justify-content-end ps-0" style={{ height: "100%" }}>
-              <Link to="/profile/me" className="d-flex">
+              <Link to={"/profile/" + user.id} className="d-flex">
                 <img
                   src={user?.avatar}
                   width={50}
+                  height={50}
                   className="object-fit-cover m-auto"
                   alt="user"
                   style={{ border: "solid 2px #4D95B1" }}
@@ -266,10 +267,11 @@ const MyNavbar = () => {
                   >
                     <span className="fs-5">{user?.username}</span>
                   </Dropdown.Toggle>
-                  <Link to={"/profile/me"}>
+                  <Link to={"/profile/" + user.id}>
                     <img
                       src={user?.avatar}
                       width={50}
+                      height={50}
                       className="object-fit-cover m-auto"
                       alt="user"
                       style={{ border: "solid 2px #4D95B1" }}

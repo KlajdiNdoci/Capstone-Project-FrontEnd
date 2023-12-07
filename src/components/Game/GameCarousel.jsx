@@ -1,5 +1,6 @@
 import React, { useEffect, useState } from "react";
 import { Carousel, Row, Col, Badge } from "react-bootstrap";
+import { Star, StarFill, StarHalf } from "react-bootstrap-icons";
 
 const GameCarousel = ({ images, game }) => {
   const [activeIndex, setActiveIndex] = useState(0);
@@ -7,6 +8,27 @@ const GameCarousel = ({ images, game }) => {
 
   const handleSelect = selectedIndex => {
     setActiveIndex(selectedIndex);
+  };
+
+  const renderRatingStars = averageRating => {
+    const stars = [];
+    const fullStars = Math.floor(averageRating);
+    const hasHalfStar = averageRating % 1 !== 0;
+
+    for (let i = 0; i < fullStars; i++) {
+      stars.push(<StarFill key={i} className="rating-color" />);
+    }
+
+    if (hasHalfStar) {
+      stars.push(<StarHalf key="half" className="rating-color" />);
+    }
+
+    const remainingStars = 5 - stars.length;
+    for (let i = 0; i < remainingStars; i++) {
+      stars.push(<Star key={`empty-${i}`} className="rating-color" />);
+    }
+
+    return stars;
   };
 
   useEffect(() => {
@@ -24,7 +46,7 @@ const GameCarousel = ({ images, game }) => {
             <Carousel
               activeIndex={activeIndex}
               onSelect={handleSelect}
-              className="mb-3 custom-carousel "
+              className="mb-1 custom-carousel "
               interval={5000}
             >
               {images.map((item, index) => (
@@ -86,7 +108,7 @@ const GameCarousel = ({ images, game }) => {
                   <Col>
                     <span className="text-secondary">RATING:</span>
                   </Col>
-                  <Col> {game.averageRating}</Col>
+                  <Col> {renderRatingStars(game.averageRating)}</Col>
                 </Row>
               </Col>
               <Col className="mb-3">
@@ -114,7 +136,7 @@ const GameCarousel = ({ images, game }) => {
                 </Row>
               </Col>
               <div>
-                <div className="text-secondary">Game genres</div>
+                <div className="text-secondary">Game genres:</div>
                 {game.genres.map((genre, index) => (
                   <>
                     <Badge key={index} bg="secondary" className="rounded-0 p-1 me-1 mb-1">

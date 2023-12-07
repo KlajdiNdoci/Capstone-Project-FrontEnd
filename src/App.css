@@ -202,3 +202,15 @@ body {
 ::-webkit-scrollbar-thumb:hover {
   background-color: #555;
 }
+
+.review-user {
+  opacity: 70%;
+  cursor: pointer;
+}
+.review-user:hover {
+  opacity: 100%;
+}
+
+.rating-color {
+  color: #1a9fff;
+}

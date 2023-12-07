@@ -4,6 +4,7 @@ import { useDispatch, useSelector } from "react-redux";
 import { getSingleGame } from "../../redux/actions";
 import { useParams } from "react-router-dom";
 import GameCarousel from "./GameCarousel";
+import GameReviews from "./GameReviews";
 
 const GameDetails = () => {
   const { gameId } = useParams();
@@ -22,6 +23,7 @@ const GameDetails = () => {
       {game && (
         <>
           <GameCarousel images={allGameImages} game={game} />
+          <GameReviews game={game} />
         </>
       )}
     </Container>

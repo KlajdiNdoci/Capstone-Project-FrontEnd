@@ -153,9 +153,18 @@ export const getNews = size => {
   };
 };
 
-export const getGameReviews = (gameId, size, order) => {
+export const getGameReviewsMinusDays = (gameId, days, size, order) => {
   return async dispatch => {
-    const URL = process.env.REACT_APP_SERVER_URL + "/reviews/game" + gameId + "?size=" + size + "?orderBy=" + order;
+    const URL =
+      process.env.REACT_APP_SERVER_URL +
+      "/reviews/game/" +
+      gameId +
+      "/" +
+      days +
+      "?size=" +
+      size +
+      "&?orderBy=" +
+      order;
     const method = {
       method: "GET",
       headers: {
