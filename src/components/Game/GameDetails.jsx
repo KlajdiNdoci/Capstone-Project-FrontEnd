@@ -1,6 +1,5 @@
 import React, { useEffect } from "react";
-import { Badge, Container } from "react-bootstrap";
-import { Android2, Apple, NintendoSwitch, Playstation, Steam, Xbox } from "react-bootstrap-icons";
+import { Container } from "react-bootstrap";
 import { useDispatch, useSelector } from "react-redux";
 import { getSingleGame } from "../../redux/actions";
 import { useParams } from "react-router-dom";

@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { useState } from "react";
 import { Carousel, Row, Col } from "react-bootstrap";
 
 const GameCarousel = ({ images, game }) => {
@@ -23,9 +23,7 @@ const GameCarousel = ({ images, game }) => {
               {images.map((item, index) => (
                 <Carousel.Item key={index}>
                   {index === 0 ? (
-                    <video width="100%" controls>
-                      <source src={item} type="video/mp4" />
-                    </video>
+                    <video src={item} width="100%" controls autoPlay={true} muted />
                   ) : (
                     <img src={item} alt={`Slide ${index + 1}`} className="d-block" width={"100%"} />
                   )}
@@ -37,14 +35,13 @@ const GameCarousel = ({ images, game }) => {
                 <div key={index}>
                   {index === 0 ? (
                     <video
+                      src={item}
                       width={200}
                       className={`me-1 ${activeIndex === index ? "selected" : ""}`}
                       onClick={() => {
                         setActiveIndex(index);
                       }}
-                    >
-                      <source src={item} type="video/mp4" />
-                    </video>
+                    />
                   ) : (
                     <img
                       key={index}
