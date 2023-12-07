@@ -1,12 +1,17 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { Carousel, Row, Col } from "react-bootstrap";
 
 const GameCarousel = ({ images, game }) => {
   const [activeIndex, setActiveIndex] = useState(0);
+  const [isVideoPlaying, setIsVideoPlaying] = useState(true);
 
   const handleSelect = selectedIndex => {
     setActiveIndex(selectedIndex);
   };
+
+  useEffect(() => {
+    setIsVideoPlaying(true);
+  }, [activeIndex]);
 
   return (
     <div className="my-5 text-white">
@@ -23,7 +28,14 @@ const GameCarousel = ({ images, game }) => {
               {images.map((item, index) => (
                 <Carousel.Item key={index}>
                   {index === 0 ? (
-                    <video src={item} width="100%" controls autoPlay={true} muted />
+                    <video
+                      src={item}
+                      width="100%"
+                      controls
+                      autoPlay={isVideoPlaying}
+                      muted
+                      onPause={() => setIsVideoPlaying(false)}
+                    />
                   ) : (
                     <img src={item} alt={`Slide ${index + 1}`} className="d-block" width={"100%"} />
                   )}
