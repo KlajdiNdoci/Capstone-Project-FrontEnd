@@ -15,10 +15,12 @@ const GameCarousel = ({ images, game }) => {
 
   return (
     <div className="my-5 text-white">
-      <h3 className="mb-4 text-truncate">{game.title}</h3>
+      <p>
+        <h3 className="mb-4 text-truncate">{game.title}</h3>
+      </p>
       <div className="p-0 my-box-shadow" style={{ backgroundColor: "#0E1821", border: "1px solid #1E2831" }}>
         <Row>
-          <Col lg={8}>
+          <Col lg={8} className="mb-4 mb-lg-0">
             <Carousel
               activeIndex={activeIndex}
               onSelect={handleSelect}
@@ -38,19 +40,19 @@ const GameCarousel = ({ images, game }) => {
                       onPlay={() => setIsVideoPlaying(true)}
                     />
                   ) : (
-                    <img src={item} alt={`Slide ${index + 1}`} className="d-block" width={"100%"} />
+                    <img src={item} alt={`Slide ${index + 1}`} className="w-100 object-fit-cover d-block" />
                   )}
                 </Carousel.Item>
               ))}
             </Carousel>
-            <div className="d-flex justify-content-start mt-3 thumbnail-container p-1">
+            <div className="d-flex justify-content-start thumbnail-container p-1">
               {images.map((item, index) => (
                 <div key={index}>
                   {index === 0 ? (
                     <video
                       src={item}
                       width={200}
-                      className={`me-1 ${activeIndex === index ? "selected" : ""}`}
+                      className={`d-flex m-0 me-1 ${activeIndex === index ? "selected" : ""}`}
                       onClick={() => {
                         setActiveIndex(index);
                       }}
@@ -61,7 +63,7 @@ const GameCarousel = ({ images, game }) => {
                       src={item}
                       width={200}
                       alt={`Thumbnail ${index + 1}`}
-                      className={`me-1 ${activeIndex === index ? "selected" : ""}`}
+                      className={`h-100 object-fit-cover me-1 ${activeIndex === index ? "selected" : ""}`}
                       onClick={() => setActiveIndex(index)}
                     />
                   )}

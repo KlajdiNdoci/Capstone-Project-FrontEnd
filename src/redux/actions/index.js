@@ -23,6 +23,11 @@ export const GET_NEWS = "GET_NEWS";
 export const IS_LOADING_NEWS = "IS_LOADING_NEWS";
 export const IS_ERROR_NEWS = "IS_ERROR_NEWS";
 
+//GAME REVIEWS
+export const GET_GAME_REVIEWS = "GET_GAME_REVIEWS";
+export const IS_LOADING_GAME_REVIEWS = "IS_LOADING_GAME_REVIEWS";
+export const IS_ERROR_GAME_REVIEWS = "IS_ERROR_GAME_REVIEWS";
+
 export const getCurrentUserAction = () => {
   return async dispatch => {
     const URL = process.env.REACT_APP_SERVER_URL + "/users/me";
@@ -144,6 +149,31 @@ export const getNews = size => {
       dispatch({ type: IS_ERROR_NEWS });
     } finally {
       dispatch({ type: IS_LOADING_NEWS });
+    }
+  };
+};
+
+export const getGameReviews = (gameId, size, order) => {
+  return async dispatch => {
+    const URL = process.env.REACT_APP_SERVER_URL + "/reviews/game" + gameId + "?size=" + size + "?orderBy=" + order;
+    const method = {
+      method: "GET",
+      headers: {
+        Authorization: "Bearer " + process.env.REACT_APP_BEARER_TOKEN,
+      },
+    };
+
+    try {
+      const resp = await fetch(URL, method);
+      if (resp.ok) {
+        const gameReviews = await resp.json();
+        dispatch({ type: GET_GAME_REVIEWS, payload: gameReviews });
+      }
+    } catch (error) {
+      console.error(error);
+      dispatch({ type: IS_ERROR_GAME_REVIEWS });
+    } finally {
+      dispatch({ type: IS_LOADING_GAME_REVIEWS });
     }
   };
 };
