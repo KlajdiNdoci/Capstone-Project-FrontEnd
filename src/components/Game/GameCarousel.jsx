@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from "react";
-import { Carousel, Row, Col } from "react-bootstrap";
+import { Carousel, Row, Col, Badge } from "react-bootstrap";
 
 const GameCarousel = ({ images, game }) => {
   const [activeIndex, setActiveIndex] = useState(0);
@@ -16,14 +16,14 @@ const GameCarousel = ({ images, game }) => {
   return (
     <div className="my-5 text-white">
       <h3 className="mb-4 text-truncate">{game.title}</h3>
-      <div className="p-0" style={{ backgroundColor: "#0E1821", border: "1px solid #1E2831" }}>
+      <div className="p-0 my-box-shadow" style={{ backgroundColor: "#0E1821", border: "1px solid #1E2831" }}>
         <Row>
           <Col lg={8}>
             <Carousel
               activeIndex={activeIndex}
               onSelect={handleSelect}
-              className="mb-3 custom-carousel"
-              interval={8000}
+              className="mb-3 custom-carousel "
+              interval={5000}
             >
               {images.map((item, index) => (
                 <Carousel.Item key={index}>
@@ -35,6 +35,7 @@ const GameCarousel = ({ images, game }) => {
                       autoPlay={isVideoPlaying}
                       muted
                       onPause={() => setIsVideoPlaying(false)}
+                      onPlay={() => setIsVideoPlaying(true)}
                     />
                   ) : (
                     <img src={item} alt={`Slide ${index + 1}`} className="d-block" width={"100%"} />
@@ -74,12 +75,14 @@ const GameCarousel = ({ images, game }) => {
                 <img src={game.gameCover} alt="game-cover" width={"100%"} />
               </Col>
               <Col className="mb-3">
-                <div style={{ fontSize: "1.1rem" }}>{game.description}</div>
+                <div className="line-clamp" style={{ fontSize: "1rem" }}>
+                  {game.description}
+                </div>
               </Col>
               <Col className="mb-3">
                 <Row>
                   <Col>
-                    <span className="text-secondary">RATING :</span>
+                    <span className="text-secondary">RATING:</span>
                   </Col>
                   <Col> {game.averageRating}</Col>
                 </Row>
@@ -87,11 +90,37 @@ const GameCarousel = ({ images, game }) => {
               <Col className="mb-3">
                 <Row>
                   <Col>
-                    <span className="text-secondary">RELEASE DATE :</span>
+                    <span className="text-secondary">RELEASE DATE:</span>
                   </Col>
                   <Col> {game.releaseDate}</Col>
                 </Row>
               </Col>
+              <Col className="mb-3">
+                <Row>
+                  <Col>
+                    <span className="text-secondary">DEVELOPER:</span>
+                  </Col>
+                  <Col> {game.developer}</Col>
+                </Row>
+              </Col>
+              <Col className="mb-3">
+                <Row>
+                  <Col>
+                    <span className="text-secondary">PUBLISHER:</span>
+                  </Col>
+                  <Col> {game.publisher}</Col>
+                </Row>
+              </Col>
+              <div>
+                <div className="text-secondary">Game genres</div>
+                {game.genres.map((genre, index) => (
+                  <>
+                    <Badge key={index} bg="secondary" className="rounded-0 p-1 me-1 mb-1">
+                      {genre}
+                    </Badge>
+                  </>
+                ))}
+              </div>
             </Row>
           </Col>
         </Row>
