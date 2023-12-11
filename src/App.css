@@ -196,7 +196,7 @@ body {
 
 ::-webkit-scrollbar-thumb {
   background-color: #646464;
-  border-radius: 6px;
+  border-radius: 3px;
 }
 
 ::-webkit-scrollbar-thumb:hover {
@@ -213,4 +213,15 @@ body {
 
 .rating-color {
   color: #1a9fff;
+}
+
+.fs-7 {
+  font-size: 0.8rem;
+}
+.fs-8 {
+  font-size: 0.7rem;
+}
+
+.like-btn {
+  background-color: rgba(0, 132, 255, 0.322);
 }

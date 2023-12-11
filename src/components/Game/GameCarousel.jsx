@@ -10,6 +10,12 @@ const GameCarousel = ({ images, game }) => {
     setActiveIndex(selectedIndex);
   };
 
+  const convertDate = date => {
+    const dateObject = new Date(date);
+    const formattedDate = dateObject.toLocaleDateString();
+    return `${formattedDate}`;
+  };
+
   const renderRatingStars = averageRating => {
     const roundedRating = Math.round(averageRating * 2) / 2;
     const stars = [];
@@ -38,9 +44,7 @@ const GameCarousel = ({ images, game }) => {
 
   return (
     <div className="my-5 text-white">
-      <p>
-        <h3 className="mb-4 text-truncate">{game.title}</h3>
-      </p>
+      <h3 className="mb-4 text-truncate">{game.title}</h3>
       <div className="p-0 my-box-shadow" style={{ backgroundColor: "#0E1821", border: "1px solid #1E2831" }}>
         <Row>
           <Col lg={8} className="mb-4 mb-lg-0">
@@ -109,7 +113,7 @@ const GameCarousel = ({ images, game }) => {
                   <Col>
                     <span className="text-secondary mx-3 mx-lg-0">RATING:</span>
                   </Col>
-                  <Col> {renderRatingStars(game.averageRating)}</Col>
+                  <Col>{renderRatingStars(game.averageRating)}</Col>
                 </Row>
               </Col>
               <Col className="mb-3">
@@ -117,7 +121,7 @@ const GameCarousel = ({ images, game }) => {
                   <Col>
                     <span className="text-secondary mx-3 mx-lg-0">RELEASE DATE:</span>
                   </Col>
-                  <Col> {game.releaseDate}</Col>
+                  <Col> {convertDate(game.releaseDate)}</Col>
                 </Row>
               </Col>
               <Col className="mb-3">
@@ -139,11 +143,9 @@ const GameCarousel = ({ images, game }) => {
               <div className="mx-3 mx-lg-0 mb-3 mb-lg-0">
                 <div className="text-secondary ">Game genres:</div>
                 {game.genres.map((genre, index) => (
-                  <>
-                    <Badge key={index} bg="secondary" className="rounded-0 p-1 me-1 mb-1 ">
-                      {genre}
-                    </Badge>
-                  </>
+                  <Badge key={index} bg="secondary" className="rounded-0 p-1 me-1 mb-1 ">
+                    {genre}
+                  </Badge>
                 ))}
               </div>
             </Row>

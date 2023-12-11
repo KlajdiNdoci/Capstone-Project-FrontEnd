@@ -100,12 +100,12 @@ const MyNavbar = () => {
                     onChange={handleChange}
                     onClick={handleSearchBarClick}
                     placeholder="Search"
-                    className="border border-0"
+                    className="border border-0 rounded-1"
                     style={{ backgroundColor: "#316282", height: "50px", boxShadow: "none" }}
                   />
                   <Button
                     id="basic-addon1"
-                    className="border border-0 p-0 px-2 justify-content-center text-black"
+                    className="border border-0 p-0 px-2 justify-content-center text-black rounded-end-1"
                     style={{ backgroundColor: "#64B8E7", width: "50px" }}
                     type="submit"
                   >
