@@ -28,6 +28,12 @@ export const GET_GAME_REVIEWS = "GET_GAME_REVIEWS";
 export const IS_LOADING_GAME_REVIEWS = "IS_LOADING_GAME_REVIEWS";
 export const IS_ERROR_GAME_REVIEWS = "IS_ERROR_GAME_REVIEWS";
 
+//REVIEW LIKES
+export const GET_REVIEW_LIKES = "GET_REVIEW_LIKES";
+export const IS_LOADING_REVIEW_LIKES = "IS_LOADING_REVIEW_LIKES";
+export const IS_ERROR_REVIEW_LIKES = "IS_ERROR_REVIEW_LIKES";
+export const ADD_REVIEW_LIKE = "ADD_REVIEW_LIKE";
+
 export const getCurrentUserAction = () => {
   return async dispatch => {
     const URL = process.env.REACT_APP_SERVER_URL + "/users/me";
@@ -183,6 +189,55 @@ export const getGameReviewsMinusDays = (gameId, days, size, order) => {
       dispatch({ type: IS_ERROR_GAME_REVIEWS });
     } finally {
       dispatch({ type: IS_LOADING_GAME_REVIEWS });
+    }
+  };
+};
+
+export const getReviewLikes = reviewId => {
+  return async dispatch => {
+    const URL = process.env.REACT_APP_SERVER_URL + "/reviews/" + reviewId + "/likes";
+    const method = {
+      method: "GET",
+      headers: {
+        Authorization: "Bearer " + process.env.REACT_APP_BEARER_TOKEN,
+      },
+    };
+
+    try {
+      const resp = await fetch(URL, method);
+      if (resp.ok) {
+        const reviewLikes = await resp.json();
+        dispatch({ type: GET_REVIEW_LIKES, payload: reviewLikes });
+      }
+    } catch (error) {
+      console.error(error);
+      dispatch({ type: IS_ERROR_REVIEW_LIKES });
+    } finally {
+      dispatch({ type: IS_LOADING_REVIEW_LIKES });
+    }
+  };
+};
+
+export const likeReview = reviewId => {
+  return async dispatch => {
+    const URL = process.env.REACT_APP_SERVER_URL + "/reviews/" + reviewId + "/likes";
+    const method = {
+      method: "POST",
+      headers: {
+        Authorization: "Bearer " + process.env.REACT_APP_BEARER_TOKEN,
+      },
+    };
+
+    try {
+      const resp = await fetch(URL, method);
+      if (resp.ok) {
+        dispatch(getReviewLikes(reviewId));
+      }
+    } catch (error) {
+      console.error(error);
+      dispatch({ type: IS_ERROR_REVIEW_LIKES });
+    } finally {
+      dispatch({ type: IS_LOADING_REVIEW_LIKES });
     }
   };
 };

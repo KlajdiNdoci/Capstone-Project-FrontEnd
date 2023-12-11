@@ -1,7 +1,7 @@
 import { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { useNavigate, useParams } from "react-router-dom";
-import { getGameReviewsMinusDays } from "../../redux/actions";
+import { getGameReviewsMinusDays, likeReview } from "../../redux/actions";
 import { Button, Col, Row } from "react-bootstrap";
 import { HandThumbsUp, Star, StarFill, StarHalf } from "react-bootstrap-icons";
 
@@ -40,8 +40,8 @@ const ReviewsMain = () => {
     return `${formattedDate}`;
   };
 
-  const handleHelpfulClick = e => {
-    e.preventDefault();
+  const handleLike = reviewId => {
+    dispatch(likeReview(reviewId));
   };
 
   useEffect(() => {
@@ -97,8 +97,8 @@ const ReviewsMain = () => {
                     <div className="fs-6 text-light border-bottom border-secondary pb-2 mb-2">{review.content}</div>
                     <div className="fs-7 mb-2 text-secondary">Was this review helpful?</div>
                     <div>
-                      <Button className="like-btn border-0 rounded-0" onClick={() => handleHelpfulClick(review.id)}>
-                        <HandThumbsUp className="me-1" />
+                      <Button className="like-btn border-0 rounded-0" onClick={() => handleLike(review.id)}>
+                        <HandThumbsUp />
                       </Button>
                     </div>
                   </Col>

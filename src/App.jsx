@@ -5,7 +5,7 @@ import HomeMain from "./components/Home/HomeMain";
 import Footer from "./components/Footer/Footer";
 import GameDetails from "./components/Game/GameDetails";
 
-function App() {
+const App = () => {
   return (
     <BrowserRouter>
       <MyNavbar />
@@ -16,6 +16,6 @@ function App() {
       <Footer />
     </BrowserRouter>
   );
-}
+};
 
 export default App;

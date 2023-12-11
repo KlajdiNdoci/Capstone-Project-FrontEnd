@@ -37,7 +37,7 @@ const HomeNews = () => {
               >
                 <Card.Img src={article.game.gameCover} alt="Card image" className="rounded-0" />
                 <Card.ImgOverlay className="overlay rounded-0 d-flex flex-column justify-content-between">
-                  <Card.Title className="text-truncate">{article.title}</Card.Title>
+                  <Card.Title className="text-truncate pb-2 mb-0">{article.title}</Card.Title>
                   <div>
                     <Card.Text className="line-clamp mb-1" style={{ fontSize: "0.9rem" }}>
                       {article.content}
