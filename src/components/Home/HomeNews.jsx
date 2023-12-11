@@ -30,12 +30,12 @@ const HomeNews = () => {
           {news.map((article, index) => (
             <Col key={article.id} md={6} lg={4} xl={4} className={`mb-4 ${index >= 3 ? "d-none d-md-block" : ""}`}>
               <Card
-                className="bg-black text-white cursor-pointer p-0"
+                className="text-white cursor-pointer p-0 border-0 "
                 onClick={() => {
                   navigate("/news/" + article.id);
                 }}
               >
-                <Card.Img src={article.game.gameCover} alt="Card image" className="rounded-0" />
+                <Card.Img src={article.game.gameCover} alt="Card image" className="rounded-0  my-box-shadow" />
                 <Card.ImgOverlay className="overlay rounded-0 d-flex flex-column justify-content-between">
                   <Card.Title className="text-truncate pb-2 mb-0">{article.title}</Card.Title>
                   <div>

@@ -1,14 +1,16 @@
 import { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { useNavigate, useParams } from "react-router-dom";
-import { getGameReviewsMinusDays, likeReview } from "../../redux/actions";
+import { getGameReviewsMinusDays, getRecentReviews, likeReview } from "../../redux/actions";
 import { Button, Col, Row } from "react-bootstrap";
-import { HandThumbsUp, Star, StarFill, StarHalf } from "react-bootstrap-icons";
+import { HandThumbsUpFill, Star, StarFill, StarHalf } from "react-bootstrap-icons";
 
 const ReviewsMain = () => {
   const { gameId } = useParams();
   const dispatch = useDispatch();
   const reviews = useSelector(state => state.gameReviews.content.content);
+  const recentReviews = useSelector(state => state.recentReviews.content.content);
+  const currentUser = useSelector(state => state.currentUser.content);
   const [days, setDays] = useState();
   const navigate = useNavigate();
 
@@ -41,6 +43,7 @@ const ReviewsMain = () => {
   };
 
   const handleLike = reviewId => {
+    console.log(currentUser);
     dispatch(likeReview(reviewId));
   };
 
@@ -48,6 +51,7 @@ const ReviewsMain = () => {
     setDays(31);
     if (days) {
       dispatch(getGameReviewsMinusDays(gameId, days, 5, "likes"));
+      dispatch(getRecentReviews(5));
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [gameId, days]);
@@ -96,17 +100,62 @@ const ReviewsMain = () => {
                     <div className="fs-5 mb-2">{review.title}</div>
                     <div className="fs-6 text-light border-bottom border-secondary pb-2 mb-2">{review.content}</div>
                     <div className="fs-7 mb-2 text-secondary">Was this review helpful?</div>
-                    <div>
-                      <Button className="like-btn border-0 rounded-0" onClick={() => handleLike(review.id)}>
-                        <HandThumbsUp />
+                    <div className="d-flex align-items-center">
+                      <Button
+                        className={`like-btn border-0 rounded-1 me-2 ${
+                          review.likes.some(user => user.id === currentUser.id) ? "liked" : ""
+                        }`}
+                        onClick={() => handleLike(review.id)}
+                      >
+                        <HandThumbsUpFill />
                       </Button>
+                      <div>{review.likes.length}</div>
                     </div>
                   </Col>
                 </Row>
               </div>
             ))}
           </Col>
-          <Col xs={12} lg={4}></Col>
+          <Col xs={12} lg={4}>
+            <h5 className="text-white">RECENTLY POSTED</h5>
+            {recentReviews.map(review => (
+              <div key={review.id} style={{ backgroundColor: "#203042", borderTop: "1px solid #3A6E8A" }}>
+                <div key={review.id} className="mb-3 text-white">
+                  <div className="d-flex p-2 text-truncate" style={{ backgroundColor: "#141E2A" }}>
+                    <Col
+                      className="fs-7 text-truncate me-2 review-user"
+                      onClick={() => {
+                        navigate("/profile/" + review.user.id);
+                      }}
+                    >
+                      {review.user.username}
+                    </Col>
+
+                    <Col className="d-flex my-auto">{renderRatingStars(review.rating)}</Col>
+                  </div>
+                  <div className="px-2">
+                    <div className="text-secondary fs-8 my-1">POSTED: {convertCreatedAt(review.createdAt)}</div>
+                    <div className="fs-5 mb-2">{review.title}</div>
+                    <div className="fs-6 text-light pb-2 mb-2" style={{ borderBottom: "1px solid #141E2A" }}>
+                      {review.content}
+                    </div>
+                    <div className="fs-7 mb-2 text-secondary">Helpful?</div>
+                    <div className="d-flex align-items-center pb-2">
+                      <Button
+                        className={`like-btn border-0 rounded-1 me-2 ${
+                          review.likes.some(user => user.id === currentUser.id) ? "liked" : ""
+                        }`}
+                        onClick={() => handleLike(review.id)}
+                      >
+                        <HandThumbsUpFill />
+                      </Button>
+                      <div>{review.likes.length}</div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            ))}
+          </Col>
         </Row>
       )}
     </>

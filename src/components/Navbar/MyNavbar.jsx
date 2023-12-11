@@ -253,11 +253,11 @@ const MyNavbar = () => {
               </Link>
             </Col>
 
-            <Col xs="auto" className="d-none d-md-flex justify-content-end" style={{ height: "100%" }}>
-              <Dropdown className="nav-link p-0 d-flex" style={{ height: "100%" }}>
+            <Col xs="auto" className="d-none d-md-flex justify-content-end " style={{ height: "100%" }}>
+              <Dropdown className="nav-link p-0 d-flex " style={{ height: "100%" }}>
                 <div className="d-flex align-items-center">
                   <Dropdown.Toggle
-                    className="nav-link me-3 d-none d-lg-block"
+                    className="nav-link me-3 d-none d-lg-block "
                     id="dropdown-basic"
                     style={{
                       color: "#8d8d8d",

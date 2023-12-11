@@ -1,4 +1,4 @@
-import { GET_GAME_REVIEWS, IS_LOADING_GAME_REVIEWS, IS_ERROR_GAME_REVIEWS } from "../actions";
+import { GET_RECENT_REVIEWS, IS_LOADING_RECENT_REVIEWS, IS_ERROR_RECENT_REVIEWS } from "../actions";
 
 const initialState = {
   content: [],
@@ -6,9 +6,9 @@ const initialState = {
   isError: false,
 };
 
-const gameReviewsReducer = (state = initialState, action) => {
+const recentReviewsReducer = (state = initialState, action) => {
   switch (action.type) {
-    case GET_GAME_REVIEWS:
+    case GET_RECENT_REVIEWS:
       return {
         ...state,
         content: {
@@ -16,12 +16,12 @@ const gameReviewsReducer = (state = initialState, action) => {
           content: state.content.content.map(review => (review.id === action.payload.id ? action.payload : review)),
         },
       };
-    case IS_LOADING_GAME_REVIEWS:
+    case IS_LOADING_RECENT_REVIEWS:
       return {
         ...state,
         isLoading: action.payload,
       };
-    case IS_ERROR_GAME_REVIEWS:
+    case IS_ERROR_RECENT_REVIEWS:
       return {
         ...state,
         isError: action.payload,
@@ -32,4 +32,4 @@ const gameReviewsReducer = (state = initialState, action) => {
   }
 };
 
-export default gameReviewsReducer;
+export default recentReviewsReducer;

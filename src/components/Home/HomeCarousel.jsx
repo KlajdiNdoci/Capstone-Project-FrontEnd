@@ -52,10 +52,7 @@ const HomeCarousel = () => {
         FEATURED & RECOMMENDED
       </h3>
       {games && (
-        <Carousel
-          className="my-box-shadow mb-5"
-          style={{ backgroundColor: "#0E1821", border: "1px solid #1E2831", cursor: "pointer" }}
-        >
+        <Carousel className="my-box-shadow mb-5" style={{ backgroundColor: "#0E1821", cursor: "pointer" }}>
           {games.map(game => (
             <Carousel.Item
               key={game.id}

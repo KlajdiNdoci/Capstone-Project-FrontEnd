@@ -46,7 +46,7 @@ const GameCarousel = ({ images, game }) => {
     <div className="my-5 text-white">
       <h3 className="mb-4 text-truncate">{game.title}</h3>
       <div className="p-0 my-box-shadow" style={{ backgroundColor: "#0E1821", border: "1px solid #1E2831" }}>
-        <Row>
+        <Row className="mb-2">
           <Col lg={8} className="mb-4 mb-lg-0">
             <Carousel
               activeIndex={activeIndex}
