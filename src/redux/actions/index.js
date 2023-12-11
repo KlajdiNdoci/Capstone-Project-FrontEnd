@@ -41,7 +41,6 @@ export const getCurrentUserAction = () => {
         Authorization: "Bearer " + process.env.REACT_APP_BEARER_TOKEN,
       },
     };
-
     try {
       const resp = await fetch(URL, method);
       if (resp.ok) {
@@ -91,7 +90,6 @@ export const getSingleGame = gameId => {
         Authorization: "Bearer " + process.env.REACT_APP_BEARER_TOKEN,
       },
     };
-
     try {
       const resp = await fetch(URL, method);
       if (resp.ok) {
@@ -157,7 +155,7 @@ export const getNews = size => {
   };
 };
 
-export const getGameReviewsMinusDays = (gameId, days, size, order) => {
+export const getGameReviewsMinusDays = (gameId, days, size, order, direction) => {
   return async dispatch => {
     const URL =
       process.env.REACT_APP_SERVER_URL +
@@ -167,8 +165,10 @@ export const getGameReviewsMinusDays = (gameId, days, size, order) => {
       days +
       "?size=" +
       size +
-      "&?orderBy=" +
-      order;
+      "&orderBy=" +
+      order +
+      "&direction=" +
+      direction;
     const method = {
       method: "GET",
       headers: {

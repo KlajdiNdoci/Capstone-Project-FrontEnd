@@ -28,7 +28,7 @@ const BottomBar = () => {
                   <Link
                     to="/games/"
                     className={`d-flex flex-column p-0 align-items-center my-navbar-text justify-content-center ${
-                      location.pathname === "/games/" ? "active" : "text-white text-decoration-none"
+                      location.pathname.includes("/games/") ? "active" : "text-white text-decoration-none"
                     }`}
                     style={{ height: "100%" }}
                   >
@@ -39,7 +39,7 @@ const BottomBar = () => {
                   <Link
                     to="/news/"
                     className={`d-flex flex-column p-0 align-items-center my-navbar-text justify-content-center ${
-                      location.pathname === "/news/" ? "active" : "text-white text-decoration-none"
+                      location.pathname.includes("/news/") ? "active" : "text-white text-decoration-none"
                     }`}
                     style={{ height: "100%" }}
                   >

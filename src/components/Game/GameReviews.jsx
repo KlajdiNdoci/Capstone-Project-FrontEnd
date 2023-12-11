@@ -43,14 +43,14 @@ const GameReviews = ({ game }) => {
   const handleLike = async reviewId => {
     await dispatch(likeReview(reviewId));
     await dispatch(getRecentReviews(game.id, 5));
-    await dispatch(getGameReviewsMinusDays(game.id, days, 5, "likes"));
+    await dispatch(getGameReviewsMinusDays(game.id, days, 5, "likes", "asc"));
   };
 
   useEffect(() => {
     setDays(31);
     dispatch(getRecentReviews(game.id, 5));
     if (days) {
-      dispatch(getGameReviewsMinusDays(game.id, days, 5, "likes"));
+      dispatch(getGameReviewsMinusDays(game.id, days, 5, "likes", "asc"));
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [game.id, days]);

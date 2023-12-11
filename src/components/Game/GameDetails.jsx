@@ -1,4 +1,4 @@
-import React, { useEffect } from "react";
+import React, { useEffect, useState } from "react";
 import { Container } from "react-bootstrap";
 import { useDispatch, useSelector } from "react-redux";
 import { getSingleGame } from "../../redux/actions";
@@ -9,20 +9,20 @@ import GameReviews from "./GameReviews";
 const GameDetails = () => {
   const { gameId } = useParams();
   const game = useSelector(state => state.singleGame.content);
+  const [gameImages, setGameImages] = useState();
   const dispatch = useDispatch();
 
-  const allGameImages = game ? [game.trailer, ...game.gameImages] : [];
-
   useEffect(() => {
+    setGameImages(game ? [game.trailer, ...game.gameImages] : []);
     dispatch(getSingleGame(gameId));
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [gameId]);
+  }, [game.id]);
 
   return (
     <Container fluid="lg" style={{ paddingTop: "80px" }}>
-      {game && (
+      {game && gameImages && (
         <>
-          <GameCarousel images={allGameImages} game={game} />
+          <GameCarousel images={gameImages} game={game} />
           <GameReviews game={game} />
         </>
       )}
