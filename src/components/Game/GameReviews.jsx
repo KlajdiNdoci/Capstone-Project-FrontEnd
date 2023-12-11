@@ -1,12 +1,11 @@
 import { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import { useNavigate, useParams } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 import { getGameReviewsMinusDays, getRecentReviews, likeReview } from "../../redux/actions";
 import { Button, Col, Row } from "react-bootstrap";
 import { HandThumbsUpFill, Star, StarFill, StarHalf } from "react-bootstrap-icons";
 
-const ReviewsMain = () => {
-  const { gameId } = useParams();
+const GameReviews = ({ game }) => {
   const dispatch = useDispatch();
   const reviews = useSelector(state => state.gameReviews.content.content);
   const recentReviews = useSelector(state => state.recentReviews.content.content);
@@ -41,20 +40,20 @@ const ReviewsMain = () => {
     const formattedDate = dateObject.toLocaleDateString();
     return `${formattedDate}`;
   };
-
-  const handleLike = reviewId => {
-    console.log(currentUser);
-    dispatch(likeReview(reviewId));
+  const handleLike = async reviewId => {
+    await dispatch(likeReview(reviewId));
+    await dispatch(getRecentReviews(game.id, 5));
+    await dispatch(getGameReviewsMinusDays(game.id, days, 5, "likes"));
   };
 
   useEffect(() => {
     setDays(31);
+    dispatch(getRecentReviews(game.id, 5));
     if (days) {
-      dispatch(getGameReviewsMinusDays(gameId, days, 5, "likes"));
-      dispatch(getRecentReviews(5));
+      dispatch(getGameReviewsMinusDays(game.id, days, 5, "likes"));
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [gameId, days]);
+  }, [game.id, days]);
 
   return (
     <>
@@ -162,4 +161,4 @@ const ReviewsMain = () => {
   );
 };
 
-export default ReviewsMain;
+export default GameReviews;

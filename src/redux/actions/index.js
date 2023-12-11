@@ -204,9 +204,6 @@ export const likeReview = reviewId => {
     try {
       const resp = await fetch(URL, method);
       if (resp.ok) {
-        const updatedReview = await resp.json();
-        dispatch({ type: GET_GAME_REVIEWS, payload: updatedReview });
-        dispatch({ type: GET_RECENT_REVIEWS, payload: updatedReview });
       }
     } catch (error) {
       console.error(error);
@@ -214,9 +211,9 @@ export const likeReview = reviewId => {
   };
 };
 
-export const getRecentReviews = size => {
+export const getRecentReviews = (gameId, size) => {
   return async dispatch => {
-    const URL = process.env.REACT_APP_SERVER_URL + "/reviews?size=" + size;
+    const URL = process.env.REACT_APP_SERVER_URL + "/reviews/game/" + gameId + "?size=" + size;
     const method = {
       method: "GET",
       headers: {
