@@ -35,14 +35,8 @@ const LoginPage = () => {
   return (
     <>
       <Container fluid="lg" className="h-100 d-flex flex-column justify-content-center text-white">
-        <div style={{ height: "50px" }}>
-          {message && (
-            <Alert className="mb-0 " variant="danger">
-              {message}
-            </Alert>
-          )}
-        </div>
-        <div className=" my-box-shadow rounded-3 p-4 shadow bg-dark mb-4">
+        <div style={{ height: "50px" }}>{message && <Alert variant="danger">{message}</Alert>}</div>
+        <div className=" my-box-shadow rounded-3 p-4 shadow bg-dark mb-4 my-3">
           <div className="mb-4">
             <h2>LOGIN TO YOUR ACCOUNT</h2>
           </div>
