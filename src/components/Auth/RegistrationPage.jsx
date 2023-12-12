@@ -38,8 +38,8 @@ const RegistrationPage = () => {
             </Alert>
           )}
         </div>
-        <div className=" my-box-shadow rounded-3 p-4 mt-3 shadow bg-dark mb-4">
-          <div className="mb-5">
+        <div className=" my-box-shadow rounded-3 p-4 my-3 shadow bg-dark mb-4">
+          <div className="mb-4">
             <h2>CREATE YOUR ACCOUNT</h2>
           </div>
 
@@ -50,7 +50,7 @@ const RegistrationPage = () => {
             className="d-flex flex-column"
             style={{ height: "400px" }}
           >
-            <Form.Group className="mt-3">
+            <Form.Group className="my-3">
               <Form.Label>Email</Form.Label>
               <Form.Control
                 required
@@ -62,13 +62,17 @@ const RegistrationPage = () => {
                 style={{ boxShadow: "none", backgroundColor: "#32353C" }}
                 className="input text-white"
               />
-              <Form.Control.Feedback>Looks good!</Form.Control.Feedback>
-              <Form.Control.Feedback type="invalid">Please enter a valid email.</Form.Control.Feedback>
+              <Form.Control.Feedback className="position-absolute" style={{ width: "200px" }}>
+                Looks good!
+              </Form.Control.Feedback>
+              <Form.Control.Feedback className="position-absolute" style={{ width: "200px" }} type="invalid">
+                Please enter a valid email.
+              </Form.Control.Feedback>
             </Form.Group>
 
             <Row xs={2}>
               <Col>
-                <Form.Group className="mt-3">
+                <Form.Group className="my-3">
                   <Form.Label>Name</Form.Label>
                   <Form.Control
                     required
@@ -80,12 +84,16 @@ const RegistrationPage = () => {
                     style={{ boxShadow: "none", backgroundColor: "#32353C" }}
                     className="input text-white"
                   />
-                  <Form.Control.Feedback>Looks good!</Form.Control.Feedback>
-                  <Form.Control.Feedback type="invalid">Please enter a name.</Form.Control.Feedback>
+                  <Form.Control.Feedback className="position-absolute" style={{ width: "200px" }}>
+                    Looks good!
+                  </Form.Control.Feedback>
+                  <Form.Control.Feedback className="position-absolute" style={{ width: "200px" }} type="invalid">
+                    Please enter a name.
+                  </Form.Control.Feedback>
                 </Form.Group>
               </Col>
               <Col>
-                <Form.Group className="mt-3">
+                <Form.Group className="my-3">
                   <Form.Label>Surname</Form.Label>
                   <Form.Control
                     required
@@ -97,12 +105,16 @@ const RegistrationPage = () => {
                     style={{ boxShadow: "none", backgroundColor: "#32353C" }}
                     className="input text-white"
                   />
-                  <Form.Control.Feedback>Looks good!</Form.Control.Feedback>
-                  <Form.Control.Feedback type="invalid">Please enter a surname.</Form.Control.Feedback>
+                  <Form.Control.Feedback className="position-absolute" style={{ width: "200px" }}>
+                    Looks good!
+                  </Form.Control.Feedback>
+                  <Form.Control.Feedback className="position-absolute" style={{ width: "200px" }} type="invalid">
+                    Please enter a surname.
+                  </Form.Control.Feedback>
                 </Form.Group>
               </Col>
               <Col>
-                <Form.Group className="mt-3">
+                <Form.Group className="my-3">
                   <Form.Label>Username</Form.Label>
                   <Form.Control
                     required
@@ -115,12 +127,16 @@ const RegistrationPage = () => {
                     style={{ boxShadow: "none", backgroundColor: "#32353C" }}
                     className="input text-white"
                   />
-                  <Form.Control.Feedback>Looks good!</Form.Control.Feedback>
-                  <Form.Control.Feedback type="invalid">Please enter a username.</Form.Control.Feedback>
+                  <Form.Control.Feedback className="position-absolute" style={{ width: "200px" }}>
+                    Looks good!
+                  </Form.Control.Feedback>
+                  <Form.Control.Feedback className="position-absolute" style={{ width: "200px" }} type="invalid">
+                    Please enter a username.
+                  </Form.Control.Feedback>
                 </Form.Group>
               </Col>
               <Col>
-                <Form.Group className="mt-3">
+                <Form.Group className="my-3">
                   <Form.Label>Password</Form.Label>
                   <Form.Control
                     required
@@ -133,8 +149,12 @@ const RegistrationPage = () => {
                     style={{ boxShadow: "none", backgroundColor: "#32353C" }}
                     className="input text-white"
                   />
-                  <Form.Control.Feedback>Looks good!</Form.Control.Feedback>
-                  <Form.Control.Feedback type="invalid">Please enter a password.</Form.Control.Feedback>
+                  <Form.Control.Feedback className="position-absolute" style={{ width: "200px" }}>
+                    Looks good!
+                  </Form.Control.Feedback>
+                  <Form.Control.Feedback className="position-absolute" style={{ width: "200px" }} type="invalid">
+                    Please enter a password.
+                  </Form.Control.Feedback>
                 </Form.Group>
               </Col>
             </Row>

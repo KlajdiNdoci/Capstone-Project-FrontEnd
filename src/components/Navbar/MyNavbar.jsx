@@ -5,7 +5,7 @@ import { Link, useLocation, useNavigate } from "react-router-dom";
 
 import { Search } from "react-bootstrap-icons";
 import Bottombar from "./Bottombar";
-import { getCurrentUserAction, getSuggestions } from "../../redux/actions";
+import { SAVE_TOKEN, getCurrentUserAction, getSuggestions } from "../../redux/actions";
 
 const MyNavbar = () => {
   const [query, setQuery] = useState("");
@@ -56,6 +56,11 @@ const MyNavbar = () => {
   const handleSubmit = async e => {
     e.preventDefault();
     window.location.href = "/games/search?q=" + query;
+  };
+  const handleLogout = async e => {
+    e.preventDefault();
+    dispatch({ type: SAVE_TOKEN, payload: "" });
+    navigate("/login");
   };
 
   useEffect(() => {
@@ -285,7 +290,9 @@ const MyNavbar = () => {
                   >
                     <Dropdown.Item className="py-2 dropdown-item">View my profile</Dropdown.Item>
                     <Dropdown.Item className="py-2 dropdown-item">Language</Dropdown.Item>
-                    <Dropdown.Item className="py-2 dropdown-item">Sign out of account</Dropdown.Item>
+                    <Dropdown.Item className="py-2 dropdown-item" onClick={handleLogout}>
+                      Sign out of account
+                    </Dropdown.Item>
                   </Dropdown.Menu>
                 </Dropdown>
               </Col>

@@ -35,6 +35,8 @@ export const IS_ERROR_RECENT_REVIEWS = "IS_ERROR_RECENT_REVIEWS";
 //AUTH
 export const REGISTRATION_SUCCESS = "REGISTRATION_SUCCESS";
 export const REGISTRATION_FAILURE = "REGISTRATION_FAILURE";
+export const SAVE_TOKEN = "SAVE_TOKEN";
+export const LOGIN_FAILURE = "LOGIN_FAILURE";
 
 export const getCurrentUserAction = () => {
   return async dispatch => {
@@ -294,6 +296,48 @@ export const register = (name, surname, email, password, username, navigate) => 
       dispatch({ type: REGISTRATION_FAILURE, payload: "Generic error:", error });
       setTimeout(() => {
         dispatch({ type: REGISTRATION_FAILURE, payload: "" });
+      }, 3000);
+    }
+  };
+};
+
+export const login = (email, password, navigate) => {
+  return async dispatch => {
+    const URL = process.env.REACT_APP_SERVER_URL + "/auth/login";
+    const method = {
+      method: "POST",
+      body: JSON.stringify({
+        email,
+        password,
+      }),
+      headers: {
+        "content-type": "application/json",
+      },
+    };
+    try {
+      const resp = await fetch(URL, method);
+      console.log(resp);
+      if (resp.ok) {
+        const data = await resp.json();
+        console.log(data.accessToken);
+        dispatch({ type: SAVE_TOKEN, payload: data.accessToken });
+        setTimeout(() => {
+          navigate("/");
+        }, 1000);
+      } else {
+        const data = await resp.json();
+        dispatch({
+          type: LOGIN_FAILURE,
+          payload: data.message === "No message available" ? `${data.status} ${data.error}` : data.message,
+        });
+        setTimeout(() => {
+          dispatch({ type: LOGIN_FAILURE, payload: "" });
+        }, 3000);
+      }
+    } catch (error) {
+      dispatch({ type: LOGIN_FAILURE, payload: "Generic error:", error });
+      setTimeout(() => {
+        dispatch({ type: LOGIN_FAILURE, payload: "" });
       }, 3000);
     }
   };

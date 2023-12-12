@@ -1,7 +1,8 @@
-import { REGISTRATION_SUCCESS, REGISTRATION_FAILURE } from "../actions";
+import { REGISTRATION_SUCCESS, REGISTRATION_FAILURE, SAVE_TOKEN, LOGIN_FAILURE } from "../actions";
 
 const initialState = {
   message: "",
+  token: "",
 };
 
 const authReducer = (state = initialState, action) => {
@@ -12,6 +13,16 @@ const authReducer = (state = initialState, action) => {
         message: action.payload,
       };
     case REGISTRATION_FAILURE:
+      return {
+        ...state,
+        message: action.payload,
+      };
+    case SAVE_TOKEN:
+      return {
+        ...state,
+        token: action.payload,
+      };
+    case LOGIN_FAILURE:
       return {
         ...state,
         message: action.payload,
