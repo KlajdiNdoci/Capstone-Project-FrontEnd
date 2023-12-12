@@ -15,6 +15,7 @@ const GameReviews = ({ game }) => {
 
   const renderRatingStars = averageRating => {
     const roundedRating = Math.round(averageRating * 2) / 2;
+
     const stars = [];
     const fullStars = Math.floor(roundedRating);
     const hasHalfStar = roundedRating % 1 !== 0;

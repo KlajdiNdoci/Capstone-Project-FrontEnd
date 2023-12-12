@@ -42,6 +42,8 @@ export const getCurrentUserAction = () => {
       },
     };
     try {
+      dispatch({ type: IS_LOADING_MY_PROFILE, payload: true });
+      dispatch({ type: IS_ERROR_MY_PROFILE, payload: false });
       const resp = await fetch(URL, method);
       if (resp.ok) {
         const currentUser = await resp.json();
@@ -49,9 +51,9 @@ export const getCurrentUserAction = () => {
       }
     } catch (error) {
       console.error(error);
-      dispatch({ type: IS_ERROR_MY_PROFILE });
+      dispatch({ type: IS_ERROR_MY_PROFILE, payload: true });
     } finally {
-      dispatch({ type: IS_LOADING_MY_PROFILE });
+      dispatch({ type: IS_LOADING_MY_PROFILE, payload: false });
     }
   };
 };
@@ -67,6 +69,8 @@ export const getSuggestions = query => {
     };
 
     try {
+      dispatch({ type: IS_LOADING_SUGGESTIONS, payload: true });
+      dispatch({ type: IS_ERROR_SUGGESTIONS, payload: false });
       const resp = await fetch(URL, method);
       if (resp.ok) {
         const suggestions = await resp.json();
@@ -74,9 +78,9 @@ export const getSuggestions = query => {
       }
     } catch (error) {
       console.error(error);
-      dispatch({ type: IS_ERROR_SUGGESTIONS });
+      dispatch({ type: IS_ERROR_SUGGESTIONS, payload: true });
     } finally {
-      dispatch({ type: IS_LOADING_SUGGESTIONS });
+      dispatch({ type: IS_LOADING_SUGGESTIONS, payload: false });
     }
   };
 };
@@ -91,6 +95,8 @@ export const getSingleGame = gameId => {
       },
     };
     try {
+      dispatch({ type: IS_LOADING_SINGLE_GAME, payload: true });
+      dispatch({ type: IS_ERROR_SINGLE_GAME, payload: false });
       const resp = await fetch(URL, method);
       if (resp.ok) {
         const game = await resp.json();
@@ -98,9 +104,9 @@ export const getSingleGame = gameId => {
       }
     } catch (error) {
       console.error(error);
-      dispatch({ type: IS_ERROR_SINGLE_GAME });
+      dispatch({ type: IS_ERROR_SINGLE_GAME, payload: true });
     } finally {
-      dispatch({ type: IS_LOADING_SINGLE_GAME });
+      dispatch({ type: IS_LOADING_SINGLE_GAME, payload: false });
     }
   };
 };
@@ -118,14 +124,16 @@ export const getGames = size => {
     try {
       const resp = await fetch(URL, method);
       if (resp.ok) {
+        dispatch({ type: IS_LOADING_GAMES, payload: true });
+        dispatch({ type: IS_ERROR_GAMES, payload: false });
         const games = await resp.json();
         dispatch({ type: GET_GAMES, payload: games });
       }
     } catch (error) {
       console.error(error);
-      dispatch({ type: IS_ERROR_GAMES });
+      dispatch({ type: IS_ERROR_GAMES, payload: true });
     } finally {
-      dispatch({ type: IS_LOADING_GAMES });
+      dispatch({ type: IS_LOADING_GAMES, payload: false });
     }
   };
 };
@@ -143,14 +151,16 @@ export const getNews = size => {
     try {
       const resp = await fetch(URL, method);
       if (resp.ok) {
+        dispatch({ type: IS_LOADING_NEWS, payload: true });
+        dispatch({ type: IS_ERROR_NEWS, payload: false });
         const news = await resp.json();
         dispatch({ type: GET_NEWS, payload: news });
       }
     } catch (error) {
       console.error(error);
-      dispatch({ type: IS_ERROR_NEWS });
+      dispatch({ type: IS_ERROR_NEWS, payload: true });
     } finally {
-      dispatch({ type: IS_LOADING_NEWS });
+      dispatch({ type: IS_LOADING_NEWS, payload: false });
     }
   };
 };
@@ -179,20 +189,22 @@ export const getGameReviewsMinusDays = (gameId, days, size, order, direction) =>
     try {
       const resp = await fetch(URL, method);
       if (resp.ok) {
+        dispatch({ type: IS_LOADING_GAME_REVIEWS, payload: true });
+        dispatch({ type: IS_ERROR_GAME_REVIEWS, payload: false });
         const gameReviews = await resp.json();
         dispatch({ type: GET_GAME_REVIEWS, payload: gameReviews });
       }
     } catch (error) {
       console.error(error);
-      dispatch({ type: IS_ERROR_GAME_REVIEWS });
+      dispatch({ type: IS_ERROR_GAME_REVIEWS, payload: true });
     } finally {
-      dispatch({ type: IS_LOADING_GAME_REVIEWS });
+      dispatch({ type: IS_LOADING_GAME_REVIEWS, payload: false });
     }
   };
 };
 
 export const likeReview = reviewId => {
-  return async dispatch => {
+  return async () => {
     const URL = process.env.REACT_APP_SERVER_URL + "/reviews/" + reviewId + "/likes";
     const method = {
       method: "POST",
@@ -223,15 +235,17 @@ export const getRecentReviews = (gameId, size) => {
 
     try {
       const resp = await fetch(URL, method);
+      dispatch({ type: IS_LOADING_RECENT_REVIEWS, payload: true });
+      dispatch({ type: IS_ERROR_RECENT_REVIEWS, payload: false });
       if (resp.ok) {
         const recentReviews = await resp.json();
         dispatch({ type: GET_RECENT_REVIEWS, payload: recentReviews });
       }
     } catch (error) {
       console.error(error);
-      dispatch({ type: IS_ERROR_RECENT_REVIEWS });
+      dispatch({ type: IS_ERROR_RECENT_REVIEWS, payload: true });
     } finally {
-      dispatch({ type: IS_LOADING_RECENT_REVIEWS });
+      dispatch({ type: IS_LOADING_RECENT_REVIEWS, payload: false });
     }
   };
 };

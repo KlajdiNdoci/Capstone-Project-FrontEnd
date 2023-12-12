@@ -22,6 +22,10 @@ const GameCarousel = ({ images, game }) => {
     const fullStars = Math.floor(roundedRating);
     const hasHalfStar = roundedRating % 1 !== 0;
 
+    if (roundedRating === 0.0) {
+      return <div>No reviews yet</div>;
+    }
+
     for (let i = 0; i < fullStars; i++) {
       stars.push(<StarFill key={i} className="rating-color" />);
     }
