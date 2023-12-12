@@ -11,10 +11,11 @@ const GameDetails = () => {
   const game = useSelector(state => state.singleGame.content);
   const [gameImages, setGameImages] = useState();
   const dispatch = useDispatch();
+  const token = useSelector(state => state.auth.token);
 
   useEffect(() => {
     setGameImages(game ? [game.trailer, ...game.gameImages] : []);
-    dispatch(getSingleGame(gameId));
+    dispatch(getSingleGame(gameId, token));
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [game.id]);
 

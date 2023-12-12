@@ -13,6 +13,7 @@ const HomeCarousel = () => {
   const games = useSelector(state => state.games.content.content);
   const [hoveredImageIndex, setHoveredImageIndex] = useState(null);
   const navigate = useNavigate();
+  const token = useSelector(state => state.auth.token);
 
   const getPlatformIcon = platform => {
     switch (platform) {
@@ -42,7 +43,7 @@ const HomeCarousel = () => {
   };
 
   useEffect(() => {
-    dispatch(getGames(10));
+    dispatch(getGames(10, token));
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 

@@ -15,6 +15,7 @@ const MyNavbar = () => {
   const navigate = useNavigate();
   const suggestionsRef = useRef(null);
   const noResultsRef = useRef(null);
+  const token = useSelector(state => state.auth.token);
 
   const user = useSelector(state => state.currentUser.content);
   const suggestions = useSelector(state => state.suggestions.content.content);
@@ -26,7 +27,7 @@ const MyNavbar = () => {
   useEffect(() => {
     if (query !== "") {
       const debounceTimeout = setTimeout(() => {
-        dispatch(getSuggestions(query));
+        dispatch(getSuggestions(query, token));
         setShowSuggestions(true);
       }, 1000);
       return () => clearTimeout(debounceTimeout);
@@ -64,7 +65,7 @@ const MyNavbar = () => {
   };
 
   useEffect(() => {
-    dispatch(getCurrentUserAction());
+    dispatch(getCurrentUserAction(token));
     document.addEventListener("click", handleClickOutsideSuggestions);
     return () => {
       document.removeEventListener("click", handleClickOutsideSuggestions);
@@ -79,9 +80,9 @@ const MyNavbar = () => {
 
   return (
     <>
-      {user && (
-        <Navbar fixed="top" expand="lg" style={{ height: "80px", backgroundColor: "#171D25" }} className="p-0 ">
-          <Container fluid="lg" style={{ height: "100%" }}>
+      <Navbar fixed="top" expand="lg" style={{ height: "80px", backgroundColor: "#171D25" }} className="p-0 ">
+        <Container fluid="lg" style={{ height: "100%" }}>
+          {user && token ? (
             <Row className="flex-grow-1 justify-content-between " style={{ height: "100%" }}>
               <Col xs="auto" className="p-1  align-items-center d-none d-md-flex justify-content-start">
                 <Link to="/" className="mx-2">
@@ -297,12 +298,49 @@ const MyNavbar = () => {
                 </Dropdown>
               </Col>
             </Row>
-          </Container>
-        </Navbar>
+          ) : (
+            <Row className="flex-grow-1 justify-content-between" style={{ height: "100%" }}>
+              <Col className="p-1  align-items-center d-flex justify-content-start">
+                <div to="/" className="mx-2">
+                  <img
+                    src="https://res.cloudinary.com/klajdindoci/image/upload/v1701440271/6a72da74-fe3b-4a3a-86e7-9007c9c0d445_1_pyuxtp.png"
+                    alt="Platform logo"
+                    width={50}
+                    height={50}
+                    className="m-auto"
+                  />
+                </div>
+              </Col>
+              <Col className="p-1 align-items-center justify-content-end text-white d-flex">
+                <Link
+                  to="/login"
+                  className={`d-flex p-0 align-items-center justify-content-center me-3 ${
+                    location.pathname === "/login" ? "active" : "text-white text-decoration-none"
+                  }`}
+                  style={{ height: "100%" }}
+                >
+                  <span className="d-none d-md-block fs-5 fw-medium">LOGIN</span>
+                </Link>
+                <Link
+                  to="/register"
+                  className={`d-flex p-0 align-items-center justify-content-center me-3 ${
+                    location.pathname === "/register" ? "active" : "text-white text-decoration-none"
+                  }`}
+                  style={{ height: "100%" }}
+                >
+                  <span className="d-none d-md-block fs-5 fw-medium">REGISTER</span>
+                </Link>
+              </Col>
+            </Row>
+          )}
+        </Container>
+      </Navbar>
+
+      {user && token && (
+        <div className="d-lg-none">
+          <Bottombar />
+        </div>
       )}
-      <div className="d-lg-none">
-        <Bottombar />
-      </div>
     </>
   );
 };

@@ -12,6 +12,7 @@ const GameReviews = ({ game }) => {
   const currentUser = useSelector(state => state.currentUser.content);
   const [days, setDays] = useState();
   const navigate = useNavigate();
+  const token = useSelector(state => state.auth.token);
 
   const renderRatingStars = averageRating => {
     const roundedRating = Math.round(averageRating * 2) / 2;
@@ -42,16 +43,16 @@ const GameReviews = ({ game }) => {
     return `${formattedDate}`;
   };
   const handleLike = async reviewId => {
-    await dispatch(likeReview(reviewId));
-    await dispatch(getRecentReviews(game.id, 5));
-    await dispatch(getGameReviewsMinusDays(game.id, days, 5, "likes", "asc"));
+    await dispatch(likeReview(reviewId, token));
+    await dispatch(getRecentReviews(game.id, 5, token));
+    await dispatch(getGameReviewsMinusDays(game.id, days, 5, "likes", "asc", token));
   };
 
   useEffect(() => {
     setDays(31);
-    dispatch(getRecentReviews(game.id, 5));
+    dispatch(getRecentReviews(game.id, 5, token));
     if (days) {
-      dispatch(getGameReviewsMinusDays(game.id, days, 5, "likes", "asc"));
+      dispatch(getGameReviewsMinusDays(game.id, days, 5, "likes", "asc", token));
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [game.id, days]);

@@ -38,7 +38,7 @@ export const REGISTRATION_FAILURE = "REGISTRATION_FAILURE";
 export const SAVE_TOKEN = "SAVE_TOKEN";
 export const LOGIN_FAILURE = "LOGIN_FAILURE";
 
-export const getCurrentUserAction = () => {
+export const getCurrentUserAction = token => {
   return async dispatch => {
     const URL = process.env.REACT_APP_SERVER_URL + "/users/me";
     const method = {
@@ -64,7 +64,7 @@ export const getCurrentUserAction = () => {
   };
 };
 
-export const getSuggestions = query => {
+export const getSuggestions = (query, token) => {
   return async dispatch => {
     const URL = process.env.REACT_APP_SERVER_URL + "/games/search?q=" + query + "&size=3";
     const method = {
@@ -91,7 +91,7 @@ export const getSuggestions = query => {
   };
 };
 
-export const getSingleGame = gameId => {
+export const getSingleGame = (gameId, token) => {
   return async dispatch => {
     const URL = process.env.REACT_APP_SERVER_URL + "/games/" + gameId;
     const method = {
@@ -117,7 +117,7 @@ export const getSingleGame = gameId => {
   };
 };
 
-export const getGames = size => {
+export const getGames = (size, token) => {
   return async dispatch => {
     const URL = process.env.REACT_APP_SERVER_URL + "/games?size=" + size;
     const method = {
@@ -144,7 +144,7 @@ export const getGames = size => {
   };
 };
 
-export const getNews = size => {
+export const getNews = (size, token) => {
   return async dispatch => {
     const URL = process.env.REACT_APP_SERVER_URL + "/news?size=" + size;
     const method = {
@@ -171,7 +171,7 @@ export const getNews = size => {
   };
 };
 
-export const getGameReviewsMinusDays = (gameId, days, size, order, direction) => {
+export const getGameReviewsMinusDays = (gameId, days, size, order, direction, token) => {
   return async dispatch => {
     const URL =
       process.env.REACT_APP_SERVER_URL +
@@ -209,7 +209,7 @@ export const getGameReviewsMinusDays = (gameId, days, size, order, direction) =>
   };
 };
 
-export const likeReview = reviewId => {
+export const likeReview = (reviewId, token) => {
   return async () => {
     const URL = process.env.REACT_APP_SERVER_URL + "/reviews/" + reviewId + "/likes";
     const method = {
@@ -229,7 +229,7 @@ export const likeReview = reviewId => {
   };
 };
 
-export const getRecentReviews = (gameId, size) => {
+export const getRecentReviews = (gameId, size, token) => {
   return async dispatch => {
     const URL = process.env.REACT_APP_SERVER_URL + "/reviews/game/" + gameId + "?size=" + size;
     const method = {
@@ -316,14 +316,10 @@ export const login = (email, password, navigate) => {
     };
     try {
       const resp = await fetch(URL, method);
-      console.log(resp);
       if (resp.ok) {
         const data = await resp.json();
-        console.log(data.accessToken);
         dispatch({ type: SAVE_TOKEN, payload: data.accessToken });
-        setTimeout(() => {
-          navigate("/");
-        }, 1000);
+        navigate("/");
       } else {
         const data = await resp.json();
         dispatch({

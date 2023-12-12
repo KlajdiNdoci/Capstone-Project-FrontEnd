@@ -8,6 +8,7 @@ const HomeNews = () => {
   const news = useSelector(state => state.news.content.content);
   const dispatch = useDispatch();
   const navigate = useNavigate();
+  const token = useSelector(state => state.auth.token);
 
   function formatDate(dateString) {
     const options = { day: "2-digit", month: "2-digit", year: "numeric" };
@@ -16,7 +17,7 @@ const HomeNews = () => {
   }
 
   useEffect(() => {
-    dispatch(getNews(6));
+    dispatch(getNews(6, token));
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
