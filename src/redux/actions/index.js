@@ -32,6 +32,10 @@ export const GET_RECENT_REVIEWS = "GET_RECENT_REVIEWS";
 export const IS_LOADING_RECENT_REVIEWS = "IS_LOADING_RECENT_REVIEWS";
 export const IS_ERROR_RECENT_REVIEWS = "IS_ERROR_RECENT_REVIEWS";
 
+//AUTH
+export const REGISTRATION_SUCCESS = "REGISTRATION_SUCCESS";
+export const REGISTRATION_FAILURE = "REGISTRATION_FAILURE";
+
 export const getCurrentUserAction = () => {
   return async dispatch => {
     const URL = process.env.REACT_APP_SERVER_URL + "/users/me";
@@ -246,6 +250,36 @@ export const getRecentReviews = (gameId, size) => {
       dispatch({ type: IS_ERROR_RECENT_REVIEWS, payload: true });
     } finally {
       dispatch({ type: IS_LOADING_RECENT_REVIEWS, payload: false });
+    }
+  };
+};
+
+export const register = async (name, surname, email, password, username, navigate) => {
+  return async dispatch => {
+    const URL = process.env.REACT_APP_SERVER_URL + "/auth/register";
+    const method = {
+      method: "POST",
+      body: JSON.stringify({
+        name,
+        surname,
+        password,
+        email,
+        username,
+      }),
+      headers: {
+        "content-type": "application/json",
+      },
+    };
+    try {
+      const resp = await fetch(URL, method);
+      if (resp.ok) {
+        dispatch({ type: REGISTRATION_SUCCESS, payload: "Registration successful!" });
+        setInterval(2000);
+        navigate("/login");
+      }
+    } catch (error) {
+      dispatch({ type: REGISTRATION_FAILURE, payload: "Error during registration!" });
+      console.log(error);
     }
   };
 };
