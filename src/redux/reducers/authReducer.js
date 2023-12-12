@@ -1,8 +1,7 @@
 import { REGISTRATION_SUCCESS, REGISTRATION_FAILURE } from "../actions";
 
 const initialState = {
-  successMessage: "",
-  failureMessage: "",
+  message: "",
 };
 
 const authReducer = (state = initialState, action) => {
@@ -10,12 +9,12 @@ const authReducer = (state = initialState, action) => {
     case REGISTRATION_SUCCESS:
       return {
         ...state,
-        successMessage: action.payload,
+        message: action.payload,
       };
     case REGISTRATION_FAILURE:
       return {
         ...state,
-        failureMessage: action.payload,
+        message: action.payload,
       };
 
     default:

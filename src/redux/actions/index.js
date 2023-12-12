@@ -254,7 +254,7 @@ export const getRecentReviews = (gameId, size) => {
   };
 };
 
-export const register = async (name, surname, email, password, username, navigate) => {
+export const register = (name, surname, email, password, username, navigate) => {
   return async dispatch => {
     const URL = process.env.REACT_APP_SERVER_URL + "/auth/register";
     const method = {
@@ -272,14 +272,29 @@ export const register = async (name, surname, email, password, username, navigat
     };
     try {
       const resp = await fetch(URL, method);
+      console.log(resp);
       if (resp.ok) {
         dispatch({ type: REGISTRATION_SUCCESS, payload: "Registration successful!" });
-        setInterval(2000);
-        navigate("/login");
+        setTimeout(() => {
+          dispatch({ type: REGISTRATION_SUCCESS, payload: "" });
+          navigate("/login");
+        }, 3000);
+      } else {
+        const data = await resp.json();
+        console.log(data);
+        dispatch({
+          type: REGISTRATION_FAILURE,
+          payload: data.message === "No message available" ? `${data.status} ${data.error}` : data.message,
+        });
+        setTimeout(() => {
+          dispatch({ type: REGISTRATION_FAILURE, payload: "" });
+        }, 3000);
       }
     } catch (error) {
-      dispatch({ type: REGISTRATION_FAILURE, payload: "Error during registration!" });
-      console.log(error);
+      dispatch({ type: REGISTRATION_FAILURE, payload: "Generic error:", error });
+      setTimeout(() => {
+        dispatch({ type: REGISTRATION_FAILURE, payload: "" });
+      }, 3000);
     }
   };
 };

@@ -1,16 +1,19 @@
 import { useState } from "react";
-import { Button, Col, Container, Form, Row } from "react-bootstrap";
-import { useDispatch } from "react-redux";
+import { Alert, Button, Col, Container, Form, Row } from "react-bootstrap";
+import { useDispatch, useSelector } from "react-redux";
 import { register } from "../../redux/actions";
+import { useNavigate } from "react-router-dom";
 
 const RegistrationPage = () => {
-  const [email, setEmail] = useState();
-  const [password, setPassword] = useState();
-  const [username, setUsername] = useState();
-  const [name, setName] = useState();
-  const [surname, setSurname] = useState();
+  const [email, setEmail] = useState("");
+  const [password, setPassword] = useState("");
+  const [username, setUsername] = useState("");
+  const [name, setName] = useState("");
+  const [surname, setSurname] = useState("");
   const [validated, setValidated] = useState(false);
   const dispatch = useDispatch();
+  const navigate = useNavigate();
+  const message = useSelector(state => state.auth.message);
 
   const handleSubmit = e => {
     e.preventDefault();
@@ -19,7 +22,7 @@ const RegistrationPage = () => {
     if (form.checkValidity() === false) {
       e.stopPropagation();
     } else {
-      dispatch(register);
+      dispatch(register(name, surname, email, password, username, navigate));
     }
 
     setValidated(true);
@@ -27,13 +30,26 @@ const RegistrationPage = () => {
 
   return (
     <>
-      <Container fluid="lg" className="h-100 d-flex align-items-center text-white">
-        <div className="my-autoborder p-4 mt-3 shadow bg-dark">
+      <Container fluid="lg" className="h-100 d-flex flex-column justify-content-center text-white">
+        <div style={{ height: "50px" }}>
+          {message && (
+            <Alert className="mb-0 " variant={`${message === "Registration successful!" ? "success" : "danger"}`}>
+              {message}
+            </Alert>
+          )}
+        </div>
+        <div className=" my-box-shadow rounded-3 p-4 mt-3 shadow bg-dark mb-4">
           <div className="mb-5">
             <h2>CREATE YOUR ACCOUNT</h2>
           </div>
 
-          <Form noValidate validated={validated} onSubmit={handleSubmit}>
+          <Form
+            noValidate
+            validated={validated}
+            onSubmit={handleSubmit}
+            className="d-flex flex-column"
+            style={{ height: "400px" }}
+          >
             <Form.Group className="mt-3">
               <Form.Label>Email</Form.Label>
               <Form.Control
@@ -124,7 +140,7 @@ const RegistrationPage = () => {
             </Row>
 
             <Button
-              className="mb-2 "
+              className="mt-auto "
               variant="outline-primary"
               type="submit"
               style={{ marginTop: "30px", width: "100px" }}
