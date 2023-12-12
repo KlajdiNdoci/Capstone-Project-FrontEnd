@@ -3,7 +3,7 @@ import { Button, Col, Container, Dropdown, Form, InputGroup, Navbar, Row } from 
 import { useDispatch, useSelector } from "react-redux";
 import { Link, useLocation, useNavigate } from "react-router-dom";
 
-import { Search } from "react-bootstrap-icons";
+import { Search, Star, StarFill, StarHalf } from "react-bootstrap-icons";
 import Bottombar from "./Bottombar";
 import { SAVE_TOKEN, getCurrentUserAction, getSuggestions } from "../../redux/actions";
 
@@ -72,11 +72,34 @@ const MyNavbar = () => {
     };
 
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, []);
+  }, [token]);
 
   useEffect(() => {
     setQuery("");
   }, [location]);
+
+  const renderRatingStars = averageRating => {
+    const roundedRating = Math.round(averageRating * 2) / 2;
+
+    const stars = [];
+    const fullStars = Math.floor(roundedRating);
+    const hasHalfStar = roundedRating % 1 !== 0;
+
+    for (let i = 0; i < fullStars; i++) {
+      stars.push(<StarFill key={i} className="rating-color" />);
+    }
+
+    if (hasHalfStar) {
+      stars.push(<StarHalf key="half" className="rating-color" />);
+    }
+
+    const remainingStars = 5 - stars.length;
+    for (let i = 0; i < remainingStars; i++) {
+      stars.push(<Star key={`empty-${i}`} className="rating-color" />);
+    }
+
+    return stars;
+  };
 
   return (
     <>
@@ -136,7 +159,7 @@ const MyNavbar = () => {
                               <img src={suggestion.gameCover} alt="cover" className="me-3" width={100} />
                               <div className="text-truncate">
                                 <div className="text-truncate">{suggestion.title}</div>
-                                <div>{suggestion.averageRating}</div>
+                                <div>{renderRatingStars(suggestion.averageRating)}</div>
                               </div>
                             </div>
                           ))
@@ -200,7 +223,7 @@ const MyNavbar = () => {
                               <img src={suggestion.gameCover} alt="cover" className="me-3" width={100} />
                               <div className="text-truncate">
                                 <div className="text-truncate">{suggestion.title}</div>
-                                <div>{suggestion.averageRating}</div>
+                                <div>{renderRatingStars(suggestion.averageRating)}</div>
                               </div>
                             </div>
                           ))

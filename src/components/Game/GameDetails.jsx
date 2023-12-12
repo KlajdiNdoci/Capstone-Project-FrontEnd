@@ -9,15 +9,23 @@ import GameReviews from "./GameReviews";
 const GameDetails = () => {
   const { gameId } = useParams();
   const game = useSelector(state => state.singleGame.content);
-  const [gameImages, setGameImages] = useState();
+  const [gameImages, setGameImages] = useState(null);
   const dispatch = useDispatch();
   const token = useSelector(state => state.auth.token);
 
   useEffect(() => {
-    setGameImages(game ? [game.trailer, ...game.gameImages] : []);
-    dispatch(getSingleGame(gameId, token));
+    const fetchData = async () => {
+      if (gameId) {
+        await dispatch(getSingleGame(gameId, token));
+        const allImages = [];
+        allImages.push(game.trailer);
+        allImages.push(game.gameImages);
+        setGameImages([allImages]);
+      }
+    };
+    fetchData();
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [game.id]);
+  }, []);
 
   return (
     <Container fluid="lg" style={{ paddingTop: "80px" }}>
