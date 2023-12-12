@@ -1,9 +1,9 @@
 // Import necessari
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { Alert, Button, Container, Form } from "react-bootstrap";
 import { useDispatch, useSelector } from "react-redux";
 import { useNavigate } from "react-router-dom";
-import { login } from "../../redux/actions";
+import { SAVE_TOKEN, login } from "../../redux/actions";
 
 const LoginPage = () => {
   const [email, setEmail] = useState("");
@@ -26,6 +26,11 @@ const LoginPage = () => {
 
     setValidated(true);
   };
+
+  useEffect(() => {
+    dispatch({ type: SAVE_TOKEN, payload: "" });
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []);
 
   return (
     <>

@@ -1,7 +1,7 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { Alert, Button, Col, Container, Form, Row } from "react-bootstrap";
 import { useDispatch, useSelector } from "react-redux";
-import { register } from "../../redux/actions";
+import { SAVE_TOKEN, register } from "../../redux/actions";
 import { useNavigate } from "react-router-dom";
 
 const RegistrationPage = () => {
@@ -27,6 +27,11 @@ const RegistrationPage = () => {
 
     setValidated(true);
   };
+
+  useEffect(() => {
+    dispatch({ type: SAVE_TOKEN, payload: "" });
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []);
 
   return (
     <>

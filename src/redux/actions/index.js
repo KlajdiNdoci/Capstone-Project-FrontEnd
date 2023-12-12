@@ -44,7 +44,7 @@ export const getCurrentUserAction = token => {
     const method = {
       method: "GET",
       headers: {
-        Authorization: "Bearer " + process.env.REACT_APP_BEARER_TOKEN,
+        Authorization: "Bearer " + token,
       },
     };
     try {
@@ -70,7 +70,7 @@ export const getSuggestions = (query, token) => {
     const method = {
       method: "GET",
       headers: {
-        Authorization: "Bearer " + process.env.REACT_APP_BEARER_TOKEN,
+        Authorization: "Bearer " + token,
       },
     };
 
@@ -97,7 +97,7 @@ export const getSingleGame = (gameId, token) => {
     const method = {
       method: "GET",
       headers: {
-        Authorization: "Bearer " + process.env.REACT_APP_BEARER_TOKEN,
+        Authorization: "Bearer " + token,
       },
     };
     try {
@@ -123,7 +123,7 @@ export const getGames = (size, token) => {
     const method = {
       method: "GET",
       headers: {
-        Authorization: "Bearer " + process.env.REACT_APP_BEARER_TOKEN,
+        Authorization: "Bearer " + token,
       },
     };
 
@@ -150,7 +150,7 @@ export const getNews = (size, token) => {
     const method = {
       method: "GET",
       headers: {
-        Authorization: "Bearer " + process.env.REACT_APP_BEARER_TOKEN,
+        Authorization: "Bearer " + token,
       },
     };
 
@@ -188,7 +188,7 @@ export const getGameReviewsMinusDays = (gameId, days, size, order, direction, to
     const method = {
       method: "GET",
       headers: {
-        Authorization: "Bearer " + process.env.REACT_APP_BEARER_TOKEN,
+        Authorization: "Bearer " + token,
       },
     };
 
@@ -215,7 +215,7 @@ export const likeReview = (reviewId, token) => {
     const method = {
       method: "POST",
       headers: {
-        Authorization: "Bearer " + process.env.REACT_APP_BEARER_TOKEN,
+        Authorization: "Bearer " + token,
       },
     };
 
@@ -235,7 +235,7 @@ export const getRecentReviews = (gameId, size, token) => {
     const method = {
       method: "GET",
       headers: {
-        Authorization: "Bearer " + process.env.REACT_APP_BEARER_TOKEN,
+        Authorization: "Bearer " + token,
       },
     };
 

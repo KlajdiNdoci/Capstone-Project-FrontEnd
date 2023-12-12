@@ -65,7 +65,9 @@ const MyNavbar = () => {
   };
 
   useEffect(() => {
-    dispatch(getCurrentUserAction(token));
+    if (token) {
+      dispatch(getCurrentUserAction(token));
+    }
     document.addEventListener("click", handleClickOutsideSuggestions);
     return () => {
       document.removeEventListener("click", handleClickOutsideSuggestions);

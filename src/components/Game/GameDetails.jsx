@@ -9,27 +9,21 @@ import GameReviews from "./GameReviews";
 const GameDetails = () => {
   const { gameId } = useParams();
   const game = useSelector(state => state.singleGame.content);
-  const [gameImages, setGameImages] = useState(null);
+  const [gameImages, setGameImages] = useState([]);
   const dispatch = useDispatch();
   const token = useSelector(state => state.auth.token);
 
   useEffect(() => {
-    const fetchData = async () => {
-      if (gameId) {
-        await dispatch(getSingleGame(gameId, token));
-        const allImages = [];
-        allImages.push(game.trailer);
-        allImages.push(game.gameImages);
-        setGameImages([allImages]);
-      }
-    };
-    fetchData();
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, []);
+    dispatch(getSingleGame(gameId, token));
+  }, [dispatch, gameId, token]);
+
+  useEffect(() => {
+    setGameImages([game.trailer, ...(game.gameImages || [])]);
+  }, [game]);
 
   return (
     <Container fluid="lg" style={{ paddingTop: "80px" }}>
-      {game && gameImages && (
+      {game.gameImages && (
         <>
           <GameCarousel images={gameImages} game={game} />
           <GameReviews game={game} />
