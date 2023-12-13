@@ -1,9 +1,9 @@
 // GameListPage.jsx
 
 import React, { useEffect, useState } from "react";
-import { Container, Row, Col, Card, Badge } from "react-bootstrap";
+import { Container, Row, Col, Card, Badge, DropdownButton, Dropdown } from "react-bootstrap";
 import { useDispatch, useSelector } from "react-redux";
-import { getGames } from "../../redux/actions";
+import { filterGames, getGames } from "../../redux/actions";
 import {
   Android2,
   Apple,
@@ -21,9 +21,30 @@ const GameListPage = () => {
   const games = useSelector(state => state.games.content.content);
   const token = useSelector(state => state.auth.token);
   const [hoveredGameId, setHoveredGameId] = useState(null);
+  const [selectedGenre, setSelectedGenre] = useState("All Genres");
+  const genres = [
+    "ACTION",
+    "RPG",
+    "STRATEGIC",
+    "ADVENTURE",
+    "SIMULATION",
+    "FPS",
+    "RACING",
+    "ARCADE",
+    "FIGHTING",
+    "PLATFORM",
+    "TPS",
+    "PUZZLE",
+    "ROGUELIKE",
+    "DATING",
+    "SPACE",
+    "TOWERDEFENSE",
+    "CARDGAME",
+    "SPORT",
+  ];
 
   useEffect(() => {
-    dispatch(getGames(10, token));
+    dispatch(getGames(5, token));
   }, [dispatch, token]);
 
   const renderRatingStars = averageRating => {
@@ -49,6 +70,11 @@ const GameListPage = () => {
     return stars;
   };
 
+  const handleGenreChange = genre => {
+    setSelectedGenre(genre);
+    dispatch(filterGames(5, token, genre, "averageRating", "desc"));
+  };
+
   const getPlatformIcon = platform => {
     switch (platform) {
       case "PC":
@@ -70,43 +96,64 @@ const GameListPage = () => {
 
   return (
     <Container fluid="lg" style={{ paddingTop: "80px" }}>
-      <Row className="mt-5">
-        {games.map(game => (
-          <Col xs={12} key={game.id} className="mb-4">
-            <Card
-              className="game-list-container text-white my-box-shadow d-flex flex-column flex-sm-row rounded-0"
-              style={{ backgroundColor: "#414A54" }}
-              onMouseEnter={() => setHoveredGameId(game.id)}
-              onMouseLeave={() => setHoveredGameId(null)}
-            >
-              {hoveredGameId === game.id ? (
-                <video className="game-list-image object-fit-cover " src={game.trailer} autoPlay muted loop />
-              ) : (
-                <Card.Img className="game-list-image object-fit-cover rounded-0 h-100" src={game.gameCover} />
-              )}
-              <Card.Body className="d-flex flex-column justify-content-between">
-                <Card.Title>{game.title}</Card.Title>
-                <div>
-                  {game.genres.map((genre, index) => (
-                    <Badge key={index} bg="secondary" className="rounded-0 p-1 me-1 mb-1 fs-8">
-                      {genre}
-                    </Badge>
-                  ))}
-                </div>
-                <div className="d-flex ">
-                  <div className="me-2">{game.releaseDate}</div>
-                  {game.platforms.map((platform, index) => (
-                    <div key={index} className="me-2 d-flex my-auto">
-                      {getPlatformIcon(platform)}
-                    </div>
-                  ))}
-                </div>
-                <div>{renderRatingStars(game.averageRating)}</div>
-              </Card.Body>
-            </Card>
+      {games && (
+        <Row className="mt-5">
+          <Col xs={12} className="mb-4">
+            <Dropdown>
+              <Dropdown.Toggle variant="secondary" id="dropdown-basic">
+                {`Genre: ${selectedGenre}`}
+              </Dropdown.Toggle>
+
+              <Dropdown.Menu style={{ backgroundColor: "#575860" }}>
+                {genres.map((genre, index) => (
+                  <Dropdown.Item
+                    key={index}
+                    style={{ backgroundColor: "#575860" }}
+                    onClick={() => handleGenreChange(genre)}
+                  >
+                    {genre}
+                  </Dropdown.Item>
+                ))}
+              </Dropdown.Menu>
+            </Dropdown>
           </Col>
-        ))}
-      </Row>
+          {games.map(game => (
+            <Col xs={12} key={game.id} className="mb-4">
+              <Card
+                className="game-list-container text-white my-box-shadow d-flex flex-column flex-sm-row rounded-0"
+                style={{ backgroundColor: "#414A54" }}
+                onMouseEnter={() => setHoveredGameId(game.id)}
+                onMouseLeave={() => setHoveredGameId(null)}
+              >
+                {hoveredGameId === game.id ? (
+                  <video className="game-list-image object-fit-cover " src={game.trailer} autoPlay muted loop />
+                ) : (
+                  <Card.Img className="game-list-image object-fit-cover rounded-0 h-100" src={game.gameCover} />
+                )}
+                <Card.Body className="d-flex flex-column justify-content-between">
+                  <Card.Title>{game.title}</Card.Title>
+                  <div>
+                    {game.genres.map((genre, index) => (
+                      <Badge key={index} bg="secondary" className="rounded-0 p-1 me-1 mb-1 fs-8">
+                        {genre}
+                      </Badge>
+                    ))}
+                  </div>
+                  <div className="d-flex ">
+                    <div className="me-2">{game.releaseDate}</div>
+                    {game.platforms.map((platform, index) => (
+                      <div key={index} className="me-2 d-flex my-auto">
+                        {getPlatformIcon(platform)}
+                      </div>
+                    ))}
+                  </div>
+                  <div>{renderRatingStars(game.averageRating)}</div>
+                </Card.Body>
+              </Card>
+            </Col>
+          ))}
+        </Row>
+      )}
     </Container>
   );
 };

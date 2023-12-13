@@ -37,19 +37,13 @@ const MyNavbar = () => {
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [query]);
 
-  useEffect(() => {
-    const handleClickOutsideSuggestions = e => {
-      if (suggestionsRef.current && showSuggestions && !suggestionsRef.current.contains(e.target)) {
-        setShowSuggestions(false);
-      } else if (noResultsRef.current && showSuggestions && !noResultsRef.current.contains(e.target)) {
-        setShowSuggestions(false);
-      }
-    };
-    document.addEventListener("mousedown", handleClickOutsideSuggestions);
-    return () => {
-      document.removeEventListener("mousedown", handleClickOutsideSuggestions);
-    };
-  }, [showSuggestions]);
+  const handleClickOutsideSuggestions = e => {
+    if (suggestionsRef.current && showSuggestions && !suggestionsRef.current.contains(e.target)) {
+      setShowSuggestions(false);
+    } else if (noResultsRef.current && showSuggestions && !noResultsRef.current.contains(e.target)) {
+      setShowSuggestions(false);
+    }
+  };
 
   const handleSearchBarClick = e => {
     e.stopPropagation();
@@ -71,14 +65,19 @@ const MyNavbar = () => {
   };
 
   useEffect(() => {
-    if (token) {
-      dispatch(getCurrentUserAction(token));
-    }
-  }, [dispatch, token]);
+    document.addEventListener("click", handleClickOutsideSuggestions);
+    return () => {
+      document.removeEventListener("click", handleClickOutsideSuggestions);
+    };
+  }, [handleClickOutsideSuggestions]);
 
   useEffect(() => {
     setQuery("");
   }, [location]);
+
+  useEffect(() => {
+    dispatch(getCurrentUserAction(token));
+  }, [dispatch, token]);
 
   const renderRatingStars = averageRating => {
     const roundedRating = Math.round(averageRating * 2) / 2;
