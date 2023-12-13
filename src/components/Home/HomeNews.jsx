@@ -18,8 +18,7 @@ const HomeNews = () => {
 
   useEffect(() => {
     dispatch(getNews(6, token));
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, []);
+  }, [dispatch, token]);
 
   return (
     <div className="pt-5">

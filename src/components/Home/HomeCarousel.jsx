@@ -44,8 +44,7 @@ const HomeCarousel = () => {
 
   useEffect(() => {
     dispatch(getGames(10, token));
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, []);
+  }, [dispatch, token]);
 
   return (
     <>

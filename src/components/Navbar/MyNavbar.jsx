@@ -37,13 +37,19 @@ const MyNavbar = () => {
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [query]);
 
-  const handleClickOutsideSuggestions = e => {
-    if (suggestionsRef.current && showSuggestions && !suggestionsRef.current.contains(e.target)) {
-      setShowSuggestions(false);
-    } else if (noResultsRef.current && showSuggestions && !noResultsRef.current.contains(e.target)) {
-      setShowSuggestions(false);
-    }
-  };
+  useEffect(() => {
+    const handleClickOutsideSuggestions = e => {
+      if (suggestionsRef.current && showSuggestions && !suggestionsRef.current.contains(e.target)) {
+        setShowSuggestions(false);
+      } else if (noResultsRef.current && showSuggestions && !noResultsRef.current.contains(e.target)) {
+        setShowSuggestions(false);
+      }
+    };
+    document.addEventListener("mousedown", handleClickOutsideSuggestions);
+    return () => {
+      document.removeEventListener("mousedown", handleClickOutsideSuggestions);
+    };
+  }, [showSuggestions]);
 
   const handleSearchBarClick = e => {
     e.stopPropagation();
@@ -68,13 +74,7 @@ const MyNavbar = () => {
     if (token) {
       dispatch(getCurrentUserAction(token));
     }
-    document.addEventListener("click", handleClickOutsideSuggestions);
-    return () => {
-      document.removeEventListener("click", handleClickOutsideSuggestions);
-    };
-
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [token]);
+  }, [dispatch, token]);
 
   useEffect(() => {
     setQuery("");
