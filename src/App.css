@@ -244,7 +244,7 @@ body {
 }
 
 .game-list-container {
-  transition: transform 0.3s ease-in-out;
+  min-height: 157.5px;
 }
 
 .game-list-container:hover {

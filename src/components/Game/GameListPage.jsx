@@ -1,6 +1,6 @@
 // GameListPage.jsx
 
-import React, { useEffect } from "react";
+import React, { useEffect, useState } from "react";
 import { Container, Row, Col, Card, Badge } from "react-bootstrap";
 import { useDispatch, useSelector } from "react-redux";
 import { getGames } from "../../redux/actions";
@@ -20,6 +20,7 @@ const GameListPage = () => {
   const dispatch = useDispatch();
   const games = useSelector(state => state.games.content.content);
   const token = useSelector(state => state.auth.token);
+  const [hoveredGameId, setHoveredGameId] = useState(null);
 
   useEffect(() => {
     dispatch(getGames(10, token));
@@ -73,10 +74,16 @@ const GameListPage = () => {
         {games.map(game => (
           <Col xs={12} key={game.id} className="mb-4">
             <Card
+              className="game-list-container text-white my-box-shadow d-flex flex-column flex-sm-row rounded-0"
               style={{ backgroundColor: "#414A54" }}
-              className="text-white my-box-shadow d-flex flex-column flex-sm-row game-list-container"
+              onMouseEnter={() => setHoveredGameId(game.id)}
+              onMouseLeave={() => setHoveredGameId(null)}
             >
-              <Card.Img className="game-list-image object-fit-cover rounded-0 w-100 w-md-50" src={game.gameCover} />
+              {hoveredGameId === game.id ? (
+                <video className="game-list-image object-fit-cover " src={game.trailer} autoPlay muted loop />
+              ) : (
+                <Card.Img className="game-list-image object-fit-cover rounded-0 h-100" src={game.gameCover} />
+              )}
               <Card.Body className="d-flex flex-column justify-content-between">
                 <Card.Title>{game.title}</Card.Title>
                 <div>
