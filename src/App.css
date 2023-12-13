@@ -236,3 +236,17 @@ body {
   background-color: #36607d;
   color: #6bb64d;
 }
+
+@media (min-width: 576px) {
+  .game-list-image {
+    max-width: 280px;
+  }
+}
+
+.game-list-container {
+  transition: transform 0.3s ease-in-out;
+}
+
+.game-list-container:hover {
+  transform: scale(1.1);
+}

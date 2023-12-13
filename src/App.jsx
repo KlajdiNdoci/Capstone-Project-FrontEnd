@@ -7,6 +7,7 @@ import GameDetails from "./components/Game/GameDetails";
 import RegistrationPage from "./components/Auth/RegistrationPage";
 import LoginPage from "./components/Auth/LoginPage";
 import { useSelector } from "react-redux";
+import GameListPage from "./components/Game/GameListPage";
 
 const App = () => {
   const token = useSelector(state => state.auth.token);
@@ -17,6 +18,7 @@ const App = () => {
       <Routes>
         <Route path="/" element={token ? <HomeMain /> : <Navigate to="/login" />} />
         <Route path="/games/:gameId" element={token ? <GameDetails /> : <Navigate to="/login" />} />
+        <Route path="/games" element={token ? <GameListPage /> : <Navigate to="/login" />} />
         <Route path="/register" element={<RegistrationPage />} />
         <Route path="/login" element={<LoginPage />} />
       </Routes>
