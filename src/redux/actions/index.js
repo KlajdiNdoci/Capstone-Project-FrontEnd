@@ -343,7 +343,7 @@ export const filterGames = (size, token, filter, order, direction) => {
   return async dispatch => {
     const URL =
       process.env.REACT_APP_SERVER_URL +
-      "/games?size=" +
+      "/games/filter?size=" +
       size +
       "&orderBy=" +
       order +

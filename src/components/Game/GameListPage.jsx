@@ -94,6 +94,14 @@ const GameListPage = () => {
     }
   };
 
+  const chunkArray = (arr, chunkSize) => {
+    const result = [];
+    for (let i = 0; i < arr.length; i += chunkSize) {
+      result.push(arr.slice(i, i + chunkSize));
+    }
+    return result;
+  };
+
   return (
     <Container fluid="lg" style={{ paddingTop: "80px" }}>
       {games && (
@@ -104,15 +112,15 @@ const GameListPage = () => {
                 {`Genre: ${selectedGenre}`}
               </Dropdown.Toggle>
 
-              <Dropdown.Menu style={{ backgroundColor: "#575860" }}>
-                {genres.map((genre, index) => (
-                  <Dropdown.Item
-                    key={index}
-                    style={{ backgroundColor: "#575860" }}
-                    onClick={() => handleGenreChange(genre)}
-                  >
-                    {genre}
-                  </Dropdown.Item>
+              <Dropdown.Menu className="bg-secondary d-flex">
+                {chunkArray(genres, 5).map((genreGroup, groupIndex) => (
+                  <div key={groupIndex}>
+                    {genreGroup.map((genre, index) => (
+                      <Dropdown.Item className="bg-secondary" key={index} onClick={() => handleGenreChange(genre)}>
+                        {genre}
+                      </Dropdown.Item>
+                    ))}
+                  </div>
                 ))}
               </Dropdown.Menu>
             </Dropdown>

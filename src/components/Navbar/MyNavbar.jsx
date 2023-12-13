@@ -37,14 +37,6 @@ const MyNavbar = () => {
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [query]);
 
-  const handleClickOutsideSuggestions = e => {
-    if (suggestionsRef.current && showSuggestions && !suggestionsRef.current.contains(e.target)) {
-      setShowSuggestions(false);
-    } else if (noResultsRef.current && showSuggestions && !noResultsRef.current.contains(e.target)) {
-      setShowSuggestions(false);
-    }
-  };
-
   const handleSearchBarClick = e => {
     e.stopPropagation();
     if (query !== "") {
@@ -65,11 +57,18 @@ const MyNavbar = () => {
   };
 
   useEffect(() => {
+    const handleClickOutsideSuggestions = e => {
+      if (suggestionsRef.current && showSuggestions && !suggestionsRef.current.contains(e.target)) {
+        setShowSuggestions(false);
+      } else if (noResultsRef.current && showSuggestions && !noResultsRef.current.contains(e.target)) {
+        setShowSuggestions(false);
+      }
+    };
     document.addEventListener("click", handleClickOutsideSuggestions);
     return () => {
       document.removeEventListener("click", handleClickOutsideSuggestions);
     };
-  }, [handleClickOutsideSuggestions]);
+  }, [showSuggestions]);
 
   useEffect(() => {
     setQuery("");
