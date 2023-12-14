@@ -250,3 +250,34 @@ body {
 .game-list-container:hover {
   transform: scale(1.1);
 }
+
+.my-buttons {
+  background-color: #414a54;
+}
+.my-buttons:hover {
+  background-color: #cacaca;
+  color: black;
+}
+.my-buttons:focus {
+  background-color: #cacaca;
+}
+.my-buttons:active {
+  background-color: #414a54 !important;
+}
+.page-link {
+  background-color: #414a54;
+  border-radius: 0px !important;
+  color: white;
+}
+.page-link:hover {
+  background-color: #cacaca;
+  color: black;
+}
+.page-link:focus {
+  background-color: #cacaca;
+}
+span.page-link {
+  background-color: #cacaca !important;
+  color: black !important;
+  border: 1px solid white !important;
+}
