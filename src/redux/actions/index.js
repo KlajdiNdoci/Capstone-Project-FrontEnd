@@ -117,9 +117,9 @@ export const getSingleGame = (gameId, token) => {
   };
 };
 
-export const getGames = (size, token) => {
+export const getGames = (size = 5, token, page = 0) => {
   return async dispatch => {
-    const URL = process.env.REACT_APP_SERVER_URL + "/games?size=" + size;
+    const URL = process.env.REACT_APP_SERVER_URL + "/games?size=" + size + "&page=" + page;
     const method = {
       method: "GET",
       headers: {
@@ -144,7 +144,7 @@ export const getGames = (size, token) => {
   };
 };
 
-export const getNews = (size, token) => {
+export const getNews = (size = 5, token) => {
   return async dispatch => {
     const URL = process.env.REACT_APP_SERVER_URL + "/news?size=" + size;
     const method = {
@@ -171,7 +171,7 @@ export const getNews = (size, token) => {
   };
 };
 
-export const getGameReviewsMinusDays = (gameId, days, size, order, direction, token) => {
+export const getGameReviewsMinusDays = (gameId, days, size = 5, order, direction, token) => {
   return async dispatch => {
     const URL =
       process.env.REACT_APP_SERVER_URL +
@@ -229,7 +229,7 @@ export const likeReview = (reviewId, token) => {
   };
 };
 
-export const getRecentReviews = (gameId, size, token) => {
+export const getRecentReviews = (gameId, size = 5, token) => {
   return async dispatch => {
     const URL = process.env.REACT_APP_SERVER_URL + "/reviews/game/" + gameId + "?size=" + size;
     const method = {
@@ -339,7 +339,7 @@ export const login = (email, password, navigate) => {
   };
 };
 
-export const filterGames = (size, token, filter, order, direction) => {
+export const filterGames = (size = 5, token, filter, order, direction, page = 0) => {
   return async dispatch => {
     const URL =
       process.env.REACT_APP_SERVER_URL +
@@ -350,7 +350,9 @@ export const filterGames = (size, token, filter, order, direction) => {
       "&direction=" +
       direction +
       "&filter=" +
-      filter;
+      filter +
+      "&page=" +
+      page;
     const method = {
       method: "GET",
       headers: {

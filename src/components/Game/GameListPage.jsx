@@ -1,7 +1,7 @@
 // GameListPage.jsx
 
 import React, { useEffect, useState } from "react";
-import { Container, Row, Col, Card, Badge, DropdownButton, Dropdown } from "react-bootstrap";
+import { Container, Row, Col, Card, Badge, Dropdown } from "react-bootstrap";
 import { useDispatch, useSelector } from "react-redux";
 import { filterGames, getGames } from "../../redux/actions";
 import {
@@ -15,13 +15,17 @@ import {
   Steam,
   Xbox,
 } from "react-bootstrap-icons";
+import { useNavigate } from "react-router-dom";
+import MyPagination from "./MyPagination";
 
 const GameListPage = () => {
   const dispatch = useDispatch();
   const games = useSelector(state => state.games.content.content);
+  const gamesData = useSelector(state => state.games.content);
   const token = useSelector(state => state.auth.token);
   const [hoveredGameId, setHoveredGameId] = useState(null);
-  const [selectedGenre, setSelectedGenre] = useState("All Genres");
+  const [selectedGenre, setSelectedGenre] = useState();
+  const navigate = useNavigate();
   const genres = [
     "ACTION",
     "RPG",
@@ -109,7 +113,7 @@ const GameListPage = () => {
           <Col xs={12} className="mb-4">
             <Dropdown>
               <Dropdown.Toggle variant="secondary" id="dropdown-basic">
-                {`Genre: ${selectedGenre}`}
+                {selectedGenre ? `Genre: ${selectedGenre}` : "Filter by genre"}
               </Dropdown.Toggle>
 
               <Dropdown.Menu className="bg-secondary d-flex">
@@ -126,7 +130,7 @@ const GameListPage = () => {
             </Dropdown>
           </Col>
           {games.map(game => (
-            <Col xs={12} key={game.id} className="mb-4">
+            <Col xs={12} key={game.id} className="mb-4 cursor-pointer" onClick={() => navigate("/games/" + game.id)}>
               <Card
                 className="game-list-container text-white my-box-shadow d-flex flex-column flex-sm-row rounded-0"
                 style={{ backgroundColor: "#414A54" }}
@@ -160,6 +164,18 @@ const GameListPage = () => {
               </Card>
             </Col>
           ))}
+          <>
+            {selectedGenre ? (
+              <MyPagination
+                dispatch={pageNumber =>
+                  dispatch(filterGames(5, token, selectedGenre, "averageRating", "desc", pageNumber))
+                }
+                gamesData={gamesData}
+              />
+            ) : (
+              <MyPagination dispatch={pageNumber => dispatch(getGames(5, token, pageNumber))} gamesData={gamesData} />
+            )}
+          </>
         </Row>
       )}
     </Container>
