@@ -3,7 +3,7 @@
 import React, { useEffect, useState } from "react";
 import { Container, Row, Col, Card, Badge, Dropdown, Button } from "react-bootstrap";
 import { useDispatch, useSelector } from "react-redux";
-import { filterGames, getGames } from "../../redux/actions";
+import { filterByGenre, filterByPlatform, getGames } from "../../redux/actions";
 import {
   Android2,
   Apple,
@@ -25,6 +25,7 @@ const GameListPage = () => {
   const token = useSelector(state => state.auth.token);
   const [hoveredGameId, setHoveredGameId] = useState(null);
   const [selectedGenre, setSelectedGenre] = useState();
+  const [selectedPlatform, setSelectedPlatform] = useState();
   const [paginationType, setPaginationType] = useState();
   const [forceRender, setForceRender] = useState(false);
   const navigate = useNavigate();
@@ -48,6 +49,7 @@ const GameListPage = () => {
     "CARDGAME",
     "SPORT",
   ];
+  const platforms = ["PC", "XBOX", "PLAYSTATION", "NINTENDO", "IOS", "ANDROID"];
 
   useEffect(() => {
     dispatch(getGames(5, token));
@@ -78,7 +80,11 @@ const GameListPage = () => {
 
   const handleGenreChange = genre => {
     setSelectedGenre(genre);
-    dispatch(filterGames(5, token, genre, "averageRating", "desc"));
+    dispatch(filterByGenre(5, token, genre, "averageRating", "desc"));
+  };
+  const handlePlatformChange = platform => {
+    setSelectedPlatform(platform);
+    dispatch(filterByPlatform(5, token, platform, "averageRating", "desc"));
   };
   const handleAllItems = () => {
     setSelectedGenre();
@@ -105,14 +111,6 @@ const GameListPage = () => {
     }
   };
 
-  const chunkArray = (arr, chunkSize) => {
-    const result = [];
-    for (let i = 0; i < arr.length; i += chunkSize) {
-      result.push(arr.slice(i, i + chunkSize));
-    }
-    return result;
-  };
-
   return (
     <Container className="d-flex flex-column flex-grow-1" fluid="lg" style={{ paddingTop: "80px" }}>
       {games && (
@@ -128,30 +126,45 @@ const GameListPage = () => {
               >
                 ALL ITEMS
               </Button>
-              <Dropdown>
+              <Dropdown className="me-2">
                 <Dropdown.Toggle className="my-buttons rounded-0 border-0" id="dropdown-basic">
                   {selectedGenre ? `GENRE: ${selectedGenre}` : "FILTER BY GENRE"}
                 </Dropdown.Toggle>
 
-                <Dropdown.Menu className="rounded-0" style={{ backgroundColor: "#414a54" }}>
-                  <Row>
-                    {chunkArray(genres, 5).map((genreGroup, groupIndex) => (
-                      <Col key={groupIndex}>
-                        {genreGroup.map((genre, index) => (
-                          <Dropdown.Item
-                            className="my-buttons"
-                            key={index}
-                            onClick={() => {
-                              handleGenreChange(genre);
-                              setPaginationType("genre");
-                            }}
-                          >
-                            {genre}
-                          </Dropdown.Item>
-                        ))}
-                      </Col>
-                    ))}
-                  </Row>
+                <Dropdown.Menu className="rounded-0 p-0" style={{ backgroundColor: "#414a54" }}>
+                  {genres.map((genre, index) => (
+                    <Dropdown.Item
+                      className="my-buttons"
+                      key={index}
+                      onClick={() => {
+                        handleGenreChange(genre);
+                        setPaginationType("genre");
+                      }}
+                    >
+                      {genre}
+                    </Dropdown.Item>
+                  ))}
+                </Dropdown.Menu>
+              </Dropdown>
+
+              <Dropdown className="me-2">
+                <Dropdown.Toggle className="my-buttons rounded-0 border-0" id="dropdown-basic">
+                  {selectedPlatform ? `PLATFORM: ${selectedPlatform}` : "FILTER BY PLATFORM"}
+                </Dropdown.Toggle>
+
+                <Dropdown.Menu className="rounded-0 p-0" style={{ backgroundColor: "#414a54" }}>
+                  {platforms.map((platform, index) => (
+                    <Dropdown.Item
+                      className="my-buttons"
+                      key={index}
+                      onClick={() => {
+                        handlePlatformChange(platform);
+                        setPaginationType("platform");
+                      }}
+                    >
+                      {platform}
+                    </Dropdown.Item>
+                  ))}
                 </Dropdown.Menu>
               </Dropdown>
             </div>
@@ -197,9 +210,20 @@ const GameListPage = () => {
         {selectedGenre && paginationType === "genre" ? (
           <MyPagination
             key={forceRender}
-            dispatch={pageNumber => dispatch(filterGames(5, token, selectedGenre, "averageRating", "desc", pageNumber))}
+            dispatch={pageNumber =>
+              dispatch(filterByGenre(5, token, selectedGenre, "averageRating", "desc", pageNumber))
+            }
             gamesData={gamesData}
             selectedGenre={selectedGenre}
+          />
+        ) : selectedPlatform && paginationType === "platform" ? (
+          <MyPagination
+            key={forceRender}
+            dispatch={pageNumber =>
+              dispatch(filterByPlatform(5, token, selectedPlatform, "averageRating", "desc", pageNumber))
+            }
+            gamesData={gamesData}
+            selectedPlatform={selectedPlatform}
           />
         ) : (
           <MyPagination

@@ -339,18 +339,57 @@ export const login = (email, password, navigate) => {
   };
 };
 
-export const filterGames = (size = 5, token, filter, order, direction, page = 0) => {
+export const filterByGenre = (size = 5, token, genre, order, direction, page = 0) => {
   return async dispatch => {
     const URL =
       process.env.REACT_APP_SERVER_URL +
-      "/games/filter?size=" +
+      "/games/genres?size=" +
       size +
       "&orderBy=" +
       order +
       "&direction=" +
       direction +
-      "&filter=" +
-      filter +
+      "&genre=" +
+      genre +
+      "&page=" +
+      page;
+    const method = {
+      method: "GET",
+      headers: {
+        Authorization: "Bearer " + token,
+      },
+    };
+
+    try {
+      const resp = await fetch(URL, method);
+      if (resp.ok) {
+        dispatch({ type: GET_GAMES, payload: [] });
+        dispatch({ type: IS_LOADING_GAMES, payload: true });
+        dispatch({ type: IS_ERROR_GAMES, payload: false });
+        const games = await resp.json();
+        dispatch({ type: GET_GAMES, payload: games });
+      }
+    } catch (error) {
+      console.error(error);
+      dispatch({ type: IS_ERROR_GAMES, payload: true });
+    } finally {
+      dispatch({ type: IS_LOADING_GAMES, payload: false });
+    }
+  };
+};
+
+export const filterByPlatform = (size = 5, token, platform, order, direction, page = 0) => {
+  return async dispatch => {
+    const URL =
+      process.env.REACT_APP_SERVER_URL +
+      "/games/platforms?size=" +
+      size +
+      "&orderBy=" +
+      order +
+      "&direction=" +
+      direction +
+      "&platform=" +
+      platform +
       "&page=" +
       page;
     const method = {
