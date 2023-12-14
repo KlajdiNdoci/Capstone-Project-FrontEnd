@@ -252,14 +252,17 @@ body {
 }
 
 .my-buttons {
-  background-color: #414a54;
+  background-color: #414a54 !important;
+  border: none;
+  border-radius: 0;
 }
 .my-buttons:hover {
-  background-color: #cacaca;
+  background-color: #cacaca !important;
   color: black;
 }
 .my-buttons:focus {
-  background-color: #cacaca;
+  background-color: #cacaca !important;
+  color: black;
 }
 .my-buttons:active {
   background-color: #414a54 !important;
@@ -270,14 +273,14 @@ body {
   color: white;
 }
 .page-link:hover {
-  background-color: #cacaca;
+  background-color: #1b3e61;
   color: black;
 }
 .page-link:focus {
-  background-color: #cacaca;
+  background-color: #1b3e61;
 }
 span.page-link {
-  background-color: #cacaca !important;
+  background-color: #66c0f4 !important;
   color: black !important;
   border: 1px solid white !important;
 }

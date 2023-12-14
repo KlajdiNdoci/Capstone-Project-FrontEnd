@@ -1,7 +1,7 @@
 // GameListPage.jsx
 
 import React, { useEffect, useState } from "react";
-import { Container, Row, Col, Card, Badge, Dropdown } from "react-bootstrap";
+import { Container, Row, Col, Card, Badge, Dropdown, Button } from "react-bootstrap";
 import { useDispatch, useSelector } from "react-redux";
 import { filterGames, getGames } from "../../redux/actions";
 import {
@@ -25,6 +25,8 @@ const GameListPage = () => {
   const token = useSelector(state => state.auth.token);
   const [hoveredGameId, setHoveredGameId] = useState(null);
   const [selectedGenre, setSelectedGenre] = useState();
+  const [paginationType, setPaginationType] = useState();
+  const [forceRender, setForceRender] = useState(false);
   const navigate = useNavigate();
   const genres = [
     "ACTION",
@@ -78,6 +80,11 @@ const GameListPage = () => {
     setSelectedGenre(genre);
     dispatch(filterGames(5, token, genre, "averageRating", "desc"));
   };
+  const handleAllItems = () => {
+    setSelectedGenre();
+    dispatch(getGames(5, token));
+    setForceRender(prev => !prev);
+  };
 
   const getPlatformIcon = platform => {
     switch (platform) {
@@ -111,25 +118,43 @@ const GameListPage = () => {
       {games && (
         <Row className="mt-5 d-flex flex-column">
           <Col xs={12} className="mb-4">
-            <Dropdown>
-              <Dropdown.Toggle className="my-buttons rounded-0 border-0" id="dropdown-basic">
-                {selectedGenre ? `Genre: ${selectedGenre}` : "Filter by genre"}
-              </Dropdown.Toggle>
+            <div className="d-flex">
+              <Button
+                className="my-buttons me-2"
+                onClick={() => {
+                  setPaginationType("all");
+                  handleAllItems();
+                }}
+              >
+                ALL ITEMS
+              </Button>
+              <Dropdown>
+                <Dropdown.Toggle className="my-buttons rounded-0 border-0" id="dropdown-basic">
+                  {selectedGenre ? `GENRE: ${selectedGenre}` : "FILTER BY GENRE"}
+                </Dropdown.Toggle>
 
-              <Dropdown.Menu className="rounded-0" style={{ backgroundColor: "#414a54" }}>
-                <Row>
-                  {chunkArray(genres, 5).map((genreGroup, groupIndex) => (
-                    <Col key={groupIndex}>
-                      {genreGroup.map((genre, index) => (
-                        <Dropdown.Item className="my-buttons" key={index} onClick={() => handleGenreChange(genre)}>
-                          {genre}
-                        </Dropdown.Item>
-                      ))}
-                    </Col>
-                  ))}
-                </Row>
-              </Dropdown.Menu>
-            </Dropdown>
+                <Dropdown.Menu className="rounded-0" style={{ backgroundColor: "#414a54" }}>
+                  <Row>
+                    {chunkArray(genres, 5).map((genreGroup, groupIndex) => (
+                      <Col key={groupIndex}>
+                        {genreGroup.map((genre, index) => (
+                          <Dropdown.Item
+                            className="my-buttons"
+                            key={index}
+                            onClick={() => {
+                              handleGenreChange(genre);
+                              setPaginationType("genre");
+                            }}
+                          >
+                            {genre}
+                          </Dropdown.Item>
+                        ))}
+                      </Col>
+                    ))}
+                  </Row>
+                </Dropdown.Menu>
+              </Dropdown>
+            </div>
           </Col>
           {games.map(game => (
             <Col xs={12} key={game.id} className="mb-4 cursor-pointer" onClick={() => navigate("/games/" + game.id)}>
@@ -169,13 +194,19 @@ const GameListPage = () => {
         </Row>
       )}
       <>
-        {selectedGenre ? (
+        {selectedGenre && paginationType === "genre" ? (
           <MyPagination
+            key={forceRender}
             dispatch={pageNumber => dispatch(filterGames(5, token, selectedGenre, "averageRating", "desc", pageNumber))}
             gamesData={gamesData}
+            selectedGenre={selectedGenre}
           />
         ) : (
-          <MyPagination dispatch={pageNumber => dispatch(getGames(5, token, pageNumber))} gamesData={gamesData} />
+          <MyPagination
+            key={forceRender}
+            dispatch={pageNumber => dispatch(getGames(5, token, pageNumber))}
+            gamesData={gamesData}
+          />
         )}
       </>
     </Container>

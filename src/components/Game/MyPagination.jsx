@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from "react";
 import Pagination from "react-bootstrap/Pagination";
 
-const MyPagination = ({ dispatch, gamesData }) => {
+const MyPagination = ({ dispatch, gamesData, pageNumber, selectedGenre }) => {
   const [currentPage, setCurrentPage] = useState(gamesData.number - 1);
 
   const handlePageChange = pageNumber => {
@@ -13,7 +13,7 @@ const MyPagination = ({ dispatch, gamesData }) => {
 
   useEffect(() => {
     setCurrentPage(0);
-  }, []);
+  }, [pageNumber, selectedGenre]);
 
   let items = [];
 
@@ -27,7 +27,16 @@ const MyPagination = ({ dispatch, gamesData }) => {
     }
   } else {
     const startPage = Math.max(currentPage - 2, 0);
-    const endPage = Math.min(startPage + 4, gamesData.totalPages - 1);
+    const endPage = Math.min(startPage + 5, gamesData.totalPages - 1);
+
+    if (startPage > 0) {
+      items.push(
+        <Pagination.Item key={0} onClick={() => handlePageChange(0)}>
+          {1}
+        </Pagination.Item>
+      );
+      items.push(<Pagination.Ellipsis key="startEllipsis" />);
+    }
 
     for (let number = startPage; number <= endPage; number++) {
       items.push(
@@ -38,7 +47,7 @@ const MyPagination = ({ dispatch, gamesData }) => {
     }
 
     if (endPage < gamesData.totalPages - 1) {
-      items.push(<Pagination.Ellipsis key="ellipsis" />);
+      items.push(<Pagination.Ellipsis key="endEllipsis" />);
       items.push(
         <Pagination.Item key={gamesData.totalPages - 1} onClick={() => handlePageChange(gamesData.totalPages - 1)}>
           {gamesData.totalPages}
