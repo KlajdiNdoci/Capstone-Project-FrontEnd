@@ -75,7 +75,9 @@ const MyNavbar = () => {
   }, [location]);
 
   useEffect(() => {
-    dispatch(getCurrentUserAction(token));
+    if (token) {
+      dispatch(getCurrentUserAction(token));
+    }
   }, [dispatch, token]);
 
   const renderRatingStars = averageRating => {
@@ -93,7 +95,7 @@ const MyNavbar = () => {
       stars.push(<StarHalf key="half" className="rating-color" />);
     }
 
-    const remainingStars = 5 - stars.length;
+    const remainingStars = 5 - stars?.length;
     for (let i = 0; i < remainingStars; i++) {
       stars.push(<Star key={`empty-${i}`} className="rating-color" />);
     }
@@ -130,7 +132,7 @@ const MyNavbar = () => {
                       onChange={handleChange}
                       onClick={handleSearchBarClick}
                       placeholder="Search"
-                      className="border border-0 rounded-1"
+                      className="border-0 rounded-start-1"
                       style={{ backgroundColor: "#316282", height: "50px", boxShadow: "none" }}
                     />
                     <Button
@@ -141,7 +143,7 @@ const MyNavbar = () => {
                       <Search className="fs-5" />
                     </Button>
 
-                    {showSuggestions && (
+                    {showSuggestions && suggestions && (
                       <div ref={suggestionsRef} className="suggestions-container">
                         {suggestions.length === 0 ? (
                           <div ref={noResultsRef} className="suggestion p-3">
@@ -205,7 +207,7 @@ const MyNavbar = () => {
                     >
                       <Search className="fs-5" />
                     </Button>
-                    {showSuggestions && (
+                    {showSuggestions && suggestions && (
                       <div ref={suggestionsRef} className="suggestions-container-mobile">
                         {suggestions.length === 0 ? (
                           <div ref={noResultsRef} className="suggestion p-3">

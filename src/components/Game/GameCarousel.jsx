@@ -1,6 +1,16 @@
 import React, { useEffect, useState } from "react";
-import { Carousel, Row, Col, Badge } from "react-bootstrap";
-import { Star, StarFill, StarHalf } from "react-bootstrap-icons";
+import { Carousel, Row, Col, Badge, Button } from "react-bootstrap";
+import {
+  Android2,
+  Apple,
+  NintendoSwitch,
+  Playstation,
+  Star,
+  StarFill,
+  StarHalf,
+  Steam,
+  Xbox,
+} from "react-bootstrap-icons";
 
 const GameCarousel = ({ images, game }) => {
   const [activeIndex, setActiveIndex] = useState(0);
@@ -42,13 +52,35 @@ const GameCarousel = ({ images, game }) => {
     return stars;
   };
 
+  const getPlatformIcon = platform => {
+    switch (platform) {
+      case "PC":
+        return <Steam />;
+      case "PLAYSTATION":
+        return <Playstation />;
+      case "XBOX":
+        return <Xbox />;
+      case "NINTENDO":
+        return <NintendoSwitch />;
+      case "IOS":
+        return <Apple />;
+      case "ANDROID":
+        return <Android2 />;
+      default:
+        return null;
+    }
+  };
+
   useEffect(() => {
     setIsVideoPlaying(true);
   }, [activeIndex]);
 
   return (
     <div className="my-5 text-white">
-      <h3 className="mb-4 text-truncate">{game.title}</h3>
+      <div className="d-flex justify-content-between">
+        <h3 className="mb-4 text-truncate">{game.title}</h3>
+        <Button className="mb-4 rounded-1 py-1">Add to Library</Button>
+      </div>
       <div className="p-0 my-box-shadow" style={{ backgroundColor: "#0E1821", border: "1px solid #1E2831" }}>
         <Row className="mb-2">
           <Col lg={8} className="mb-4 mb-lg-0">
@@ -107,44 +139,52 @@ const GameCarousel = ({ images, game }) => {
               <Col xs={12} className="mb-3">
                 <img src={game.gameCover} alt="game-cover" width={"100%"} />
               </Col>
-              <Col className="mb-3 ">
-                <div className="line-clamp mx-3 mx-lg-0" style={{ fontSize: "1rem" }}>
-                  {game.description}
-                </div>
+              <Col className="mb-2 ">
+                <div className="line-clamp mx-3 mx-lg-0 fs-7">{game.description}</div>
               </Col>
-              <Col className="mb-3">
+              <Col className="mb-2">
                 <Row>
                   <Col>
-                    <span className="text-secondary mx-3 mx-lg-0">RATING:</span>
+                    <div className="text-secondary mx-3 mx-lg-0">RATING:</div>
                   </Col>
-                  <Col>{renderRatingStars(game.averageRating)}</Col>
+                  <Col>
+                    {" "}
+                    <div className="mx-3 mx-lg-0 me-lg-2">{renderRatingStars(game.averageRating)}</div>
+                  </Col>
                 </Row>
               </Col>
-              <Col className="mb-3">
+              <Col className="mb-2">
                 <Row>
                   <Col>
-                    <span className="text-secondary mx-3 mx-lg-0">RELEASE DATE:</span>
+                    <div className="text-secondary mx-3 mx-lg-0">RELEASE DATE:</div>
                   </Col>
-                  <Col> {convertDate(game.releaseDate)}</Col>
+                  <Col>
+                    <div className="mx-3 mx-lg-0 me-lg-2">{convertDate(game.releaseDate)}</div>
+                  </Col>
                 </Row>
               </Col>
-              <Col className="mb-3">
+              <Col className="mb-2">
                 <Row>
                   <Col>
-                    <span className="text-secondary mx-3 mx-lg-0">DEVELOPER:</span>
+                    <div className="text-secondary mx-3 mx-lg-0">DEVELOPER:</div>
                   </Col>
-                  <Col> {game.developer}</Col>
+                  <Col>
+                    <div className="mx-3 mx-lg-0 me-lg-2">{game.developer}</div>
+                  </Col>
                 </Row>
               </Col>
-              <Col className="mb-3">
+              <Col className="mb-2">
                 <Row>
                   <Col>
-                    <span className="text-secondary mx-3 mx-lg-0">PUBLISHER:</span>
+                    <div className="text-secondary mx-3 mx-lg-0">PUBLISHER:</div>
                   </Col>
-                  <Col> {game.publisher}</Col>
+                  <Col>
+                    {" "}
+                    <div className="mx-3 mx-lg-0 me-lg-2">{game.publisher}</div>
+                  </Col>
                 </Row>
               </Col>
-              <div className="mx-3 mx-lg-0 mb-3 mb-lg-0">
+              <div className="mx-3 mx-lg-0 mb-2 mb-lg-0">
                 <div className="text-secondary ">Game genres:</div>
                 {game.genres.map((genre, index) => (
                   <Badge key={index} bg="secondary" className="rounded-0 p-1 me-1 mb-1 ">
@@ -152,6 +192,15 @@ const GameCarousel = ({ images, game }) => {
                   </Badge>
                 ))}
               </div>
+              <Col className="d-flex justify-content-end">
+                <div className="d-flex mx-3 mx-lg-0 me-lg-2">
+                  {game.platforms.map((platform, index) => (
+                    <div key={index} className="d-flex my-auto ms-2 fs-5">
+                      {getPlatformIcon(platform)}
+                    </div>
+                  ))}
+                </div>
+              </Col>
             </Row>
           </Col>
         </Row>
