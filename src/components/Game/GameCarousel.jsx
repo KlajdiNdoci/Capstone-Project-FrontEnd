@@ -21,7 +21,7 @@ const GameCarousel = ({ images, game }) => {
   const userSavedGames = useSelector(state => state.userSavedGames.content.content);
   const user = useSelector(state => state.currentUser.content);
   const dispatch = useDispatch();
-  const isGameInLibrary = userSavedGames.some(savedGame => savedGame.id === game.id);
+  const isGameInLibrary = userSavedGames?.some(savedGame => savedGame.id === game.id);
 
   const handleSelect = selectedIndex => {
     setActiveIndex(selectedIndex);
@@ -86,7 +86,8 @@ const GameCarousel = ({ images, game }) => {
     dispatch(getUserSavedGames(10000000, token, 0, user.id));
   }, [dispatch, token, user.id]);
 
-  const handleLike = gameId => {
+  const handleSaveGame = gameId => {
+    dispatch(getUserSavedGames(10000000, token, 0, user.id));
     dispatch(addRemoveFromLibrary(gameId, token));
     dispatch(getUserSavedGames(10000000, token, 0, user.id));
   };
@@ -95,7 +96,11 @@ const GameCarousel = ({ images, game }) => {
     <div className="my-5 text-white">
       <div className="d-flex justify-content-between">
         <h3 className="mb-4 text-truncate">{game.title}</h3>
-        <Button className="mb-4 rounded-1 py-1" onClick={() => handleLike(game.id)}>
+        <Button
+          className="mb-4 rounded-1 py-1"
+          variant={isGameInLibrary ? "danger" : "primary"}
+          onClick={() => handleSaveGame(game.id)}
+        >
           {isGameInLibrary ? "Remove from Library" : "Add to Library"}
         </Button>
       </div>
