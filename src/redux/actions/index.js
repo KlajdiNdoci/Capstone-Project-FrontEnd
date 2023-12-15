@@ -17,6 +17,9 @@ export const IS_ERROR_SINGLE_GAME = "IS_ERROR_SINGLE_GAME";
 export const GET_GAMES = "GET_GAMES";
 export const IS_LOADING_GAMES = "IS_LOADING_GAMES";
 export const IS_ERROR_GAMES = "IS_ERROR_GAMES";
+export const GET_USER_SAVED_GAMES = "GET_USER_SAVED_GAMES";
+export const IS_LOADING_USER_SAVED_GAMES = "IS_LOADING_USER_SAVED_GAMES";
+export const IS_ERROR_USER_SAVED_GAMES = "IS_ERROR_USER_SAVED_GAMES";
 
 //NEWS
 export const GET_NEWS = "GET_NEWS";
@@ -413,6 +416,53 @@ export const filterByPlatform = (size = 5, token, platform, order, direction, pa
       dispatch({ type: IS_ERROR_GAMES, payload: true });
     } finally {
       dispatch({ type: IS_LOADING_GAMES, payload: false });
+    }
+  };
+};
+
+export const addRemoveFromLibrary = (gameId, token) => {
+  return async () => {
+    const URL = process.env.REACT_APP_SERVER_URL + "/users/" + gameId + "/games";
+    const method = {
+      method: "POST",
+      headers: {
+        Authorization: "Bearer " + token,
+      },
+    };
+
+    try {
+      const resp = await fetch(URL, method);
+      if (resp.ok) {
+      }
+    } catch (error) {
+      console.error(error);
+    }
+  };
+};
+
+export const getUserSavedGames = (size = 5, token, page = 0, userId) => {
+  return async dispatch => {
+    const URL = process.env.REACT_APP_SERVER_URL + "/games/users/" + userId + "?size=" + size + "&page=" + page;
+    const method = {
+      method: "GET",
+      headers: {
+        Authorization: "Bearer " + token,
+      },
+    };
+
+    try {
+      const resp = await fetch(URL, method);
+      if (resp.ok) {
+        dispatch({ type: IS_LOADING_USER_SAVED_GAMES, payload: true });
+        dispatch({ type: IS_ERROR_USER_SAVED_GAMES, payload: false });
+        const games = await resp.json();
+        dispatch({ type: GET_USER_SAVED_GAMES, payload: games });
+      }
+    } catch (error) {
+      console.error(error);
+      dispatch({ type: IS_ERROR_USER_SAVED_GAMES, payload: true });
+    } finally {
+      dispatch({ type: IS_LOADING_USER_SAVED_GAMES, payload: false });
     }
   };
 };

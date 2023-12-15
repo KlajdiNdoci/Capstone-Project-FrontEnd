@@ -11,10 +11,17 @@ import {
   Steam,
   Xbox,
 } from "react-bootstrap-icons";
+import { useDispatch, useSelector } from "react-redux";
+import { addRemoveFromLibrary, getUserSavedGames } from "../../redux/actions";
 
 const GameCarousel = ({ images, game }) => {
   const [activeIndex, setActiveIndex] = useState(0);
   const [isVideoPlaying, setIsVideoPlaying] = useState(true);
+  const token = useSelector(state => state.auth.token);
+  const userSavedGames = useSelector(state => state.userSavedGames.content.content);
+  const user = useSelector(state => state.currentUser.content);
+  const dispatch = useDispatch();
+  const isGameInLibrary = userSavedGames.some(savedGame => savedGame.id === game.id);
 
   const handleSelect = selectedIndex => {
     setActiveIndex(selectedIndex);
@@ -75,11 +82,22 @@ const GameCarousel = ({ images, game }) => {
     setIsVideoPlaying(true);
   }, [activeIndex]);
 
+  useEffect(() => {
+    dispatch(getUserSavedGames(10000000, token, 0, user.id));
+  }, [dispatch, token, user.id]);
+
+  const handleLike = gameId => {
+    dispatch(addRemoveFromLibrary(gameId, token));
+    dispatch(getUserSavedGames(10000000, token, 0, user.id));
+  };
+
   return (
     <div className="my-5 text-white">
       <div className="d-flex justify-content-between">
         <h3 className="mb-4 text-truncate">{game.title}</h3>
-        <Button className="mb-4 rounded-1 py-1">Add to Library</Button>
+        <Button className="mb-4 rounded-1 py-1" onClick={() => handleLike(game.id)}>
+          {isGameInLibrary ? "Remove from Library" : "Add to Library"}
+        </Button>
       </div>
       <div className="p-0 my-box-shadow" style={{ backgroundColor: "#0E1821", border: "1px solid #1E2831" }}>
         <Row className="mb-2">
@@ -114,7 +132,7 @@ const GameCarousel = ({ images, game }) => {
                   {index === 0 ? (
                     <video
                       src={item}
-                      width={200}
+                      width={220}
                       className={`d-flex m-0 me-1 ${activeIndex === index ? "selected" : ""}`}
                       onClick={() => {
                         setActiveIndex(index);
@@ -124,7 +142,7 @@ const GameCarousel = ({ images, game }) => {
                     <img
                       key={index}
                       src={item}
-                      width={200}
+                      width={220}
                       alt={`Thumbnail ${index + 1}`}
                       className={`h-100 object-fit-cover me-1 ${activeIndex === index ? "selected" : ""}`}
                       onClick={() => setActiveIndex(index)}
@@ -134,7 +152,7 @@ const GameCarousel = ({ images, game }) => {
               ))}
             </div>
           </Col>
-          <Col lg={4} style={{ fontSize: "0.8rem" }}>
+          <Col lg={4} className="d-flex" style={{ fontSize: "0.8rem" }}>
             <Row className="flex-column">
               <Col xs={12} className="mb-3">
                 <img src={game.gameCover} alt="game-cover" width={"100%"} />
@@ -179,7 +197,6 @@ const GameCarousel = ({ images, game }) => {
                     <div className="text-secondary mx-3 mx-lg-0">PUBLISHER:</div>
                   </Col>
                   <Col>
-                    {" "}
                     <div className="mx-3 mx-lg-0 me-lg-2">{game.publisher}</div>
                   </Col>
                 </Row>
