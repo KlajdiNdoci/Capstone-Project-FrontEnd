@@ -4,7 +4,7 @@ import { Button, Form } from "react-bootstrap";
 import { addReview, deleteReview, getRecentReviews, getUserReviews, updateReview } from "../../redux/actions";
 import { Star, StarFill } from "react-bootstrap-icons";
 
-const ReviewForm = ({ gameId }) => {
+const ReviewForm = ({ gameId, shouldDeleteReview }) => {
   const dispatch = useDispatch();
   const token = useSelector(state => state.auth.token);
   const user = useSelector(state => state.currentUser.content);
@@ -91,6 +91,18 @@ const ReviewForm = ({ gameId }) => {
       setRating("");
     }
   }, [currentUserReview, gameId, user.id, userReviews]);
+
+  useEffect(() => {
+    if (shouldDeleteReview && currentUserReview) {
+      const deleteReviewAsync = async () => {
+        await dispatch(deleteReview(token, currentUserReview.id));
+        await dispatch(getUserReviews(user.id, 10000000, token));
+        await dispatch(getRecentReviews(gameId, 5, token));
+      };
+
+      deleteReviewAsync();
+    }
+  }, [shouldDeleteReview, currentUserReview, gameId, dispatch, token, user.id]);
 
   return (
     <Form

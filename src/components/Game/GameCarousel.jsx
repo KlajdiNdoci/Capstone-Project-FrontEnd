@@ -23,6 +23,7 @@ const GameCarousel = ({ images, game }) => {
   const user = useSelector(state => state.currentUser.content);
   const dispatch = useDispatch();
   const isGameInLibrary = userSavedGames?.some(savedGame => savedGame.id === game.id);
+  const [shouldDeleteReview, setShouldDeleteReview] = useState(false);
 
   const handleSelect = selectedIndex => {
     setActiveIndex(selectedIndex);
@@ -87,10 +88,16 @@ const GameCarousel = ({ images, game }) => {
     dispatch(getUserSavedGames(10000000, token, 0, user.id));
   }, [dispatch, token, user.id]);
 
-  const handleSaveGame = gameId => {
-    dispatch(getUserSavedGames(10000000, token, 0, user.id));
-    dispatch(addRemoveFromLibrary(gameId, token));
-    dispatch(getUserSavedGames(10000000, token, 0, user.id));
+  const handleSaveGame = async gameId => {
+    if (isGameInLibrary) {
+      await dispatch(addRemoveFromLibrary(gameId, token));
+      await setShouldDeleteReview(true);
+      await dispatch(getUserSavedGames(10000000, token, 0, user.id));
+    } else {
+      await dispatch(addRemoveFromLibrary(gameId, token));
+      await setShouldDeleteReview(false);
+      await dispatch(getUserSavedGames(10000000, token, 0, user.id));
+    }
   };
 
   return (
@@ -239,7 +246,7 @@ const GameCarousel = ({ images, game }) => {
           </Col>
         </Row>
       </div>
-      {isGameInLibrary && <ReviewForm gameId={game.id} />}
+      {isGameInLibrary && <ReviewForm gameId={game.id} shouldDeleteReview={shouldDeleteReview} />}
     </>
   );
 };
