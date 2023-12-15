@@ -38,6 +38,8 @@ export const ADD_REVIEW_SUCCESS = "ADD_REVIEW_SUCCESS";
 export const ADD_REVIEW_FAILURE = "ADD_REVIEW_FAILURE";
 export const UPDATE_REVIEW_SUCCESS = "UPDATE_REVIEW_SUCCESS";
 export const UPDATE_REVIEW_FAILURE = "UPDATE_REVIEW_FAILURE";
+export const DELETE_REVIEW_SUCCESS = "DELETE_REVIEW_SUCCESS";
+export const DELETE_REVIEW_FAILURE = "DELETE_REVIEW_FAILURE";
 export const GET_USER_REVIEWS = "GET_USER_REVIEWS";
 export const IS_LOADING_USER_REVIEWS = "IS_LOADING_USER_REVIEWS";
 export const IS_ERROR_USER_REVIEWS = "IS_ERROR_USER_REVIEWS";
@@ -563,6 +565,34 @@ export const updateReview = (token, reviewId, title, content, rating) => {
     } catch (error) {
       dispatch({ type: UPDATE_REVIEW_FAILURE, payload: "Generic error:", error });
       dispatch({ type: UPDATE_REVIEW_FAILURE, payload: "" });
+    }
+  };
+};
+
+export const deleteReview = (token, reviewId) => {
+  return async dispatch => {
+    const URL = process.env.REACT_APP_SERVER_URL + "/reviews/" + reviewId;
+    const method = {
+      method: "DELETE",
+      headers: {
+        Authorization: "Bearer " + token,
+      },
+    };
+    try {
+      const resp = await fetch(URL, method);
+      if (resp.ok) {
+        dispatch({ type: DELETE_REVIEW_SUCCESS, payload: "Review deleted successfully!" });
+      } else {
+        const data = await resp.json();
+        dispatch({
+          type: DELETE_REVIEW_FAILURE,
+          payload: data.message === "No message available" ? `${data.status} ${data.error}` : data.message,
+        });
+        dispatch({ type: DELETE_REVIEW_FAILURE, payload: "" });
+      }
+    } catch (error) {
+      dispatch({ type: DELETE_REVIEW_FAILURE, payload: "Generic error:", error });
+      dispatch({ type: DELETE_REVIEW_FAILURE, payload: "" });
     }
   };
 };

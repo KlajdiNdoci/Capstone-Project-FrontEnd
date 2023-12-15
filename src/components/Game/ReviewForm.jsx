@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { Button, Form } from "react-bootstrap";
-import { addReview, getRecentReviews, getUserReviews, updateReview } from "../../redux/actions";
+import { addReview, deleteReview, getRecentReviews, getUserReviews, updateReview } from "../../redux/actions";
 import { Star, StarFill } from "react-bootstrap-icons";
 
 const ReviewForm = ({ gameId }) => {
@@ -13,13 +13,19 @@ const ReviewForm = ({ gameId }) => {
   const [content, setContent] = useState("");
   const [rating, setRating] = useState("");
   const [validated, setValidated] = useState(false);
-  const [currentUserReview, setCurrentUserReview] = useState();
+  const [currentUserReview, setCurrentUserReview] = useState(null);
+  const [isEditMode, setIsEditMode] = useState(false);
 
   const renderStars = () => {
     const stars = [];
     for (let i = 1; i <= 5; i++) {
       stars.push(
-        <Form.Label key={i} className={`cursor-pointer star-label ${rating >= i ? "filled" : ""}`}>
+        <Form.Label
+          key={i}
+          className={`star-label ${rating >= i ? "filled" : ""} ${
+            !isEditMode && currentUserReview ? "opacity-50 cursor-default" : "cursor-pointer"
+          }`}
+        >
           <Form.Check
             required
             type="radio"
@@ -30,8 +36,9 @@ const ReviewForm = ({ gameId }) => {
             onChange={() => {
               setRating(i);
             }}
+            disabled={!isEditMode && currentUserReview}
           />
-          {rating >= i ? <StarFill className="cursor-pointer rating-color" /> : <Star className="rating-color" />}
+          {rating >= i ? <StarFill className="rating-color" /> : <Star className="rating-color" />}
         </Form.Label>
       );
     }
@@ -45,10 +52,13 @@ const ReviewForm = ({ gameId }) => {
     if (form.checkValidity() === false) {
       e.stopPropagation();
     } else {
-      if (currentUserReview) {
+      if (isEditMode && currentUserReview) {
+        console.log("ciao");
         await dispatch(updateReview(token, currentUserReview.id, title, content, rating));
+        setIsEditMode(false);
       } else {
         await dispatch(addReview(token, gameId, title, content, rating));
+        await dispatch(getUserReviews(user.id, 10000000, token));
       }
       await dispatch(getRecentReviews(gameId, 5, token));
     }
@@ -56,18 +66,29 @@ const ReviewForm = ({ gameId }) => {
     setValidated(true);
   };
 
+  const handleDelete = async e => {
+    e.preventDefault();
+    await dispatch(deleteReview(token, currentUserReview.id));
+    await dispatch(getUserReviews(user.id, 10000000, token));
+    await dispatch(getRecentReviews(gameId, 5, token));
+    setValidated(false);
+  };
+
   useEffect(() => {
-    setCurrentUserReview();
     dispatch(getUserReviews(user.id, 10000000, token));
   }, [gameId, dispatch, token, user.id]);
 
   useEffect(() => {
-    setCurrentUserReview(userReviews.find(review => review.user.id === user.id && review.game.id === gameId));
+    setCurrentUserReview(userReviews?.find(review => review.user.id === user.id && review.game.id === gameId));
 
     if (currentUserReview) {
       setTitle(currentUserReview.title);
       setContent(currentUserReview.content);
       setRating(currentUserReview.rating);
+    } else {
+      setTitle("");
+      setContent("");
+      setRating("");
     }
   }, [currentUserReview, gameId, user.id, userReviews]);
 
@@ -79,17 +100,18 @@ const ReviewForm = ({ gameId }) => {
       noValidate
       validated={validated}
     >
-      <h5 className="mb-5">ADD A REVIEW</h5>
+      <h5 className="mb-5">{isEditMode ? "EDIT YOUR REVIEW" : !currentUserReview ? "ADD A REVIEW" : "YOUR REVIEW"}</h5>
       <Form.Group className="mb-5">
         <Form.Label>Title</Form.Label>
         <Form.Control
           required
           style={{ backgroundColor: "#1B2838", boxShadow: "none" }}
-          className="border-secondary text-white"
+          className={`border-secondary text-white ${!isEditMode && currentUserReview ? "opacity-50" : ""}`}
           type="text"
           name="title"
           value={title}
           onChange={e => setTitle(e.target.value)}
+          disabled={!isEditMode && currentUserReview}
         />
         <Form.Control.Feedback className="position-absolute">Looks good!</Form.Control.Feedback>
         <Form.Control.Feedback className="position-absolute" type="invalid">
@@ -100,13 +122,14 @@ const ReviewForm = ({ gameId }) => {
         <Form.Label>Content</Form.Label>
         <Form.Control
           required
-          className="border-secondary text-white"
+          className={`border-secondary text-white ${!isEditMode && currentUserReview ? "opacity-50" : ""}`}
           style={{ backgroundColor: "#1B2838", boxShadow: "none" }}
           as="textarea"
           rows={5}
           name="content"
           value={content}
           onChange={e => setContent(e.target.value)}
+          disabled={!isEditMode && currentUserReview}
         />
         <Form.Control.Feedback className="position-absolute">Looks good!</Form.Control.Feedback>
         <Form.Control.Feedback className="position-absolute" type="invalid">
@@ -122,16 +145,46 @@ const ReviewForm = ({ gameId }) => {
           </div>
         ) : (
           validated &&
-          rating && (
+          rating &&
+          (isEditMode || !currentUserReview) && (
             <div className="text-success position-absolute" style={{ fontSize: "0.9rem" }}>
               Looks good!
             </div>
           )
         )}
       </Form.Group>
-      <Button type="submit" className="py-1 rounded-1">
-        Publish
-      </Button>
+      {!currentUserReview && (
+        <Button style={{ minWidth: "78px" }} type="submit" className="py-1 rounded-1">
+          Publish
+        </Button>
+      )}
+
+      {isEditMode && currentUserReview && (
+        <div className="d-flex justify-content-between">
+          <Button style={{ minWidth: "78px" }} type="submit" className="py-1 rounded-1">
+            Save
+          </Button>
+          <Button
+            style={{ minWidth: "78px" }}
+            variant="danger"
+            className="py-1 rounded-1"
+            onClick={e => handleDelete(e)}
+          >
+            Delete
+          </Button>
+        </div>
+      )}
+
+      {!isEditMode && currentUserReview && (
+        <Button
+          variant="success"
+          style={{ minWidth: "78px" }}
+          className="py-1 rounded-1"
+          onClick={() => setIsEditMode(true)}
+        >
+          Edit
+        </Button>
+      )}
     </Form>
   );
 };
