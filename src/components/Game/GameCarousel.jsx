@@ -13,6 +13,7 @@ import {
 } from "react-bootstrap-icons";
 import { useDispatch, useSelector } from "react-redux";
 import { addRemoveFromLibrary, getUserSavedGames } from "../../redux/actions";
+import ReviewForm from "./ReviewForm";
 
 const GameCarousel = ({ images, game }) => {
   const [activeIndex, setActiveIndex] = useState(0);
@@ -94,8 +95,8 @@ const GameCarousel = ({ images, game }) => {
 
   return (
     <>
-      <div className="my-5 text-white">
-        <h3 className="mb-4 text-truncate">{game.title}</h3>
+      <div className="mt-5 mb-4 text-white">
+        <h2 className="mb-4 text-truncate">{game.title}</h2>
 
         <div className="p-0 my-box-shadow" style={{ backgroundColor: "#0E1821", border: "1px solid #1E2831" }}>
           <Row className="mb-2">
@@ -238,6 +239,7 @@ const GameCarousel = ({ images, game }) => {
           </Col>
         </Row>
       </div>
+      {isGameInLibrary && <ReviewForm gameId={game.id} />}
     </>
   );
 };

@@ -34,6 +34,8 @@ export const LIKE_REVIEW = "LIKE_REVIEW";
 export const GET_RECENT_REVIEWS = "GET_RECENT_REVIEWS";
 export const IS_LOADING_RECENT_REVIEWS = "IS_LOADING_RECENT_REVIEWS";
 export const IS_ERROR_RECENT_REVIEWS = "IS_ERROR_RECENT_REVIEWS";
+export const ADD_REVIEW_SUCCESS = "ADD_REVIEW_SUCCESS";
+export const ADD_REVIEW_FAILURE = "ADD_REVIEW_FAILURE";
 
 //AUTH
 export const REGISTRATION_SUCCESS = "REGISTRATION_SUCCESS";
@@ -277,7 +279,6 @@ export const register = (name, surname, email, password, username, navigate) => 
     };
     try {
       const resp = await fetch(URL, method);
-      console.log(resp);
       if (resp.ok) {
         dispatch({ type: REGISTRATION_SUCCESS, payload: "Registration successful!" });
         setTimeout(() => {
@@ -286,7 +287,6 @@ export const register = (name, surname, email, password, username, navigate) => 
         }, 3000);
       } else {
         const data = await resp.json();
-        console.log(data);
         dispatch({
           type: REGISTRATION_FAILURE,
           payload: data.message === "No message available" ? `${data.status} ${data.error}` : data.message,
@@ -463,6 +463,40 @@ export const getUserSavedGames = (size = 5, token, page = 0, userId) => {
       dispatch({ type: IS_ERROR_USER_SAVED_GAMES, payload: true });
     } finally {
       dispatch({ type: IS_LOADING_USER_SAVED_GAMES, payload: false });
+    }
+  };
+};
+
+export const addReview = (token, gameId, title, content, rating) => {
+  return async dispatch => {
+    const URL = process.env.REACT_APP_SERVER_URL + "/reviews/game/" + gameId;
+    const method = {
+      method: "POST",
+      body: JSON.stringify({
+        title,
+        content,
+        rating,
+      }),
+      headers: {
+        Authorization: "Bearer " + token,
+        "content-type": "application/json",
+      },
+    };
+    try {
+      const resp = await fetch(URL, method);
+      if (resp.ok) {
+        dispatch({ type: ADD_REVIEW_SUCCESS, payload: "Review added successfully!" });
+      } else {
+        const data = await resp.json();
+        dispatch({
+          type: ADD_REVIEW_FAILURE,
+          payload: data.message === "No message available" ? `${data.status} ${data.error}` : data.message,
+        });
+        dispatch({ type: ADD_REVIEW_FAILURE, payload: "" });
+      }
+    } catch (error) {
+      dispatch({ type: ADD_REVIEW_FAILURE, payload: "Generic error:", error });
+      dispatch({ type: ADD_REVIEW_FAILURE, payload: "" });
     }
   };
 };
