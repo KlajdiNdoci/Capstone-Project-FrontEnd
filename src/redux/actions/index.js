@@ -36,6 +36,8 @@ export const IS_LOADING_RECENT_REVIEWS = "IS_LOADING_RECENT_REVIEWS";
 export const IS_ERROR_RECENT_REVIEWS = "IS_ERROR_RECENT_REVIEWS";
 export const ADD_REVIEW_SUCCESS = "ADD_REVIEW_SUCCESS";
 export const ADD_REVIEW_FAILURE = "ADD_REVIEW_FAILURE";
+export const UPDATE_REVIEW_SUCCESS = "UPDATE_REVIEW_SUCCESS";
+export const UPDATE_REVIEW_FAILURE = "UPDATE_REVIEW_FAILURE";
 export const GET_USER_REVIEWS = "GET_USER_REVIEWS";
 export const IS_LOADING_USER_REVIEWS = "IS_LOADING_USER_REVIEWS";
 export const IS_ERROR_USER_REVIEWS = "IS_ERROR_USER_REVIEWS";
@@ -527,6 +529,40 @@ export const getUserReviews = (userId, size = 5, token) => {
       dispatch({ type: IS_ERROR_USER_REVIEWS, payload: true });
     } finally {
       dispatch({ type: IS_LOADING_USER_REVIEWS, payload: false });
+    }
+  };
+};
+
+export const updateReview = (token, reviewId, title, content, rating) => {
+  return async dispatch => {
+    const URL = process.env.REACT_APP_SERVER_URL + "/reviews/" + reviewId;
+    const method = {
+      method: "PUT",
+      body: JSON.stringify({
+        title,
+        content,
+        rating,
+      }),
+      headers: {
+        Authorization: "Bearer " + token,
+        "content-type": "application/json",
+      },
+    };
+    try {
+      const resp = await fetch(URL, method);
+      if (resp.ok) {
+        dispatch({ type: UPDATE_REVIEW_SUCCESS, payload: "Review updated successfully!" });
+      } else {
+        const data = await resp.json();
+        dispatch({
+          type: UPDATE_REVIEW_FAILURE,
+          payload: data.message === "No message available" ? `${data.status} ${data.error}` : data.message,
+        });
+        dispatch({ type: UPDATE_REVIEW_FAILURE, payload: "" });
+      }
+    } catch (error) {
+      dispatch({ type: UPDATE_REVIEW_FAILURE, payload: "Generic error:", error });
+      dispatch({ type: UPDATE_REVIEW_FAILURE, payload: "" });
     }
   };
 };

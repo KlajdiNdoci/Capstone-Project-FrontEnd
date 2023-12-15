@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { Button, Form } from "react-bootstrap";
-import { addReview, getRecentReviews, getUserReviews } from "../../redux/actions";
+import { addReview, getRecentReviews, getUserReviews, updateReview } from "../../redux/actions";
 import { Star, StarFill } from "react-bootstrap-icons";
 
 const ReviewForm = ({ gameId }) => {
@@ -11,7 +11,7 @@ const ReviewForm = ({ gameId }) => {
   const userReviews = useSelector(state => state.userReviews.content.content);
   const [title, setTitle] = useState("");
   const [content, setContent] = useState("");
-  const [rating, setRating] = useState();
+  const [rating, setRating] = useState("");
   const [validated, setValidated] = useState(false);
   const [currentUserReview, setCurrentUserReview] = useState();
 
@@ -45,7 +45,11 @@ const ReviewForm = ({ gameId }) => {
     if (form.checkValidity() === false) {
       e.stopPropagation();
     } else {
-      await dispatch(addReview(token, gameId, title, content, rating));
+      if (currentUserReview) {
+        await dispatch(updateReview(token, currentUserReview.id, title, content, rating));
+      } else {
+        await dispatch(addReview(token, gameId, title, content, rating));
+      }
       await dispatch(getRecentReviews(gameId, 5, token));
     }
 
