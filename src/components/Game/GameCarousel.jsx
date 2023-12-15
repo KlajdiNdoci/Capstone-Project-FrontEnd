@@ -93,141 +93,152 @@ const GameCarousel = ({ images, game }) => {
   };
 
   return (
-    <div className="my-5 text-white">
-      <div className="d-flex justify-content-between">
+    <>
+      <div className="my-5 text-white">
         <h3 className="mb-4 text-truncate">{game.title}</h3>
-        <Button
-          className="mb-4 rounded-1 py-1"
-          variant={isGameInLibrary ? "danger" : "primary"}
-          onClick={() => handleSaveGame(game.id)}
-        >
-          {isGameInLibrary ? "Remove from Library" : "Add to Library"}
-        </Button>
-      </div>
-      <div className="p-0 my-box-shadow" style={{ backgroundColor: "#0E1821", border: "1px solid #1E2831" }}>
-        <Row className="mb-2">
-          <Col lg={8} className="mb-4 mb-lg-0">
-            <Carousel
-              activeIndex={activeIndex}
-              onSelect={handleSelect}
-              className="mb-1 custom-carousel "
-              interval={5000}
-            >
-              {images.map((item, index) => (
-                <Carousel.Item key={index}>
-                  {index === 0 ? (
-                    <video
-                      src={item}
-                      width="100%"
-                      controls
-                      autoPlay={isVideoPlaying}
-                      muted
-                      onPause={() => setIsVideoPlaying(false)}
-                      onPlay={() => setIsVideoPlaying(true)}
-                    />
-                  ) : (
-                    <img src={item} alt={`Slide ${index + 1}`} className="w-100 object-fit-cover d-block" />
-                  )}
-                </Carousel.Item>
-              ))}
-            </Carousel>
-            <div className="d-flex justify-content-start thumbnail-container p-1">
-              {images.map((item, index) => (
-                <div key={index}>
-                  {index === 0 ? (
-                    <video
-                      src={item}
-                      width={220}
-                      className={`d-flex m-0 me-1 ${activeIndex === index ? "selected" : ""}`}
-                      onClick={() => {
-                        setActiveIndex(index);
-                      }}
-                    />
-                  ) : (
-                    <img
-                      key={index}
-                      src={item}
-                      width={220}
-                      alt={`Thumbnail ${index + 1}`}
-                      className={`h-100 object-fit-cover me-1 ${activeIndex === index ? "selected" : ""}`}
-                      onClick={() => setActiveIndex(index)}
-                    />
-                  )}
-                </div>
-              ))}
-            </div>
-          </Col>
-          <Col lg={4} className="d-flex" style={{ fontSize: "0.8rem" }}>
-            <Row className="flex-column">
-              <Col xs={12} className="mb-3">
-                <img src={game.gameCover} alt="game-cover" width={"100%"} />
-              </Col>
-              <Col className="mb-2 ">
-                <div className="line-clamp mx-3 mx-lg-0 fs-7">{game.description}</div>
-              </Col>
-              <Col className="mb-2">
-                <Row>
-                  <Col>
-                    <div className="text-secondary mx-3 mx-lg-0">RATING:</div>
-                  </Col>
-                  <Col>
-                    {" "}
-                    <div className="mx-3 mx-lg-0 me-lg-2">{renderRatingStars(game.averageRating)}</div>
-                  </Col>
-                </Row>
-              </Col>
-              <Col className="mb-2">
-                <Row>
-                  <Col>
-                    <div className="text-secondary mx-3 mx-lg-0">RELEASE DATE:</div>
-                  </Col>
-                  <Col>
-                    <div className="mx-3 mx-lg-0 me-lg-2">{convertDate(game.releaseDate)}</div>
-                  </Col>
-                </Row>
-              </Col>
-              <Col className="mb-2">
-                <Row>
-                  <Col>
-                    <div className="text-secondary mx-3 mx-lg-0">DEVELOPER:</div>
-                  </Col>
-                  <Col>
-                    <div className="mx-3 mx-lg-0 me-lg-2">{game.developer}</div>
-                  </Col>
-                </Row>
-              </Col>
-              <Col className="mb-2">
-                <Row>
-                  <Col>
-                    <div className="text-secondary mx-3 mx-lg-0">PUBLISHER:</div>
-                  </Col>
-                  <Col>
-                    <div className="mx-3 mx-lg-0 me-lg-2">{game.publisher}</div>
-                  </Col>
-                </Row>
-              </Col>
-              <div className="mx-3 mx-lg-0 mb-2 mb-lg-0">
-                <div className="text-secondary ">Game genres:</div>
-                {game.genres.map((genre, index) => (
-                  <Badge key={index} bg="secondary" className="rounded-0 p-1 me-1 mb-1 ">
-                    {genre}
-                  </Badge>
+
+        <div className="p-0 my-box-shadow" style={{ backgroundColor: "#0E1821", border: "1px solid #1E2831" }}>
+          <Row className="mb-2">
+            <Col lg={8} className="mb-4 mb-lg-0">
+              <Carousel
+                activeIndex={activeIndex}
+                onSelect={handleSelect}
+                className="mb-1 custom-carousel "
+                interval={5000}
+              >
+                {images.map((item, index) => (
+                  <Carousel.Item key={index}>
+                    {index === 0 ? (
+                      <video
+                        src={item}
+                        width="100%"
+                        controls
+                        autoPlay={isVideoPlaying}
+                        muted
+                        onPause={() => setIsVideoPlaying(false)}
+                        onPlay={() => setIsVideoPlaying(true)}
+                      />
+                    ) : (
+                      <img src={item} alt={`Slide ${index + 1}`} className="w-100 object-fit-cover d-block" />
+                    )}
+                  </Carousel.Item>
+                ))}
+              </Carousel>
+              <div className="d-flex justify-content-start thumbnail-container p-1">
+                {images.map((item, index) => (
+                  <div key={index}>
+                    {index === 0 ? (
+                      <video
+                        src={item}
+                        width={220}
+                        className={`d-flex m-0 me-1 ${activeIndex === index ? "selected" : ""}`}
+                        onClick={() => {
+                          setActiveIndex(index);
+                        }}
+                      />
+                    ) : (
+                      <img
+                        key={index}
+                        src={item}
+                        width={220}
+                        alt={`Thumbnail ${index + 1}`}
+                        className={`h-100 object-fit-cover me-1 ${activeIndex === index ? "selected" : ""}`}
+                        onClick={() => setActiveIndex(index)}
+                      />
+                    )}
+                  </div>
                 ))}
               </div>
-              <Col className="d-flex justify-content-end">
-                <div className="d-flex mx-3 mx-lg-0 me-lg-2">
-                  {game.platforms.map((platform, index) => (
-                    <div key={index} className="d-flex my-auto ms-2 fs-5">
-                      {getPlatformIcon(platform)}
-                    </div>
+            </Col>
+            <Col lg={4} className="d-flex" style={{ fontSize: "0.8rem" }}>
+              <Row className="flex-column">
+                <Col xs={12} className="mb-3">
+                  <img src={game.gameCover} alt="game-cover" width={"100%"} />
+                </Col>
+                <Col className="mb-2 ">
+                  <div className="line-clamp mx-3 mx-lg-0 fs-7">{game.description}</div>
+                </Col>
+                <Col className="mb-2">
+                  <Row>
+                    <Col>
+                      <div className="text-secondary mx-3 mx-lg-0">RATING:</div>
+                    </Col>
+                    <Col>
+                      {" "}
+                      <div className="mx-3 mx-lg-0 me-lg-2">{renderRatingStars(game.averageRating)}</div>
+                    </Col>
+                  </Row>
+                </Col>
+                <Col className="mb-2">
+                  <Row>
+                    <Col>
+                      <div className="text-secondary mx-3 mx-lg-0">RELEASE DATE:</div>
+                    </Col>
+                    <Col>
+                      <div className="mx-3 mx-lg-0 me-lg-2">{convertDate(game.releaseDate)}</div>
+                    </Col>
+                  </Row>
+                </Col>
+                <Col className="mb-2">
+                  <Row>
+                    <Col>
+                      <div className="text-secondary mx-3 mx-lg-0">DEVELOPER:</div>
+                    </Col>
+                    <Col>
+                      <div className="mx-3 mx-lg-0 me-lg-2">{game.developer}</div>
+                    </Col>
+                  </Row>
+                </Col>
+                <Col className="mb-2">
+                  <Row>
+                    <Col>
+                      <div className="text-secondary mx-3 mx-lg-0">PUBLISHER:</div>
+                    </Col>
+                    <Col>
+                      <div className="mx-3 mx-lg-0 me-lg-2">{game.publisher}</div>
+                    </Col>
+                  </Row>
+                </Col>
+                <div className="mx-3 mx-lg-0 mb-2 mb-lg-0">
+                  <div className="text-secondary ">Game genres:</div>
+                  {game.genres.map((genre, index) => (
+                    <Badge key={index} bg="secondary" className="rounded-0 p-1 me-1 mb-1 ">
+                      {genre}
+                    </Badge>
                   ))}
                 </div>
-              </Col>
-            </Row>
+                <Col className="d-flex justify-content-end">
+                  <div className="d-flex mx-3 mx-lg-0 me-lg-2">
+                    {game.platforms.map((platform, index) => (
+                      <div key={index} className="d-flex my-auto ms-2 fs-5">
+                        {getPlatformIcon(platform)}
+                      </div>
+                    ))}
+                  </div>
+                </Col>
+              </Row>
+            </Col>
+          </Row>
+        </div>
+      </div>
+      <div className="rounded-2" style={{ backgroundColor: "#515F6E" }}>
+        <Row className="text-white align-items-middle mb-4 p-3 ">
+          <Col className="m-auto">
+            <h5 className="m-0">{isGameInLibrary ? "In your Library" : "Add to Library to write a review"}</h5>
+          </Col>
+          <Col className="text-end m-auto">
+            <Button
+              style={{ minWidth: "127px" }}
+              className="rounded-1 py-1 text-center"
+              variant={isGameInLibrary ? "danger" : "success"}
+              onClick={() => handleSaveGame(game.id)}
+            >
+              {isGameInLibrary ? "Remove" : "Add to Library"}
+            </Button>
           </Col>
         </Row>
       </div>
-    </div>
+    </>
   );
 };
 
