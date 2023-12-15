@@ -11,6 +11,7 @@ import gameReviewsReducer from "../reducers/gameReviewsReducer";
 import recentReviewsReducer from "../reducers/recentReviewsReducer";
 import authReducer from "../reducers/authReducer";
 import userSavedGamesReducer from "../reducers/userSavedGamesReducer";
+import userReviewsReducer from "../reducers/userReviewsReducer";
 
 const persistConfig = {
   key: "root",
@@ -32,6 +33,7 @@ const totalReducer = combineReducers({
   recentReviews: recentReviewsReducer,
   auth: authReducer,
   userSavedGames: userSavedGamesReducer,
+  userReviews: userReviewsReducer,
 });
 
 const persistedReducer = persistReducer(persistConfig, totalReducer);

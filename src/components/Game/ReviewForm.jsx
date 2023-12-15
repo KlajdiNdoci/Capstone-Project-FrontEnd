@@ -1,16 +1,19 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import { Button, Form, Col } from "react-bootstrap";
-import { addReview, getGameReviewsMinusDays, getRecentReviews } from "../../redux/actions";
+import { Button, Form } from "react-bootstrap";
+import { addReview, getRecentReviews, getUserReviews } from "../../redux/actions";
 import { Star, StarFill } from "react-bootstrap-icons";
 
 const ReviewForm = ({ gameId }) => {
   const dispatch = useDispatch();
   const token = useSelector(state => state.auth.token);
+  const user = useSelector(state => state.currentUser.content);
+  const userReviews = useSelector(state => state.userReviews.content.content);
   const [title, setTitle] = useState("");
   const [content, setContent] = useState("");
   const [rating, setRating] = useState();
   const [validated, setValidated] = useState(false);
+  const [currentUserReview, setCurrentUserReview] = useState();
 
   const renderStars = () => {
     const stars = [];
@@ -35,19 +38,34 @@ const ReviewForm = ({ gameId }) => {
     return stars;
   };
 
-  const handleSubmit = e => {
+  const handleSubmit = async e => {
     e.preventDefault();
     const form = e.currentTarget;
 
     if (form.checkValidity() === false) {
       e.stopPropagation();
     } else {
-      dispatch(addReview(token, gameId, title, content, rating));
-      dispatch(getRecentReviews(gameId, 5, token));
+      await dispatch(addReview(token, gameId, title, content, rating));
+      await dispatch(getRecentReviews(gameId, 5, token));
     }
 
     setValidated(true);
   };
+
+  useEffect(() => {
+    setCurrentUserReview();
+    dispatch(getUserReviews(user.id, 10000000, token));
+  }, [gameId, dispatch, token, user.id]);
+
+  useEffect(() => {
+    setCurrentUserReview(userReviews.find(review => review.user.id === user.id && review.game.id === gameId));
+
+    if (currentUserReview) {
+      setTitle(currentUserReview.title);
+      setContent(currentUserReview.content);
+      setRating(currentUserReview.rating);
+    }
+  }, [currentUserReview, gameId, user.id, userReviews]);
 
   return (
     <Form
@@ -99,7 +117,8 @@ const ReviewForm = ({ gameId }) => {
             Please select a rating!
           </div>
         ) : (
-          validated && (
+          validated &&
+          rating && (
             <div className="text-success position-absolute" style={{ fontSize: "0.9rem" }}>
               Looks good!
             </div>

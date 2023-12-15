@@ -36,6 +36,9 @@ export const IS_LOADING_RECENT_REVIEWS = "IS_LOADING_RECENT_REVIEWS";
 export const IS_ERROR_RECENT_REVIEWS = "IS_ERROR_RECENT_REVIEWS";
 export const ADD_REVIEW_SUCCESS = "ADD_REVIEW_SUCCESS";
 export const ADD_REVIEW_FAILURE = "ADD_REVIEW_FAILURE";
+export const GET_USER_REVIEWS = "GET_USER_REVIEWS";
+export const IS_LOADING_USER_REVIEWS = "IS_LOADING_USER_REVIEWS";
+export const IS_ERROR_USER_REVIEWS = "IS_ERROR_USER_REVIEWS";
 
 //AUTH
 export const REGISTRATION_SUCCESS = "REGISTRATION_SUCCESS";
@@ -497,6 +500,33 @@ export const addReview = (token, gameId, title, content, rating) => {
     } catch (error) {
       dispatch({ type: ADD_REVIEW_FAILURE, payload: "Generic error:", error });
       dispatch({ type: ADD_REVIEW_FAILURE, payload: "" });
+    }
+  };
+};
+
+export const getUserReviews = (userId, size = 5, token) => {
+  return async dispatch => {
+    const URL = process.env.REACT_APP_SERVER_URL + "/reviews/user/" + userId + "?size=" + size;
+    const method = {
+      method: "GET",
+      headers: {
+        Authorization: "Bearer " + token,
+      },
+    };
+
+    try {
+      const resp = await fetch(URL, method);
+      dispatch({ type: IS_LOADING_USER_REVIEWS, payload: true });
+      dispatch({ type: IS_ERROR_USER_REVIEWS, payload: false });
+      if (resp.ok) {
+        const recentReviews = await resp.json();
+        dispatch({ type: GET_USER_REVIEWS, payload: recentReviews });
+      }
+    } catch (error) {
+      console.error(error);
+      dispatch({ type: IS_ERROR_USER_REVIEWS, payload: true });
+    } finally {
+      dispatch({ type: IS_LOADING_USER_REVIEWS, payload: false });
     }
   };
 };
