@@ -13,6 +13,7 @@ const GameReviews = ({ game }) => {
   const [days, setDays] = useState();
   const navigate = useNavigate();
   const token = useSelector(state => state.auth.token);
+  const [page, setPage] = useState(1);
 
   const renderRatingStars = averageRating => {
     const roundedRating = Math.round(averageRating * 2) / 2;
@@ -44,9 +45,29 @@ const GameReviews = ({ game }) => {
   };
   const handleLike = async reviewId => {
     await dispatch(likeReview(reviewId, token));
-    await dispatch(getRecentReviews(game.id, 5, token));
-    await dispatch(getGameReviewsMinusDays(game.id, days, 5, "likes", "asc", token));
+    await dispatch(getRecentReviews(game.id, page * 5, token));
+    await dispatch(getGameReviewsMinusDays(game.id, days, page * 5, "likes", "asc", token));
   };
+
+  useEffect(() => {
+    const handleScroll = () => {
+      const scrollY = window.scrollY;
+      const bottom = window.innerHeight + scrollY >= document.documentElement.scrollHeight;
+
+      if (bottom) {
+        const newPage = page + 1;
+        setPage(newPage);
+
+        dispatch(getGameReviewsMinusDays(game.id, days, newPage * 5, "likes", "asc", token));
+        dispatch(getRecentReviews(game.id, newPage * 5, token));
+      }
+    };
+    window.addEventListener("scroll", handleScroll);
+
+    return () => {
+      window.removeEventListener("scroll", handleScroll);
+    };
+  }, [days, dispatch, game.id, page, token]);
 
   useEffect(() => {
     setDays(31);
@@ -54,8 +75,7 @@ const GameReviews = ({ game }) => {
     if (days) {
       dispatch(getGameReviewsMinusDays(game.id, days, 5, "likes", "asc", token));
     }
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [game.id, days]);
+  }, [game.id, days, dispatch, token]);
 
   return (
     <>
