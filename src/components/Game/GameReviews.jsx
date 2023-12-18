@@ -8,7 +8,9 @@ import { HandThumbsUpFill, Star, StarFill, StarHalf } from "react-bootstrap-icon
 const GameReviews = ({ game }) => {
   const dispatch = useDispatch();
   const reviews = useSelector(state => state.gameReviews.content.content);
+  const isLoadingReviews = useSelector(state => state.gameReviews.content.isLoading);
   const recentReviews = useSelector(state => state.recentReviews.content.content);
+  const isLoadingRecentReviews = useSelector(state => state.recentReviews.content.isLoading);
   const currentUser = useSelector(state => state.currentUser.content);
   const [days, setDays] = useState();
   const navigate = useNavigate();
@@ -51,15 +53,9 @@ const GameReviews = ({ game }) => {
 
   useEffect(() => {
     const handleScroll = () => {
-      const scrollY = window.scrollY;
-      const bottom = window.innerHeight + scrollY >= document.documentElement.scrollHeight;
-
+      const bottom = window.innerHeight + window.scrollY >= document.documentElement.scrollHeight;
       if (bottom) {
-        const newPage = page + 1;
-        setPage(newPage);
-
-        dispatch(getGameReviewsMinusDays(game.id, days, newPage * 5, "likes", "asc", token));
-        dispatch(getRecentReviews(game.id, newPage * 5, token));
+        setPage(page + 1);
       }
     };
     window.addEventListener("scroll", handleScroll);
@@ -67,15 +63,15 @@ const GameReviews = ({ game }) => {
     return () => {
       window.removeEventListener("scroll", handleScroll);
     };
-  }, [days, dispatch, game.id, page, token]);
+  }, [page]);
 
   useEffect(() => {
     setDays(31);
-    dispatch(getRecentReviews(game.id, 5, token));
+    dispatch(getRecentReviews(game.id, page * 5, token));
     if (days) {
-      dispatch(getGameReviewsMinusDays(game.id, days, 5, "likes", "asc", token));
+      dispatch(getGameReviewsMinusDays(game.id, days, page * 5, "likes", "asc", token));
     }
-  }, [game.id, days, dispatch, token]);
+  }, [game.id, days, dispatch, token, page]);
 
   return (
     <>
