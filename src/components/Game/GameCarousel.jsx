@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from "react";
-import { Carousel, Row, Col, Badge, Button } from "react-bootstrap";
+import { Carousel, Row, Col, Badge, Button, Modal } from "react-bootstrap";
 import {
   Android2,
   Apple,
@@ -24,6 +24,7 @@ const GameCarousel = ({ images, game }) => {
   const dispatch = useDispatch();
   const isGameInLibrary = userSavedGames?.some(savedGame => savedGame.id === game.id);
   const [shouldDeleteReview, setShouldDeleteReview] = useState(false);
+  const [showConfirmationModal, setShowConfirmationModal] = useState(false);
 
   const handleSelect = selectedIndex => {
     setActiveIndex(selectedIndex);
@@ -98,6 +99,19 @@ const GameCarousel = ({ images, game }) => {
       await setShouldDeleteReview(false);
       await dispatch(getUserSavedGames(10000000, token, 0, user.id));
     }
+  };
+
+  const handleCloseModal = () => {
+    setShowConfirmationModal(false);
+  };
+
+  const handleConfirmSaveGame = () => {
+    handleSaveGame(game.id);
+    handleCloseModal();
+  };
+
+  const handleToggleConfirmationModal = () => {
+    setShowConfirmationModal(!showConfirmationModal);
   };
 
   return (
@@ -239,7 +253,7 @@ const GameCarousel = ({ images, game }) => {
               style={{ minWidth: "127px" }}
               className="rounded-1 py-1 text-center"
               variant={isGameInLibrary ? "danger" : "success"}
-              onClick={() => handleSaveGame(game.id)}
+              onClick={handleToggleConfirmationModal}
             >
               {isGameInLibrary ? "Remove" : "Add to Library"}
             </Button>
@@ -247,6 +261,24 @@ const GameCarousel = ({ images, game }) => {
         </Row>
       </div>
       {isGameInLibrary && <ReviewForm gameId={game.id} shouldDeleteReview={shouldDeleteReview} />}
+      <Modal show={showConfirmationModal} className="text-white" onHide={handleCloseModal}>
+        <Modal.Header closeButton>
+          <Modal.Title>Confirmation</Modal.Title>
+        </Modal.Header>
+        <Modal.Body>
+          {isGameInLibrary
+            ? "Are you sure you want to remove this game from your library? This action will delete the review you have posted if you have one!"
+            : "Add this game to your library?"}
+        </Modal.Body>
+        <Modal.Footer>
+          <Button variant="secondary" onClick={handleCloseModal}>
+            Cancel
+          </Button>
+          <Button variant={isGameInLibrary ? "danger" : "success"} onClick={handleConfirmSaveGame}>
+            {isGameInLibrary ? "Remove" : "Add to Library"}
+          </Button>
+        </Modal.Footer>
+      </Modal>
     </>
   );
 };
