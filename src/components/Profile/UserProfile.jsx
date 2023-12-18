@@ -1,7 +1,7 @@
 import React, { useEffect } from "react";
 import { useSelector, useDispatch } from "react-redux";
 import { useNavigate, useParams } from "react-router-dom";
-import { getProfile, getUserFriends, getUserSavedGames } from "../../redux/actions";
+import { addRemoveFriend, getProfile, getUserFriends, getUserSavedGames } from "../../redux/actions";
 import { Container, Row, Col, Card, Badge, Button } from "react-bootstrap";
 import { Pencil } from "react-bootstrap-icons";
 
@@ -16,12 +16,18 @@ const UserProfile = () => {
   const friends = useSelector(state => state.userFriends?.content.content);
   const token = useSelector(state => state.auth.token);
   const navigate = useNavigate();
+  const isFriend = friends && friends.map(friend => friend.id).includes(currentUser.id);
 
   useEffect(() => {
     dispatch(getProfile(token, userId));
     dispatch(getUserSavedGames(3, token, 0, userId));
     dispatch(getUserFriends(userId, 6, token));
   }, [dispatch, token, userId]);
+
+  const handleAddFriend = async () => {
+    await dispatch(addRemoveFriend(userId, token));
+    await dispatch(getUserFriends(userId, 6, token));
+  };
 
   return (
     <>
@@ -44,8 +50,12 @@ const UserProfile = () => {
                 ) : (
                   <Col xs={6} md={2} className="d-flex justify-content-end order-md-3">
                     <div>
-                      <Button variant="success" className="d-flex p-2 fs-7">
-                        ADD
+                      <Button
+                        variant={`${isFriend ? "danger" : "success"}`}
+                        className="d-flex p-2 fs-7"
+                        onClick={handleAddFriend}
+                      >
+                        {isFriend ? "REMOVE" : "ADD"}
                       </Button>
                     </div>
                   </Col>

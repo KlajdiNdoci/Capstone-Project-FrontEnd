@@ -654,3 +654,23 @@ export const getUserFriends = (userId, size = 5, token) => {
     }
   };
 };
+
+export const addRemoveFriend = (userId, token) => {
+  return async () => {
+    const URL = process.env.REACT_APP_SERVER_URL + "/users/friends/" + userId;
+    const method = {
+      method: "POST",
+      headers: {
+        Authorization: "Bearer " + token,
+      },
+    };
+
+    try {
+      const resp = await fetch(URL, method);
+      if (resp.ok) {
+      }
+    } catch (error) {
+      console.error(error);
+    }
+  };
+};
