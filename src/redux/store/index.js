@@ -13,6 +13,7 @@ import authReducer from "../reducers/authReducer";
 import userSavedGamesReducer from "../reducers/userSavedGamesReducer";
 import userReviewsReducer from "../reducers/userReviewsReducer";
 import reviewActionsReducer from "../reducers/reviewActionsReducer";
+import userReducer from "../reducers/userReducer";
 
 const persistConfig = {
   key: "root",
@@ -26,6 +27,7 @@ const persistConfig = {
 
 const totalReducer = combineReducers({
   currentUser: currentUserReducer,
+  user: userReducer,
   suggestions: suggestionsReducer,
   games: gamesReducer,
   singleGame: singleGameReducer,

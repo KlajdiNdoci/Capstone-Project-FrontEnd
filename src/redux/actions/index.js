@@ -2,6 +2,9 @@
 export const GET_MY_PROFILE = "GET_MY_PROFILE";
 export const IS_LOADING_MY_PROFILE = "IS_LOADING_MY_PROFILE";
 export const IS_ERROR_MY_PROFILE = "IS_ERROR_MY_PROFILE";
+export const GET_USER = "GET_USER";
+export const IS_LOADING_USER = "IS_LOADING_USER";
+export const IS_ERROR_USER = "IS_ERROR_USER";
 
 // SUGGESTIONS
 export const GET_SUGGESTIONS = "GET_SUGGESTIONS";
@@ -592,6 +595,32 @@ export const deleteReview = (token, reviewId) => {
     } catch (error) {
       dispatch({ type: DELETE_REVIEW_FAILURE, payload: "Generic error:", error });
       dispatch({ type: DELETE_REVIEW_FAILURE, payload: "" });
+    }
+  };
+};
+
+export const getProfile = (token, userId) => {
+  return async dispatch => {
+    const URL = process.env.REACT_APP_SERVER_URL + "/users/" + userId;
+    const method = {
+      method: "GET",
+      headers: {
+        Authorization: "Bearer " + token,
+      },
+    };
+    try {
+      dispatch({ type: IS_LOADING_USER, payload: true });
+      dispatch({ type: IS_ERROR_USER, payload: false });
+      const resp = await fetch(URL, method);
+      if (resp.ok) {
+        const user = await resp.json();
+        dispatch({ type: GET_USER, payload: user });
+      }
+    } catch (error) {
+      console.error(error);
+      dispatch({ type: IS_ERROR_USER, payload: true });
+    } finally {
+      dispatch({ type: IS_LOADING_USER, payload: false });
     }
   };
 };
