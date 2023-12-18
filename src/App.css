@@ -288,3 +288,10 @@ span.page-link {
 .modal-content {
   background-color: #20334b;
 }
+
+.profile-card {
+  background-color: #414a5446;
+}
+.profile-card-container {
+  background-color: #414a5427;
+}

@@ -34,8 +34,7 @@ const MyNavbar = () => {
     } else {
       setShowSuggestions(false);
     }
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [query]);
+  }, [dispatch, query, token]);
 
   const handleSearchBarClick = e => {
     e.stopPropagation();

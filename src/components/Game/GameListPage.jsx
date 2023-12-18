@@ -116,17 +116,19 @@ const GameListPage = () => {
       {games && (
         <Row className="mt-5 d-flex flex-column">
           <Col xs={12} className="mb-4">
-            <div className="d-flex">
-              <Button
-                className="my-buttons me-2"
-                onClick={() => {
-                  setPaginationType("all");
-                  handleAllItems();
-                }}
-              >
-                ALL ITEMS
-              </Button>
-              <Dropdown className="me-2">
+            <div className="d-flex flex-column flex-sm-row">
+              <div className="mb-2">
+                <Button
+                  className="my-buttons me-2"
+                  onClick={() => {
+                    setPaginationType("all");
+                    handleAllItems();
+                  }}
+                >
+                  ALL ITEMS
+                </Button>
+              </div>
+              <Dropdown className="me-2 mb-2">
                 <Dropdown.Toggle className="my-buttons rounded-0 border-0" id="dropdown-basic">
                   {selectedGenre ? `GENRE: ${selectedGenre}` : "FILTER BY GENRE"}
                 </Dropdown.Toggle>

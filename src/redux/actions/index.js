@@ -5,6 +5,9 @@ export const IS_ERROR_MY_PROFILE = "IS_ERROR_MY_PROFILE";
 export const GET_USER = "GET_USER";
 export const IS_LOADING_USER = "IS_LOADING_USER";
 export const IS_ERROR_USER = "IS_ERROR_USER";
+export const GET_USER_FRIENDS = "GET_USER_FRIENDS";
+export const IS_LOADING_USER_FRIENDS = "IS_LOADING_USER_FRIENDS";
+export const IS_ERROR_USER_FRIENDS = "IS_ERROR_USER_FRIENDS";
 
 // SUGGESTIONS
 export const GET_SUGGESTIONS = "GET_SUGGESTIONS";
@@ -621,6 +624,33 @@ export const getProfile = (token, userId) => {
       dispatch({ type: IS_ERROR_USER, payload: true });
     } finally {
       dispatch({ type: IS_LOADING_USER, payload: false });
+    }
+  };
+};
+
+export const getUserFriends = (userId, size = 5, token) => {
+  return async dispatch => {
+    const URL = process.env.REACT_APP_SERVER_URL + "/users/" + userId + "/friends?size=" + size;
+    const method = {
+      method: "GET",
+      headers: {
+        Authorization: "Bearer " + token,
+      },
+    };
+
+    try {
+      dispatch({ type: IS_LOADING_USER_FRIENDS, payload: true });
+      dispatch({ type: IS_ERROR_USER_FRIENDS, payload: false });
+      const resp = await fetch(URL, method);
+      if (resp.ok) {
+        const userFriends = await resp.json();
+        dispatch({ type: GET_USER_FRIENDS, payload: userFriends });
+      }
+    } catch (error) {
+      console.error(error);
+      dispatch({ type: IS_ERROR_USER_FRIENDS, payload: true });
+    } finally {
+      dispatch({ type: IS_LOADING_USER_FRIENDS, payload: false });
     }
   };
 };
