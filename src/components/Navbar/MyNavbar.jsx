@@ -5,7 +5,7 @@ import { Link, useLocation, useNavigate } from "react-router-dom";
 
 import { Search, Star, StarFill, StarHalf } from "react-bootstrap-icons";
 import Bottombar from "./Bottombar";
-import { SAVE_TOKEN, getCurrentUserAction, getSuggestions } from "../../redux/actions";
+import { SAVE_TOKEN, getCurrentUserAction, getSuggestions, getUserFriends } from "../../redux/actions";
 
 const MyNavbar = () => {
   const [query, setQuery] = useState("");
@@ -76,8 +76,9 @@ const MyNavbar = () => {
   useEffect(() => {
     if (token) {
       dispatch(getCurrentUserAction(token));
+      dispatch(getUserFriends(user?.id, 6, token));
     }
-  }, [dispatch, token]);
+  }, [dispatch, token, user?.id]);
 
   const renderRatingStars = averageRating => {
     const roundedRating = Math.round(averageRating * 2) / 2;

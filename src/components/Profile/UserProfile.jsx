@@ -13,7 +13,7 @@ const UserProfile = () => {
   const games = useSelector(state => state.userSavedGames.content.content);
   const reviews = useSelector(state => state.userReviews.content.content);
   const gamesCount = useSelector(state => state.userSavedGames.content.totalElements);
-  const friends = useSelector(state => state.userFriends.content.content);
+  const friends = useSelector(state => state.userFriends?.content.content);
   const token = useSelector(state => state.auth.token);
   const navigate = useNavigate();
 
