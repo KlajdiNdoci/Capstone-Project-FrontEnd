@@ -4,22 +4,25 @@ import { Row, Col, Button } from "react-bootstrap";
 import { HandThumbsUpFill } from "react-bootstrap-icons";
 import { useDispatch, useSelector } from "react-redux";
 import { useNavigate, useParams } from "react-router-dom";
-import { getNewsDetails } from "../../redux/actions";
+import { getNewsDetails, likeComment } from "../../redux/actions";
 
 const NewsComments = ({ token, comments }) => {
   const navigate = useNavigate();
   const dispatch = useDispatch();
-  const newsId = useParams();
+  const { newsId } = useParams();
   const currentUser = useSelector(state => state.currentUser.content);
+
   const convertCreatedAt = createdAt => {
     const dateObject = new Date(createdAt);
     const formattedDate = dateObject.toLocaleDateString();
     return `${formattedDate}`;
   };
+
   const handleLike = async commentId => {
-    // await dispatch(likeReview(reviewId, token));
+    await dispatch(likeComment(commentId, token));
     await dispatch(getNewsDetails(token, newsId));
   };
+
   return (
     <Row>
       <Col>
