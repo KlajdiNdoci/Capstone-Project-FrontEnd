@@ -1,13 +1,15 @@
 import React, { useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { Button, Form } from "react-bootstrap";
-import { addReview } from "../../redux/actions";
+import { addReview, getNewsDetails } from "../../redux/actions";
+import { useParams } from "react-router-dom";
 
 const CommentForm = ({ gameId }) => {
   const dispatch = useDispatch();
   const token = useSelector(state => state.auth.token);
   const [content, setContent] = useState("");
   const [validated, setValidated] = useState(false);
+  const { newsId } = useParams();
 
   const handleSubmit = async e => {
     e.preventDefault();
@@ -18,6 +20,7 @@ const CommentForm = ({ gameId }) => {
     } else {
       if (content.length >= 3) {
         await dispatch(addReview(token, gameId, content));
+        await dispatch(getNewsDetails(token, newsId));
       }
     }
     setValidated(true);

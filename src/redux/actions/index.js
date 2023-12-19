@@ -63,6 +63,12 @@ export const LOGIN_FAILURE = "LOGIN_FAILURE";
 export const GET_USER_COMMENTS = "GET_USER_COMMENTS";
 export const IS_LOADING_USER_COMMENTS = "IS_LOADING_USER_COMMENTS";
 export const IS_ERROR_USER_COMMENTS = "IS_ERROR_USER_COMMENTS";
+export const ADD_COMMENT_SUCCESS = "ADD_COMMENT_SUCCESS";
+export const ADD_COMMENT_FAILURE = "ADD_COMMENT_FAILURE";
+export const UPDATE_COMMENT_SUCCESS = "UPDATE_COMMENT_SUCCESS";
+export const UPDATE_COMMENT_FAILURE = "UPDATE_COMMENT_FAILURE";
+export const DELETE_COMMENT_SUCCESS = "DELETE_COMMENT_SUCCESS";
+export const DELETE_COMMENT_FAILURE = "DELETE_COMMENT_FAILURE";
 
 export const getCurrentUserAction = token => {
   return async dispatch => {
@@ -753,6 +759,101 @@ export const likeComment = (commentId, token) => {
       }
     } catch (error) {
       console.error(error);
+    }
+  };
+};
+
+export const addComment = (token, newsId, title, content, rating) => {
+  return async dispatch => {
+    const URL = process.env.REACT_APP_SERVER_URL + "/news/comments/" + newsId;
+    const method = {
+      method: "POST",
+      body: JSON.stringify({
+        title,
+        content,
+        rating,
+      }),
+      headers: {
+        Authorization: "Bearer " + token,
+        "content-type": "application/json",
+      },
+    };
+    try {
+      const resp = await fetch(URL, method);
+      if (resp.ok) {
+        dispatch({ type: ADD_COMMENT_SUCCESS, payload: "Comment added successfully!" });
+      } else {
+        const data = await resp.json();
+        dispatch({
+          type: ADD_COMMENT_FAILURE,
+          payload: data.message === "No message available" ? `${data.status} ${data.error}` : data.message,
+        });
+        dispatch({ type: ADD_COMMENT_FAILURE, payload: "" });
+      }
+    } catch (error) {
+      dispatch({ type: ADD_COMMENT_FAILURE, payload: "Generic error:", error });
+      dispatch({ type: ADD_COMMENT_FAILURE, payload: "" });
+    }
+  };
+};
+
+export const updateComment = (token, commentId, title, content, rating) => {
+  return async dispatch => {
+    const URL = process.env.REACT_APP_SERVER_URL + "/reviews/" + commentId;
+    const method = {
+      method: "PUT",
+      body: JSON.stringify({
+        title,
+        content,
+        rating,
+      }),
+      headers: {
+        Authorization: "Bearer " + token,
+        "content-type": "application/json",
+      },
+    };
+    try {
+      const resp = await fetch(URL, method);
+      if (resp.ok) {
+        dispatch({ type: UPDATE_COMMENT_SUCCESS, payload: "Comment updated successfully!" });
+      } else {
+        const data = await resp.json();
+        dispatch({
+          type: UPDATE_COMMENT_FAILURE,
+          payload: data.message === "No message available" ? `${data.status} ${data.error}` : data.message,
+        });
+        dispatch({ type: UPDATE_COMMENT_FAILURE, payload: "" });
+      }
+    } catch (error) {
+      dispatch({ type: UPDATE_COMMENT_FAILURE, payload: "Generic error:", error });
+    }
+  };
+};
+
+export const deleteComment = (token, commentId) => {
+  return async dispatch => {
+    const URL = process.env.REACT_APP_SERVER_URL + "/reviews/" + commentId;
+    const method = {
+      method: "DELETE",
+      headers: {
+        Authorization: "Bearer " + token,
+      },
+    };
+    try {
+      const resp = await fetch(URL, method);
+      if (resp.ok) {
+        dispatch({ type: DELETE_COMMENT_SUCCESS, payload: "Comment deleted successfully!" });
+      } else {
+        const data = await resp.json();
+        dispatch({
+          type: DELETE_COMMENT_FAILURE,
+          payload: data.message === "No message available" ? `${data.status} ${data.error}` : data.message,
+        });
+        dispatch({ type: DELETE_COMMENT_FAILURE, payload: "" });
+      }
+    } catch (error) {
+      dispatch({ type: DELETE_COMMENT_FAILURE, payload: "Generic error:", error });
+      dispatch({ type: DELETE_COMMENT_FAILURE, payload: "" });
     }
   };
 };
