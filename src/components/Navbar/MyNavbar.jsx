@@ -314,8 +314,9 @@ const MyNavbar = () => {
                     drop={"start"}
                     style={{ backgroundColor: "#3D4450", fontSize: 15 }}
                   >
-                    <Dropdown.Item className="py-2 dropdown-item">View my profile</Dropdown.Item>
-                    <Dropdown.Item className="py-2 dropdown-item">Language</Dropdown.Item>
+                    <Dropdown.Item className="py-2 dropdown-item" onClick={() => navigate("/profile/" + user.id)}>
+                      View my profile
+                    </Dropdown.Item>
                     <Dropdown.Item className="py-2 dropdown-item" onClick={handleLogout}>
                       Sign out of account
                     </Dropdown.Item>
