@@ -36,11 +36,11 @@ const UserProfile = () => {
           <div className="text-white p-4 rounded-3 h-100 d-flex flex-column" style={{ backgroundColor: "#171D25" }}>
             <div>
               <Row>
-                <Col xs={6} md={3} lg={2} className="d-flex mb-3">
+                <Col xs={6} md={"auto"} className="d-flex mb-3">
                   <img src={user.avatar} width={120} height={120} className="object-fit-cover" alt="avatar" />
                 </Col>
                 {currentUser.id === user.id ? (
-                  <Col xs={6} md={2} className="d-flex justify-content-end order-md-3">
+                  <Col xs={6} md={"auto"} className="d-flex justify-content-end order-md-3">
                     <div>
                       <Button variant="success" className="d-flex p-2">
                         <Pencil />
@@ -48,7 +48,7 @@ const UserProfile = () => {
                     </div>
                   </Col>
                 ) : (
-                  <Col xs={6} md={2} className="d-flex justify-content-end order-md-3">
+                  <Col xs={6} md={"auto"} className="d-flex justify-content-end order-md-3">
                     <div>
                       <Button
                         variant={`${isFriend ? "danger" : "success"}`}
@@ -126,7 +126,7 @@ const UserProfile = () => {
                             alt="avatar"
                           />
 
-                          <div className="d-flex flex-column justify-content-between">
+                          <div className="d-flex flex-column justify-content-center">
                             <div className="fs-7">{friend.username}</div>
                           </div>
                         </div>
