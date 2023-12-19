@@ -31,6 +31,9 @@ export const IS_ERROR_USER_SAVED_GAMES = "IS_ERROR_USER_SAVED_GAMES";
 export const GET_NEWS = "GET_NEWS";
 export const IS_LOADING_NEWS = "IS_LOADING_NEWS";
 export const IS_ERROR_NEWS = "IS_ERROR_NEWS";
+export const GET_NEWS_DETAILS = "GET_NEWS_DETAILS";
+export const IS_LOADING_NEWS_DETAILS = "IS_LOADING_NEWS_DETAILS";
+export const IS_ERROR_NEWS_DETAILS = "IS_ERROR_NEWS_DETAILS";
 
 //GAME REVIEWS
 export const GET_GAME_REVIEWS = "GET_GAME_REVIEWS";
@@ -146,10 +149,10 @@ export const getGames = (size = 5, token, page = 0) => {
     };
 
     try {
+      dispatch({ type: IS_LOADING_GAMES, payload: true });
+      dispatch({ type: IS_ERROR_GAMES, payload: false });
       const resp = await fetch(URL, method);
       if (resp.ok) {
-        dispatch({ type: IS_LOADING_GAMES, payload: true });
-        dispatch({ type: IS_ERROR_GAMES, payload: false });
         const games = await resp.json();
         dispatch({ type: GET_GAMES, payload: games });
       }
@@ -173,10 +176,10 @@ export const getNews = (size = 5, token) => {
     };
 
     try {
+      dispatch({ type: IS_LOADING_NEWS, payload: true });
+      dispatch({ type: IS_ERROR_NEWS, payload: false });
       const resp = await fetch(URL, method);
       if (resp.ok) {
-        dispatch({ type: IS_LOADING_NEWS, payload: true });
-        dispatch({ type: IS_ERROR_NEWS, payload: false });
         const news = await resp.json();
         dispatch({ type: GET_NEWS, payload: news });
       }
@@ -185,6 +188,33 @@ export const getNews = (size = 5, token) => {
       dispatch({ type: IS_ERROR_NEWS, payload: true });
     } finally {
       dispatch({ type: IS_LOADING_NEWS, payload: false });
+    }
+  };
+};
+
+export const getNewsDetails = (token, newsId) => {
+  return async dispatch => {
+    const URL = process.env.REACT_APP_SERVER_URL + "/news/" + newsId;
+    const method = {
+      method: "GET",
+      headers: {
+        Authorization: "Bearer " + token,
+      },
+    };
+
+    try {
+      dispatch({ type: IS_LOADING_NEWS_DETAILS, payload: true });
+      dispatch({ type: IS_ERROR_NEWS_DETAILS, payload: false });
+      const resp = await fetch(URL, method);
+      if (resp.ok) {
+        const news = await resp.json();
+        dispatch({ type: GET_NEWS_DETAILS, payload: news });
+      }
+    } catch (error) {
+      console.error(error);
+      dispatch({ type: IS_ERROR_NEWS_DETAILS, payload: true });
+    } finally {
+      dispatch({ type: IS_LOADING_NEWS_DETAILS, payload: false });
     }
   };
 };
@@ -377,11 +407,11 @@ export const filterByGenre = (size = 5, token, genre, order, direction, page = 0
     };
 
     try {
+      dispatch({ type: IS_LOADING_GAMES, payload: true });
+      dispatch({ type: IS_ERROR_GAMES, payload: false });
       const resp = await fetch(URL, method);
       if (resp.ok) {
         dispatch({ type: GET_GAMES, payload: [] });
-        dispatch({ type: IS_LOADING_GAMES, payload: true });
-        dispatch({ type: IS_ERROR_GAMES, payload: false });
         const games = await resp.json();
         dispatch({ type: GET_GAMES, payload: games });
       }

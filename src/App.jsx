@@ -9,6 +9,7 @@ import LoginPage from "./components/Auth/LoginPage";
 import { useSelector } from "react-redux";
 import GameListPage from "./components/Game/GameListPage";
 import UserProfile from "./components/Profile/UserProfile";
+import NewsDetail from "./components/News/NewsDetail";
 
 const App = () => {
   const token = useSelector(state => state.auth.token);
@@ -23,6 +24,7 @@ const App = () => {
         <Route path="/register" element={<RegistrationPage />} />
         <Route path="/login" element={<LoginPage />} />
         <Route path="/profile/:userId" element={<UserProfile />} />
+        <Route path="/news/:newsId" element={<NewsDetail />} />
       </Routes>
       <Footer />
     </BrowserRouter>
