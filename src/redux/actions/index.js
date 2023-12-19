@@ -176,9 +176,9 @@ export const getGames = (size = 5, token, page = 0) => {
   };
 };
 
-export const getNews = (size = 5, token) => {
+export const getNews = (size = 5, token, page = 0) => {
   return async dispatch => {
-    const URL = process.env.REACT_APP_SERVER_URL + "/news?size=" + size;
+    const URL = process.env.REACT_APP_SERVER_URL + "/news?size=" + size + "&page=" + page;
     const method = {
       method: "GET",
       headers: {

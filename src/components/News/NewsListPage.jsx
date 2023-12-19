@@ -1,14 +1,21 @@
 import React, { useEffect } from "react";
+import { Container, Row, Col, Card } from "react-bootstrap";
 import { useDispatch, useSelector } from "react-redux";
 import { getNews } from "../../redux/actions";
-import { Card, Row, Col } from "react-bootstrap";
-import { useNavigate } from "react-router-dom";
 
-const HomeNews = () => {
-  const news = useSelector(state => state.news.content.content);
+import { useNavigate } from "react-router-dom";
+import MyPagination from "../Game/MyPagination";
+
+const NewsListPage = () => {
   const dispatch = useDispatch();
-  const navigate = useNavigate();
+  const news = useSelector(state => state.news.content.content);
+  const newsData = useSelector(state => state.news.content);
   const token = useSelector(state => state.auth.token);
+  const navigate = useNavigate();
+
+  useEffect(() => {
+    dispatch(getNews(12, token));
+  }, [dispatch, token]);
 
   function formatDate(dateString) {
     const options = { day: "2-digit", month: "2-digit", year: "numeric" };
@@ -16,39 +23,28 @@ const HomeNews = () => {
     return formattedDate;
   }
 
-  useEffect(() => {
-    dispatch(getNews(6, token));
-  }, [dispatch, token]);
-
   return (
-    <div className="pt-5">
-      <div className="d-flex text-white justify-content-between">
-        <h3 className="mb-3" style={{ fontSize: "1.1rem" }}>
-          LATEST NEWS
-        </h3>
-        <div onClick={() => navigate("/news/")} className="text-secondary cursor-pointer">
-          See all news
-        </div>
-      </div>
+    <Container className="d-flex flex-column flex-grow-1" fluid="lg" style={{ paddingTop: "80px" }}>
       {news && (
-        <Row className="mb-5">
-          {news.map((article, index) => (
-            <Col key={article.id} md={6} lg={4} xl={4} className={`mb-4 ${index >= 3 ? "d-none d-md-block" : ""}`}>
+        <Row className="mt-5 d-flex flex-row">
+          <h5 className="mb-3 text-white">ALL NEWS</h5>
+          {news.map(news => (
+            <Col key={news.id} md={6} xl={4} className={`mb-4`}>
               <Card
                 className="text-white cursor-pointer p-0 border-0 "
                 onClick={() => {
-                  navigate("/news/" + article.id);
+                  navigate("/news/" + news.id);
                 }}
               >
-                <Card.Img src={article.game.gameCover} alt="Card image" className="rounded-0  my-box-shadow" />
+                <Card.Img src={news.game.gameCover} alt="Card image" className="rounded-0  my-box-shadow" />
                 <Card.ImgOverlay className="overlay rounded-0 d-flex flex-column justify-content-between">
-                  <Card.Title className="text-truncate pb-2 mb-0">{article.title}</Card.Title>
+                  <Card.Title className="text-truncate pb-2 mb-0">{news.title}</Card.Title>
                   <div>
                     <Card.Text className="line-clamp mb-1" style={{ fontSize: "0.9rem" }}>
-                      {article.content}
+                      {news.content}
                     </Card.Text>
                     <Card.Text className="text-end" style={{ fontSize: "0.9rem" }}>
-                      {formatDate(article.createdAt)}
+                      {formatDate(news.createdAt)}
                     </Card.Text>
                   </div>
                 </Card.ImgOverlay>
@@ -57,8 +53,11 @@ const HomeNews = () => {
           ))}
         </Row>
       )}
-    </div>
+      <>
+        <MyPagination dispatch={pageNumber => dispatch(getNews(12, token, pageNumber))} data={newsData} />
+      </>
+    </Container>
   );
 };
 
-export default HomeNews;
+export default NewsListPage;

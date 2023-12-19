@@ -1,8 +1,8 @@
 import React, { useEffect, useState } from "react";
 import Pagination from "react-bootstrap/Pagination";
 
-const MyPagination = ({ dispatch, gamesData, pageNumber, selectedGenre }) => {
-  const [currentPage, setCurrentPage] = useState(gamesData.number - 1);
+const MyPagination = ({ dispatch, data, pageNumber, selectedGenre }) => {
+  const [currentPage, setCurrentPage] = useState(data.number - 1);
 
   const handlePageChange = pageNumber => {
     if (pageNumber !== currentPage) {
@@ -17,8 +17,8 @@ const MyPagination = ({ dispatch, gamesData, pageNumber, selectedGenre }) => {
 
   let items = [];
 
-  if (gamesData.totalPages <= 10) {
-    for (let number = 0; number < gamesData.totalPages; number++) {
+  if (data.totalPages <= 10) {
+    for (let number = 0; number < data.totalPages; number++) {
       items.push(
         <Pagination.Item key={number} active={number === currentPage} onClick={() => handlePageChange(number)}>
           {number + 1}
@@ -27,7 +27,7 @@ const MyPagination = ({ dispatch, gamesData, pageNumber, selectedGenre }) => {
     }
   } else {
     const startPage = Math.max(currentPage - 2, 0);
-    const endPage = Math.min(startPage + 5, gamesData.totalPages - 1);
+    const endPage = Math.min(startPage + 5, data.totalPages - 1);
 
     if (startPage > 0) {
       items.push(
@@ -46,11 +46,11 @@ const MyPagination = ({ dispatch, gamesData, pageNumber, selectedGenre }) => {
       );
     }
 
-    if (endPage < gamesData.totalPages - 1) {
+    if (endPage < data.totalPages - 1) {
       items.push(<Pagination.Ellipsis key="endEllipsis" />);
       items.push(
-        <Pagination.Item key={gamesData.totalPages - 1} onClick={() => handlePageChange(gamesData.totalPages - 1)}>
-          {gamesData.totalPages}
+        <Pagination.Item key={data.totalPages - 1} onClick={() => handlePageChange(data.totalPages - 1)}>
+          {data.totalPages}
         </Pagination.Item>
       );
     }
@@ -58,7 +58,7 @@ const MyPagination = ({ dispatch, gamesData, pageNumber, selectedGenre }) => {
 
   return (
     <>
-      {gamesData && (
+      {data && (
         <div className="d-flex justify-content-center mt-auto">
           <Pagination>{items}</Pagination>
         </div>

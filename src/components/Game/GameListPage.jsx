@@ -1,5 +1,3 @@
-// GameListPage.jsx
-
 import React, { useEffect, useState } from "react";
 import { Container, Row, Col, Card, Badge, Dropdown, Button } from "react-bootstrap";
 import { useDispatch, useSelector } from "react-redux";
@@ -215,7 +213,7 @@ const GameListPage = () => {
             dispatch={pageNumber =>
               dispatch(filterByGenre(5, token, selectedGenre, "averageRating", "desc", pageNumber))
             }
-            gamesData={gamesData}
+            data={gamesData}
             selectedGenre={selectedGenre}
           />
         ) : selectedPlatform && paginationType === "platform" ? (
@@ -224,14 +222,14 @@ const GameListPage = () => {
             dispatch={pageNumber =>
               dispatch(filterByPlatform(5, token, selectedPlatform, "averageRating", "desc", pageNumber))
             }
-            gamesData={gamesData}
+            data={gamesData}
             selectedPlatform={selectedPlatform}
           />
         ) : (
           <MyPagination
             key={forceRender}
             dispatch={pageNumber => dispatch(getGames(5, token, pageNumber))}
-            gamesData={gamesData}
+            data={gamesData}
           />
         )}
       </>

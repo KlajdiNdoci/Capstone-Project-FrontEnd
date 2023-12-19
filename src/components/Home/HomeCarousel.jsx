@@ -48,9 +48,14 @@ const HomeCarousel = () => {
 
   return (
     <>
-      <h3 className="mt-5 text-white mb-3" style={{ fontSize: "1.1rem" }}>
-        FEATURED & RECOMMENDED
-      </h3>
+      <div className="mt-5 d-flex text-white justify-content-between">
+        <h3 className=" mb-3" style={{ fontSize: "1.1rem" }}>
+          FEATURED & RECOMMENDED
+        </h3>
+        <div onClick={() => navigate("/games/")} className="text-secondary cursor-pointer">
+          See all games
+        </div>
+      </div>
       {games && (
         <Carousel className="my-box-shadow mb-5" style={{ backgroundColor: "#0E1821", cursor: "pointer" }}>
           {games.map(game => (
