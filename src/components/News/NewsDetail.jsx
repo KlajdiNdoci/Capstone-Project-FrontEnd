@@ -27,15 +27,20 @@ const NewsDetail = () => {
 
   return (
     <Container fluid="lg" style={{ paddingTop: "80px" }} className="my-5 text-white">
+      <Row className="mb-3 align-items-center">
+        <Col xs={12} lg={8}>
+          <h2>{news.title}</h2>
+        </Col>
+        <Col className="d-none d-lg-block">
+          <h5>Recent news</h5>
+        </Col>
+      </Row>
       <Row>
         <Col xs={12} lg={8}>
           {news && (
             <div>
-              <div className="d-flex">
-                <h2 className="mb-3">{news.title}</h2>
-              </div>
               <img src={news.game.gameCover} className="object-fit-cover w-100 mb-3" alt="cover" />
-              <p>
+              <p className="fs-7">
                 News created by :
                 <span className="cursor-pointer text-danger" onClick={() => navigate("/profile/" + news.creator.id)}>
                   {" "}
@@ -43,17 +48,16 @@ const NewsDetail = () => {
                 </span>{" "}
                 - {convertDate(news.createdAt)}
               </p>
-              <p>{news.content}</p>
+              <p className="fs-5">{news.content}</p>
               <NewsComments token={token} comments={news.comments} />
             </div>
           )}
         </Col>
         <Col className="d-none d-lg-block">
-          <h5 className="mb-4 pb-1">Recent news</h5>
           {suggestedNews.map(article => (
             <Card
               key={article.id}
-              className="text-white cursor-pointer p-0 border-0 my-3"
+              className="text-white cursor-pointer p-0 border-0 mb-3"
               onClick={() => {
                 navigate("/news/" + article.id);
               }}

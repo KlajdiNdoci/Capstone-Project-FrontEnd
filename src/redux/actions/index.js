@@ -763,15 +763,13 @@ export const likeComment = (commentId, token) => {
   };
 };
 
-export const addComment = (token, newsId, title, content, rating) => {
+export const addComment = (token, newsId, content) => {
   return async dispatch => {
     const URL = process.env.REACT_APP_SERVER_URL + "/news/comments/" + newsId;
     const method = {
       method: "POST",
       body: JSON.stringify({
-        title,
         content,
-        rating,
       }),
       headers: {
         Authorization: "Bearer " + token,
@@ -797,15 +795,13 @@ export const addComment = (token, newsId, title, content, rating) => {
   };
 };
 
-export const updateComment = (token, commentId, title, content, rating) => {
+export const updateComment = (token, commentId, content) => {
   return async dispatch => {
-    const URL = process.env.REACT_APP_SERVER_URL + "/reviews/" + commentId;
+    const URL = process.env.REACT_APP_SERVER_URL + "/news/comments/" + commentId;
     const method = {
       method: "PUT",
       body: JSON.stringify({
-        title,
         content,
-        rating,
       }),
       headers: {
         Authorization: "Bearer " + token,
@@ -832,7 +828,7 @@ export const updateComment = (token, commentId, title, content, rating) => {
 
 export const deleteComment = (token, commentId) => {
   return async dispatch => {
-    const URL = process.env.REACT_APP_SERVER_URL + "/reviews/" + commentId;
+    const URL = process.env.REACT_APP_SERVER_URL + "/news/comments/" + commentId;
     const method = {
       method: "DELETE",
       headers: {

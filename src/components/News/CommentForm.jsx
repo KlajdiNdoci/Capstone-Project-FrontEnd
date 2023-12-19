@@ -1,10 +1,10 @@
 import React, { useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { Button, Form } from "react-bootstrap";
-import { addReview, getNewsDetails } from "../../redux/actions";
+import { addComment, getNewsDetails } from "../../redux/actions";
 import { useParams } from "react-router-dom";
 
-const CommentForm = ({ gameId }) => {
+const CommentForm = () => {
   const dispatch = useDispatch();
   const token = useSelector(state => state.auth.token);
   const [content, setContent] = useState("");
@@ -19,7 +19,7 @@ const CommentForm = ({ gameId }) => {
       e.stopPropagation();
     } else {
       if (content.length >= 3) {
-        await dispatch(addReview(token, gameId, content));
+        await dispatch(addComment(token, newsId, content));
         await dispatch(getNewsDetails(token, newsId));
       }
     }
@@ -34,7 +34,7 @@ const CommentForm = ({ gameId }) => {
       noValidate
       validated={validated}
     >
-      <h5 className="mb-3">ADD COMMENT</h5>
+      <h5 className="mb-3 fs-6">ADD COMMENT</h5>
       <Form.Group className="mb-5">
         <Form.Control
           required
