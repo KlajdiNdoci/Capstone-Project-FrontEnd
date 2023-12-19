@@ -121,7 +121,7 @@ const GameCarousel = ({ images, game }) => {
 
         <div className="p-0 my-box-shadow" style={{ backgroundColor: "#0E1821", border: "1px solid #1E2831" }}>
           <Row className="mb-2">
-            <Col lg={8} className="mb-4 mb-lg-0">
+            <Col lg={7} xl={8} className="mb-4 mb-lg-0">
               <Carousel
                 activeIndex={activeIndex}
                 onSelect={handleSelect}
@@ -172,71 +172,73 @@ const GameCarousel = ({ images, game }) => {
                 ))}
               </div>
             </Col>
-            <Col lg={4} className="d-flex" style={{ fontSize: "0.8rem" }}>
-              <Row className="flex-column">
-                <Col xs={12} className="mb-3">
+            <Col lg={5} xl={4} className="d-flex" style={{ fontSize: "0.8rem" }}>
+              <Row className="flex-column flex-md-row flex-lg-column">
+                <Col xs={12} md={6} lg={12} className="mb-3">
                   <img src={game.gameCover} alt="game-cover" width={"100%"} />
                 </Col>
-                <Col className="mb-2 ">
-                  <div className="line-clamp mx-3 mx-lg-0 fs-7">{game.description}</div>
-                </Col>
-                <Col className="mb-2">
-                  <Row>
-                    <Col>
-                      <div className="text-secondary mx-3 mx-lg-0">RATING:</div>
-                    </Col>
-                    <Col>
-                      {" "}
-                      <div className="mx-3 mx-lg-0 me-lg-2">{renderRatingStars(game.averageRating)}</div>
-                    </Col>
-                  </Row>
-                </Col>
-                <Col className="mb-2">
-                  <Row>
-                    <Col>
-                      <div className="text-secondary mx-3 mx-lg-0">RELEASE DATE:</div>
-                    </Col>
-                    <Col>
-                      <div className="mx-3 mx-lg-0 me-lg-2">{convertDate(game.releaseDate)}</div>
-                    </Col>
-                  </Row>
-                </Col>
-                <Col className="mb-2">
-                  <Row>
-                    <Col>
-                      <div className="text-secondary mx-3 mx-lg-0">DEVELOPER:</div>
-                    </Col>
-                    <Col>
-                      <div className="mx-3 mx-lg-0 me-lg-2">{game.developer}</div>
-                    </Col>
-                  </Row>
-                </Col>
-                <Col className="mb-2">
-                  <Row>
-                    <Col>
-                      <div className="text-secondary mx-3 mx-lg-0">PUBLISHER:</div>
-                    </Col>
-                    <Col>
-                      <div className="mx-3 mx-lg-0 me-lg-2">{game.publisher}</div>
-                    </Col>
-                  </Row>
-                </Col>
-                <div className="mx-3 mx-lg-0 mb-2 mb-lg-0">
-                  <div className="text-secondary ">Game genres:</div>
-                  {game.genres.map((genre, index) => (
-                    <Badge key={index} bg="secondary" className="rounded-0 p-1 me-1 mb-1 ">
-                      {genre}
-                    </Badge>
-                  ))}
-                </div>
-                <Col className="d-flex justify-content-end">
-                  <div className="d-flex mx-3 mx-lg-0 me-lg-2">
-                    {game.platforms.map((platform, index) => (
-                      <div key={index} className="d-flex my-auto ms-2 fs-5">
-                        {getPlatformIcon(platform)}
-                      </div>
+                <Col className="d-flex flex-column">
+                  <Col className="mb-2">
+                    <div className="line-clamp mx-3 mx-lg-0 fs-7 me-lg-2">{game.description}</div>
+                  </Col>
+                  <Col className="mb-2">
+                    <Row>
+                      <Col>
+                        <div className="text-secondary mx-3 mx-lg-0">RATING:</div>
+                      </Col>
+                      <Col>
+                        {" "}
+                        <div className="mx-3 mx-lg-0 me-lg-2">{renderRatingStars(game.averageRating)}</div>
+                      </Col>
+                    </Row>
+                  </Col>
+                  <Col className="mb-2">
+                    <Row>
+                      <Col>
+                        <div className="text-secondary mx-3 mx-lg-0">RELEASE DATE:</div>
+                      </Col>
+                      <Col>
+                        <div className="mx-3 mx-lg-0 me-lg-2">{convertDate(game.releaseDate)}</div>
+                      </Col>
+                    </Row>
+                  </Col>
+                  <Col className="mb-2">
+                    <Row>
+                      <Col>
+                        <div className="text-secondary mx-3 mx-lg-0">DEVELOPER:</div>
+                      </Col>
+                      <Col>
+                        <div className="mx-3 mx-lg-0 me-lg-2">{game.developer}</div>
+                      </Col>
+                    </Row>
+                  </Col>
+                  <Col className="mb-2">
+                    <Row>
+                      <Col>
+                        <div className="text-secondary mx-3 mx-lg-0">PUBLISHER:</div>
+                      </Col>
+                      <Col>
+                        <div className="mx-3 mx-lg-0 me-lg-2">{game.publisher}</div>
+                      </Col>
+                    </Row>
+                  </Col>
+                  <div className="mx-3 mx-lg-0 mb-2 mb-lg-0">
+                    <div className="text-secondary ">Game genres:</div>
+                    {game.genres.map((genre, index) => (
+                      <Badge key={index} bg="secondary" className="rounded-0 p-1 me-1 mb-1 ">
+                        {genre}
+                      </Badge>
                     ))}
                   </div>
+                  <Col className="d-flex justify-content-end mt-auto">
+                    <div className="d-flex mx-3 mx-lg-0 me-lg-2">
+                      {game.platforms.map((platform, index) => (
+                        <div key={index} className="d-flex my-auto ms-2 fs-5">
+                          {getPlatformIcon(platform)}
+                        </div>
+                      ))}
+                    </div>
+                  </Col>
                 </Col>
               </Row>
             </Col>

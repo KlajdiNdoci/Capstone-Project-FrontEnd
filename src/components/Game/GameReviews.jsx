@@ -77,9 +77,9 @@ const GameReviews = ({ game }) => {
     <>
       {reviews && (
         <Row>
-          <Col xs={12} lg={8}>
+          <Col xs={12} md={6} lg={7} xl={8}>
             <h5 className="text-white">
-              MOST HELPFUL REVIEWS <span style={{ color: "#56707F" }}>IN THE PAST {days} DAYS</span>
+              MOST LIKED <span style={{ color: "#56707F" }}>IN THE PAST {days} DAYS</span>
             </h5>
             {reviews.map(review => (
               <div
@@ -133,7 +133,7 @@ const GameReviews = ({ game }) => {
               </div>
             ))}
           </Col>
-          <Col xs={12} lg={4}>
+          <Col xs={12} md={6} lg={5} xl={4}>
             <h5 className="text-white">RECENTLY POSTED</h5>
             {recentReviews.map(review => (
               <div key={review.id} style={{ backgroundColor: "#203042", borderTop: "1px solid #3A6E8A" }}>
