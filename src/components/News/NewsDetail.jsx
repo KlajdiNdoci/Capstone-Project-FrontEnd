@@ -5,6 +5,7 @@ import { useSelector, useDispatch } from "react-redux";
 import { useNavigate, useParams } from "react-router-dom";
 import { getNewsDetails } from "../../redux/actions";
 import { Container, Row, Col, Card } from "react-bootstrap";
+import NewsComments from "./NewsComments";
 
 const NewsDetail = () => {
   const { newsId } = useParams();
@@ -43,6 +44,7 @@ const NewsDetail = () => {
                 - {convertDate(news.createdAt)}
               </p>
               <p>{news.content}</p>
+              <NewsComments token={token} comments={news.comments} />
             </div>
           )}
         </Col>

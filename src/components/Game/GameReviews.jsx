@@ -87,9 +87,9 @@ const GameReviews = ({ game }) => {
                 className="px-2"
                 style={{ backgroundColor: "#16202D", borderTop: "1px solid #3A6E8A" }}
               >
-                <Row key={review.id} className="mb-3 text-white py-2">
+                <Row className="mb-3 text-white py-2">
                   <Col xs={12} lg={4} className="mb-2">
-                    <div className=" d-flex review-user">
+                    <div className=" d-flex review-user align-items-center">
                       <div
                         onClick={() => {
                           navigate("/profile/" + review.user.id);

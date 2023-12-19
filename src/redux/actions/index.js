@@ -59,6 +59,11 @@ export const REGISTRATION_FAILURE = "REGISTRATION_FAILURE";
 export const SAVE_TOKEN = "SAVE_TOKEN";
 export const LOGIN_FAILURE = "LOGIN_FAILURE";
 
+//COMMENTS
+export const GET_USER_COMMENTS = "GET_USER_COMMENTS";
+export const IS_LOADING_USER_COMMENTS = "IS_LOADING_USER_COMMENTS";
+export const IS_ERROR_USER_COMMENTS = "IS_ERROR_USER_COMMENTS";
+
 export const getCurrentUserAction = token => {
   return async dispatch => {
     const URL = process.env.REACT_APP_SERVER_URL + "/users/me";
@@ -701,6 +706,33 @@ export const addRemoveFriend = (userId, token) => {
       }
     } catch (error) {
       console.error(error);
+    }
+  };
+};
+
+export const getUserComments = (userId, size = 5, token) => {
+  return async dispatch => {
+    const URL = process.env.REACT_APP_SERVER_URL + "/reviews/comments/" + userId + "?size=" + size;
+    const method = {
+      method: "GET",
+      headers: {
+        Authorization: "Bearer " + token,
+      },
+    };
+
+    try {
+      dispatch({ type: IS_LOADING_USER_COMMENTS, payload: true });
+      dispatch({ type: IS_ERROR_USER_COMMENTS, payload: false });
+      const resp = await fetch(URL, method);
+      if (resp.ok) {
+        const recentReviews = await resp.json();
+        dispatch({ type: GET_USER_COMMENTS, payload: recentReviews });
+      }
+    } catch (error) {
+      console.error(error);
+      dispatch({ type: IS_ERROR_USER_COMMENTS, payload: true });
+    } finally {
+      dispatch({ type: IS_LOADING_USER_COMMENTS, payload: false });
     }
   };
 };

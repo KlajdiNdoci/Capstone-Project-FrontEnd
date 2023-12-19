@@ -16,6 +16,7 @@ import reviewActionsReducer from "../reducers/reviewActionsReducer";
 import userReducer from "../reducers/userReducer";
 import userFriendsReducer from "../reducers/userFriendsReducer";
 import newsDetailsReducer from "../reducers/newsDetailsReducer";
+import userCommentsReducer from "../reducers/userCommentsReducer";
 
 const persistConfig = {
   key: "root",
@@ -42,6 +43,7 @@ const totalReducer = combineReducers({
   reviewActions: reviewActionsReducer,
   userFriends: userFriendsReducer,
   newsDetails: newsDetailsReducer,
+  userComments: userCommentsReducer,
 });
 
 const persistedReducer = persistReducer(persistConfig, totalReducer);
