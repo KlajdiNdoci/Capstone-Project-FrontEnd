@@ -64,7 +64,7 @@ const EditProfileModal = ({ show, handleClose, handleSave, user }) => {
             />
             <Form.Control.Feedback className="position-absolute">Looks good!</Form.Control.Feedback>
             <Form.Control.Feedback className="position-absolute" type="invalid">
-              The title must be between 3 and 30 characters!
+              The username must be between 3 and 30 characters!
             </Form.Control.Feedback>
           </Form.Group>
           <Form.Group className="mb-5" controlId="formName">
@@ -81,7 +81,7 @@ const EditProfileModal = ({ show, handleClose, handleSave, user }) => {
             />
             <Form.Control.Feedback className="position-absolute">Looks good!</Form.Control.Feedback>
             <Form.Control.Feedback className="position-absolute" type="invalid">
-              The title must be between 3 and 30 characters!
+              The name must be between 3 and 30 characters!
             </Form.Control.Feedback>
           </Form.Group>
           <Form.Group className="mb-5" controlId="formSurname">
@@ -98,7 +98,7 @@ const EditProfileModal = ({ show, handleClose, handleSave, user }) => {
             />
             <Form.Control.Feedback className="position-absolute">Looks good!</Form.Control.Feedback>
             <Form.Control.Feedback className="position-absolute" type="invalid">
-              The title must be between 3 and 30 characters!
+              The surname must be between 3 and 30 characters!
             </Form.Control.Feedback>
           </Form.Group>
           <Form.Group className="mb-5" controlId="formEmail">
