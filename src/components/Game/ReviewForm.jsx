@@ -117,6 +117,8 @@ const ReviewForm = ({ gameId, shouldDeleteReview }) => {
         <Form.Label>Title</Form.Label>
         <Form.Control
           required
+          minLength="3"
+          maxLength="30"
           style={{ backgroundColor: "#1B2838", boxShadow: "none" }}
           className={`border-secondary text-white ${!isEditMode && currentUserReview ? "opacity-50" : ""}`}
           type="text"
@@ -134,6 +136,8 @@ const ReviewForm = ({ gameId, shouldDeleteReview }) => {
         <Form.Label>Content</Form.Label>
         <Form.Control
           required
+          minLength="3"
+          maxLength="30"
           className={`border-secondary text-white ${!isEditMode && currentUserReview ? "opacity-50" : ""}`}
           style={{ backgroundColor: "#1B2838", boxShadow: "none" }}
           as="textarea"

@@ -71,21 +71,25 @@ const UserProfile = () => {
                       style={{ border: "2px solid rgb(77, 149, 177)" }}
                       alt="avatar"
                     />
-                    <Button
-                      variant="secondary"
-                      className="d-flex p-1 m-1 avatar-btn border-1 border-dark"
-                      onClick={handleShowAvatarModal}
-                    >
-                      <Pencil />
-                    </Button>
+                    {currentUser.id === user.id ? (
+                      <Button
+                        variant="secondary"
+                        className="d-flex p-1 m-1 avatar-btn border-1 border-dark"
+                        onClick={handleShowAvatarModal}
+                      >
+                        <Pencil />
+                      </Button>
+                    ) : (
+                      <></>
+                    )}
                   </div>
                 </Col>
                 {currentUser.id === user.id ? (
                   <>
                     <Col xs={6} md={"auto"} className="d-flex justify-content-end order-md-3">
                       <div>
-                        <Button variant="success" className="d-flex p-2" onClick={handleShowEditModal}>
-                          Modify info
+                        <Button variant="success" className="d-flex p-2 fs-7" onClick={handleShowEditModal}>
+                          MODIFY INFO
                         </Button>
                       </div>
                     </Col>
@@ -163,7 +167,8 @@ const UserProfile = () => {
                       >
                         <div className="text-white d-flex  rounded-0 ">
                           <img
-                            style={{ width: "40px" }}
+                            width="40"
+                            height="40"
                             className="object-fit-cover rounded-0 me-2"
                             src={friend.avatar}
                             alt="avatar"
