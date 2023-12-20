@@ -1,9 +1,10 @@
-import React, { useEffect } from "react";
+import React, { useEffect, useState } from "react";
 import { useSelector, useDispatch } from "react-redux";
 import { useNavigate, useParams } from "react-router-dom";
-import { addRemoveFriend, getProfile, getUserFriends, getUserSavedGames } from "../../redux/actions";
+import { addRemoveFriend, getProfile, getUserFriends, getUserSavedGames, updateProfile } from "../../redux/actions";
 import { Container, Row, Col, Card, Badge, Button } from "react-bootstrap";
 import { Pencil } from "react-bootstrap-icons";
+import EditProfileModal from "./EditProfileModal";
 
 const UserProfile = () => {
   const { userId } = useParams();
@@ -11,12 +12,19 @@ const UserProfile = () => {
   const user = useSelector(state => state.user.content);
   const currentUser = useSelector(state => state.currentUser.content);
   const games = useSelector(state => state.userSavedGames.content.content);
-  const reviews = useSelector(state => state.userReviews.content.content);
-  const gamesCount = useSelector(state => state.userSavedGames.content.totalElements);
   const friends = useSelector(state => state.userFriends?.content.content);
   const token = useSelector(state => state.auth.token);
   const navigate = useNavigate();
   const isFriend = friends && friends.map(friend => friend.id).includes(currentUser.id);
+  const [showEditModal, setShowEditModal] = useState(false);
+
+  const handleShowEditModal = () => setShowEditModal(true);
+  const handleCloseEditModal = () => setShowEditModal(false);
+
+  const handleSaveProfileChanges = async editedUser => {
+    await dispatch(updateProfile(token, editedUser));
+    await dispatch(getProfile(token, userId));
+  };
 
   useEffect(() => {
     dispatch(getProfile(token, userId));
@@ -42,7 +50,7 @@ const UserProfile = () => {
                 {currentUser.id === user.id ? (
                   <Col xs={6} md={"auto"} className="d-flex justify-content-end order-md-3">
                     <div>
-                      <Button variant="success" className="d-flex p-2">
+                      <Button variant="success" className="d-flex p-2" onClick={handleShowEditModal}>
                         <Pencil />
                       </Button>
                     </div>
@@ -137,6 +145,13 @@ const UserProfile = () => {
               </Col>
             </Row>
           </div>
+
+          <EditProfileModal
+            show={showEditModal}
+            handleClose={handleCloseEditModal}
+            handleSave={handleSaveProfileChanges}
+            user={user}
+          />
         </Container>
       )}
     </>

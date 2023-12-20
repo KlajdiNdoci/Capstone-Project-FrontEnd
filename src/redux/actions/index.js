@@ -8,6 +8,10 @@ export const IS_ERROR_USER = "IS_ERROR_USER";
 export const GET_USER_FRIENDS = "GET_USER_FRIENDS";
 export const IS_LOADING_USER_FRIENDS = "IS_LOADING_USER_FRIENDS";
 export const IS_ERROR_USER_FRIENDS = "IS_ERROR_USER_FRIENDS";
+export const UPDATE_PROFILE_SUCCESS = "UPDATE_PROFILE_SUCCESS";
+export const UPDATE_PROFILE_FAILURE = "UPDATE_PROFILE_FAILURE";
+export const DELETE_PROFILE_SUCCESS = "DELETE_PROFILE_SUCCESS";
+export const DELETE_PROFILE_FAILURE = "DELETE_PROFILE_FAILURE";
 
 // SUGGESTIONS
 export const GET_SUGGESTIONS = "GET_SUGGESTIONS";
@@ -550,7 +554,6 @@ export const addReview = (token, gameId, title, content, rating) => {
       }
     } catch (error) {
       dispatch({ type: ADD_REVIEW_FAILURE, payload: "Generic error:", error });
-      dispatch({ type: ADD_REVIEW_FAILURE, payload: "" });
     }
   };
 };
@@ -638,7 +641,6 @@ export const deleteReview = (token, reviewId) => {
       }
     } catch (error) {
       dispatch({ type: DELETE_REVIEW_FAILURE, payload: "Generic error:", error });
-      dispatch({ type: DELETE_REVIEW_FAILURE, payload: "" });
     }
   };
 };
@@ -790,7 +792,6 @@ export const addComment = (token, newsId, content) => {
       }
     } catch (error) {
       dispatch({ type: ADD_COMMENT_FAILURE, payload: "Generic error:", error });
-      dispatch({ type: ADD_COMMENT_FAILURE, payload: "" });
     }
   };
 };
@@ -849,7 +850,62 @@ export const deleteComment = (token, commentId) => {
       }
     } catch (error) {
       dispatch({ type: DELETE_COMMENT_FAILURE, payload: "Generic error:", error });
-      dispatch({ type: DELETE_COMMENT_FAILURE, payload: "" });
+    }
+  };
+};
+
+export const updateProfile = (token, editedUser) => {
+  return async dispatch => {
+    const URL = process.env.REACT_APP_SERVER_URL + "/users/me";
+    const method = {
+      method: "PUT",
+      body: JSON.stringify(editedUser),
+      headers: {
+        Authorization: "Bearer " + token,
+        "content-type": "application/json",
+      },
+    };
+    try {
+      const resp = await fetch(URL, method);
+      if (resp.ok) {
+        dispatch({ type: UPDATE_PROFILE_SUCCESS, payload: "Profile updated successfully!" });
+      } else {
+        const data = await resp.json();
+        dispatch({
+          type: UPDATE_PROFILE_FAILURE,
+          payload: data.message === "No message available" ? `${data.status} ${data.error}` : data.message,
+        });
+        dispatch({ type: UPDATE_PROFILE_FAILURE, payload: "" });
+      }
+    } catch (error) {
+      dispatch({ type: UPDATE_PROFILE_FAILURE, payload: "Generic error:", error });
+    }
+  };
+};
+
+export const deleteProfile = token => {
+  return async dispatch => {
+    const URL = process.env.REACT_APP_SERVER_URL + "/users/me";
+    const method = {
+      method: "DELETE",
+      headers: {
+        Authorization: "Bearer " + token,
+      },
+    };
+    try {
+      const resp = await fetch(URL, method);
+      if (resp.ok) {
+        dispatch({ type: DELETE_PROFILE_SUCCESS, payload: "Profile deleted successfully!" });
+      } else {
+        const data = await resp.json();
+        dispatch({
+          type: DELETE_PROFILE_FAILURE,
+          payload: data.message === "No message available" ? `${data.status} ${data.error}` : data.message,
+        });
+        dispatch({ type: DELETE_PROFILE_FAILURE, payload: "" });
+      }
+    } catch (error) {
+      dispatch({ type: DELETE_PROFILE_FAILURE, payload: "Generic error:", error });
     }
   };
 };
