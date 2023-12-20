@@ -52,7 +52,7 @@ const HomeCarousel = () => {
         <h3 className=" mb-3" style={{ fontSize: "1.1rem" }}>
           FEATURED & RECOMMENDED
         </h3>
-        <div onClick={() => navigate("/games/")} className="text-secondary cursor-pointer">
+        <div onClick={() => navigate("/games/")} className="text-secondary cursor-pointer d-none d-sm-block">
           See all games
         </div>
       </div>

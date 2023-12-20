@@ -26,7 +26,7 @@ const HomeNews = () => {
         <h3 className="mb-3" style={{ fontSize: "1.1rem" }}>
           LATEST NEWS
         </h3>
-        <div onClick={() => navigate("/news/")} className="text-secondary cursor-pointer">
+        <div onClick={() => navigate("/news/")} className="text-secondary cursor-pointer d-none d-sm-block">
           See all news
         </div>
       </div>

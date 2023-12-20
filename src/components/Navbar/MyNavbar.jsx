@@ -350,7 +350,7 @@ const MyNavbar = () => {
                   }`}
                   style={{ height: "100%" }}
                 >
-                  <span className="d-none d-md-block fs-5 fw-medium">LOGIN</span>
+                  <span className="fs-5 fw-medium">LOGIN</span>
                 </Link>
                 <Link
                   to="/register"
@@ -359,7 +359,7 @@ const MyNavbar = () => {
                   }`}
                   style={{ height: "100%" }}
                 >
-                  <span className="d-none d-md-block fs-5 fw-medium">REGISTER</span>
+                  <span className="fs-5 fw-medium">REGISTER</span>
                 </Link>
               </Col>
             </Row>
