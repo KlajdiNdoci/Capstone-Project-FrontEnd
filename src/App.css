@@ -295,3 +295,21 @@ span.page-link {
 .profile-card-container {
   background-color: #414a5427;
 }
+
+.large-modal .modal-dialog {
+  max-width: 900px;
+  min-height: 900px;
+  padding: 3rem;
+}
+
+.custom-preview-image {
+  object-fit: cover;
+  width: 100%;
+  height: 100%;
+}
+
+.avatar-btn {
+  position: absolute;
+  top: 0;
+  right: 0;
+}

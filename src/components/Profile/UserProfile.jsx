@@ -1,10 +1,19 @@
 import React, { useEffect, useState } from "react";
 import { useSelector, useDispatch } from "react-redux";
 import { useNavigate, useParams } from "react-router-dom";
-import { addRemoveFriend, getProfile, getUserFriends, getUserSavedGames, updateProfile } from "../../redux/actions";
+import {
+  addRemoveFriend,
+  getCurrentUserAction,
+  getProfile,
+  getUserFriends,
+  getUserSavedGames,
+  updateAvatar,
+  updateProfile,
+} from "../../redux/actions";
 import { Container, Row, Col, Card, Badge, Button } from "react-bootstrap";
 import { Pencil } from "react-bootstrap-icons";
 import EditProfileModal from "./EditProfileModal";
+import EditAvatarModal from "./EditAvatarModal";
 
 const UserProfile = () => {
   const { userId } = useParams();
@@ -17,12 +26,20 @@ const UserProfile = () => {
   const navigate = useNavigate();
   const isFriend = friends && friends.map(friend => friend.id).includes(currentUser.id);
   const [showEditModal, setShowEditModal] = useState(false);
+  const [showAvatarModal, setShowAvatarModal] = useState(false);
 
   const handleShowEditModal = () => setShowEditModal(true);
   const handleCloseEditModal = () => setShowEditModal(false);
+  const handleShowAvatarModal = () => setShowAvatarModal(true);
+  const handleCloseAvatarModal = () => setShowAvatarModal(false);
 
   const handleSaveProfileChanges = async editedUser => {
     await dispatch(updateProfile(token, editedUser));
+    await dispatch(getProfile(token, userId));
+  };
+  const handleSaveAvatar = async formData => {
+    await dispatch(updateAvatar(token, formData));
+    await dispatch(getCurrentUserAction(token));
     await dispatch(getProfile(token, userId));
   };
 
@@ -39,22 +56,40 @@ const UserProfile = () => {
 
   return (
     <>
-      {user && games && friends && (
+      {user && currentUser && games && friends && (
         <Container fluid="lg" className="text-white my-5 flex-grow-1" style={{ paddingTop: "80px" }}>
           <div className="text-white p-4 rounded-3 h-100 d-flex flex-column" style={{ backgroundColor: "#171D25" }}>
             <div>
               <Row>
                 <Col xs={6} md={"auto"} className="d-flex mb-3">
-                  <img src={user.avatar} width={120} height={120} className="object-fit-cover" alt="avatar" />
+                  <div className="position-relative">
+                    <img
+                      src={user.avatar}
+                      width={120}
+                      height={120}
+                      className="object-fit-cover"
+                      style={{ border: "2px solid rgb(77, 149, 177)" }}
+                      alt="avatar"
+                    />
+                    <Button
+                      variant="secondary"
+                      className="d-flex p-1 m-1 avatar-btn border-1 border-dark"
+                      onClick={handleShowAvatarModal}
+                    >
+                      <Pencil />
+                    </Button>
+                  </div>
                 </Col>
                 {currentUser.id === user.id ? (
-                  <Col xs={6} md={"auto"} className="d-flex justify-content-end order-md-3">
-                    <div>
-                      <Button variant="success" className="d-flex p-2" onClick={handleShowEditModal}>
-                        <Pencil />
-                      </Button>
-                    </div>
-                  </Col>
+                  <>
+                    <Col xs={6} md={"auto"} className="d-flex justify-content-end order-md-3">
+                      <div>
+                        <Button variant="success" className="d-flex p-2" onClick={handleShowEditModal}>
+                          Modify info
+                        </Button>
+                      </div>
+                    </Col>
+                  </>
                 ) : (
                   <Col xs={6} md={"auto"} className="d-flex justify-content-end order-md-3">
                     <div>
@@ -150,6 +185,12 @@ const UserProfile = () => {
             show={showEditModal}
             handleClose={handleCloseEditModal}
             handleSave={handleSaveProfileChanges}
+            user={user}
+          />
+          <EditAvatarModal
+            show={showAvatarModal}
+            handleClose={handleCloseAvatarModal}
+            handleSaveAvatar={handleSaveAvatar}
             user={user}
           />
         </Container>

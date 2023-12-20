@@ -76,9 +76,14 @@ const MyNavbar = () => {
   useEffect(() => {
     if (token) {
       dispatch(getCurrentUserAction(token));
-      dispatch(getUserFriends(user?.id, 6, token));
     }
-  }, [dispatch, token, user?.id]);
+  }, [dispatch, token]);
+
+  useEffect(() => {
+    if (token && user) {
+      dispatch(getUserFriends(user.id, 6, token));
+    }
+  }, [dispatch, token, user]);
 
   const renderRatingStars = averageRating => {
     const roundedRating = Math.round(averageRating * 2) / 2;

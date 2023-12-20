@@ -12,6 +12,8 @@ export const UPDATE_PROFILE_SUCCESS = "UPDATE_PROFILE_SUCCESS";
 export const UPDATE_PROFILE_FAILURE = "UPDATE_PROFILE_FAILURE";
 export const DELETE_PROFILE_SUCCESS = "DELETE_PROFILE_SUCCESS";
 export const DELETE_PROFILE_FAILURE = "DELETE_PROFILE_FAILURE";
+export const UPDATE_PROFILE_AVATAR_SUCCESS = "UPDATE_PROFILE_AVATAR_SUCCESS";
+export const UPDATE_PROFILE_AVATAR_FAILURE = "UPDATE_PROFILE_AVATAR_FAILURE";
 
 // SUGGESTIONS
 export const GET_SUGGESTIONS = "GET_SUGGESTIONS";
@@ -906,6 +908,33 @@ export const deleteProfile = token => {
       }
     } catch (error) {
       dispatch({ type: DELETE_PROFILE_FAILURE, payload: "Generic error:", error });
+    }
+  };
+};
+
+export const updateAvatar = (token, formData) => {
+  return async dispatch => {
+    const URL = process.env.REACT_APP_SERVER_URL + "/users/me/upload";
+    const method = {
+      method: "PUT",
+      body: formData,
+      headers: {
+        Authorization: "Bearer " + token,
+      },
+    };
+    try {
+      const resp = await fetch(URL, method);
+      if (resp.ok) {
+        dispatch({ type: UPDATE_PROFILE_AVATAR_SUCCESS, payload: "Avatar updated successfully!" });
+      } else {
+        const data = await resp.json();
+        dispatch({
+          type: UPDATE_PROFILE_AVATAR_FAILURE,
+          payload: data.message || "Failed to update avatar.",
+        });
+      }
+    } catch (error) {
+      dispatch({ type: UPDATE_PROFILE_AVATAR_FAILURE, payload: "Generic error:", error });
     }
   };
 };
