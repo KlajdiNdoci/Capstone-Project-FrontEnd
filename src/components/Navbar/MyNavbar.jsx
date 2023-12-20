@@ -49,6 +49,7 @@ const MyNavbar = () => {
     e.preventDefault();
     window.location.href = "/games/search?q=" + query;
   };
+
   const handleLogout = async e => {
     e.preventDefault();
     dispatch({ type: SAVE_TOKEN, payload: "" });
@@ -193,7 +194,7 @@ const MyNavbar = () => {
                   />
                 </Link>
               </Col>
-              <Col xs={7} sm={8} md={9} className="d-flex d-lg-none my-auto">
+              <Col xs={7} sm={8} md={9} className="d-none d-sm-flex d-lg-none my-auto">
                 <Form className="d-flex flex-grow-1 justify-content-center align-items-middle" onSubmit={handleSubmit}>
                   <InputGroup>
                     <Form.Control
