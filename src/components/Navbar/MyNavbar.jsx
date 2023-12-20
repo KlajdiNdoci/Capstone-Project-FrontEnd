@@ -224,7 +224,7 @@ const MyNavbar = () => {
                             <div
                               className="suggestion d-flex"
                               onClick={() => {
-                                navigate("/game/" + suggestion.id);
+                                navigate("/games/" + suggestion.id);
                               }}
                               key={suggestion.id}
                             >
