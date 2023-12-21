@@ -27,7 +27,7 @@ const NewsDetail = () => {
   }, [dispatch, newsId, token]);
 
   return (
-    <Container fluid="lg" style={{ paddingTop: "80px" }} className="my-5 text-white">
+    <Container fluid="lg" style={{ paddingTop: "80px" }} className="my-5 text-white px-3 px-md-5">
       {news && (
         <>
           <Row className="mb-3 align-items-center">

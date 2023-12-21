@@ -24,9 +24,9 @@ const App = () => {
         <Route path="/games" element={token ? <GameListPage /> : <Navigate to="/login" />} />
         <Route path="/register" element={<RegistrationPage />} />
         <Route path="/login" element={<LoginPage />} />
-        <Route path="/profile/:userId" element={<UserProfile />} />
-        <Route path="/news/:newsId" element={<NewsDetail />} />
-        <Route path="/news/" element={<NewsListPage />} />
+        <Route path="/profile/:userId" element={token ? <UserProfile /> : <Navigate to="/login" />} />
+        <Route path="/news/:newsId" element={token ? <NewsDetail /> : <Navigate to="/login" />} />
+        <Route path="/news/" element={token ? <UserProfile /> : <NewsListPage />} />
       </Routes>
       <Footer />
     </BrowserRouter>

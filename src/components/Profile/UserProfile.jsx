@@ -57,7 +57,7 @@ const UserProfile = () => {
   return (
     <>
       {user && currentUser && games && friends && (
-        <Container fluid="lg" className="text-white my-5 flex-grow-1" style={{ paddingTop: "80px" }}>
+        <Container fluid="lg" className="text-white my-5 flex-grow-1 px-3 px-md-5" style={{ paddingTop: "80px" }}>
           <div className="text-white p-4 rounded-3 h-100 d-flex flex-column" style={{ backgroundColor: "#171D25" }}>
             <div>
               <Row>

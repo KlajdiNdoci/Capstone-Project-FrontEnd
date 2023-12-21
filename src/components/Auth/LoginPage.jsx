@@ -34,7 +34,7 @@ const LoginPage = () => {
 
   return (
     <>
-      <Container fluid="lg" style={{ paddingTop: "80px" }} className="h-100 d-flex flex-column text-white">
+      <Container fluid="lg" style={{ paddingTop: "80px" }} className="h-100 d-flex flex-column text-white px-3 px-md-5">
         <div style={{ height: "30px" }}>{message && <Alert variant="danger">{message}</Alert>}</div>
         <div className=" my-box-shadow rounded-3 p-4 shadow bg-dark mb-5 my-3">
           <div className="mb-4">

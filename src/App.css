@@ -317,3 +317,13 @@ span.page-link {
   top: 0;
   right: 0;
 }
+
+.btn-close {
+  background-color: white;
+  border-radius: 100%;
+}
+
+.offcanvas-btn:hover {
+  color: black;
+  background-color: white;
+}

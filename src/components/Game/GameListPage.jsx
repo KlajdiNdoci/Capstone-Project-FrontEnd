@@ -110,7 +110,7 @@ const GameListPage = () => {
   };
 
   return (
-    <Container className="d-flex flex-column flex-grow-1" fluid="lg" style={{ paddingTop: "80px" }}>
+    <Container className="d-flex flex-column flex-grow-1 px-3 px-md-5" fluid="lg" style={{ paddingTop: "80px" }}>
       {games && (
         <Row className="mt-5 d-flex flex-column">
           <Col xs={12} className="mb-4">

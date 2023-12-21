@@ -35,7 +35,7 @@ const RegistrationPage = () => {
 
   return (
     <>
-      <Container fluid="lg" className="h-100 d-flex flex-column justify-content-center text-white">
+      <Container fluid="lg" className="h-100 d-flex flex-column justify-content-center text-white px-3 px-md-5">
         <div style={{ height: "50px" }}>
           {message && (
             <Alert className="mb-0 " variant={`${message === "Registration successful!" ? "success" : "danger"}`}>

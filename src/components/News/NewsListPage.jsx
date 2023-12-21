@@ -24,7 +24,7 @@ const NewsListPage = () => {
   }
 
   return (
-    <Container className="d-flex flex-column flex-grow-1" fluid="lg" style={{ paddingTop: "80px" }}>
+    <Container className="d-flex flex-column flex-grow-1 px-3 px-md-5" fluid="lg" style={{ paddingTop: "80px" }}>
       {news && (
         <Row className="mt-5 d-flex flex-row">
           <h5 className="mb-3 text-white">ALL NEWS</h5>

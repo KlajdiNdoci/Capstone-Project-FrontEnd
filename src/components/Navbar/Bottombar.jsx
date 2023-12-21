@@ -9,7 +9,7 @@ const BottomBar = () => {
   return (
     <>
       <Navbar fixed="bottom" expand="lg" style={{ height: "53px", zIndex: "10" }} className="bg-white p-0">
-        <Container fluid="xl" style={{ height: "100%", backgroundColor: "#171D25" }}>
+        <Container fluid="lg" className="px-3 px-md-5" style={{ height: "100%", backgroundColor: "#171D25" }}>
           <Row className="flex-grow-1 " style={{ height: "100%" }}>
             <Col xs={10} lg={7} className="d-flex align-items-center flex-grow-1">
               <Row className="flex-grow-1" style={{ height: "100%" }}>

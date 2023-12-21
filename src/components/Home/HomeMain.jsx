@@ -88,7 +88,7 @@ const HomeMain = () => {
   }, [location]);
 
   return (
-    <Container fluid="lg" style={{ paddingTop: "80px" }}>
+    <Container fluid="lg" className=" px-3 px-md-5" style={{ paddingTop: "80px" }}>
       <Form
         className="d-flex d-sm-none flex-grow-1 justify-content-center align-items-middle mt-3"
         onSubmit={handleSubmit}

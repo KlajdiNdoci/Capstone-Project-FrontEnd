@@ -22,7 +22,7 @@ const GameDetails = () => {
   }, [game]);
 
   return (
-    <Container fluid="lg" style={{ paddingTop: "80px" }}>
+    <Container fluid="lg" className="px-3 px-md-5" style={{ paddingTop: "80px" }}>
       {game.gameImages && (
         <>
           <GameCarousel images={gameImages} game={game} />
