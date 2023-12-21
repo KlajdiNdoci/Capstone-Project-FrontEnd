@@ -115,6 +115,16 @@ const HomeCarousel = () => {
                   </div>
                 </div>
               </div>
+              <div className="p-2 text-white">
+                <div className="mb-2">{game.title}</div>
+                <div className="mb-2">
+                  {[0, 1, 2].map(index => (
+                    <Badge key={index} bg="secondary" className="rounded-1 me-2">
+                      {game.genres[index]}
+                    </Badge>
+                  ))}
+                </div>
+              </div>
             </Carousel.Item>
           ))}
         </Carousel>

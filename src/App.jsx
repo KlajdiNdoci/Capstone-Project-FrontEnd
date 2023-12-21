@@ -26,7 +26,7 @@ const App = () => {
         <Route path="/login" element={<LoginPage />} />
         <Route path="/profile/:userId" element={token ? <UserProfile /> : <Navigate to="/login" />} />
         <Route path="/news/:newsId" element={token ? <NewsDetail /> : <Navigate to="/login" />} />
-        <Route path="/news/" element={token ? <UserProfile /> : <NewsListPage />} />
+        <Route path="/news/" element={token ? <NewsListPage /> : <Navigate to="/login" />} />
       </Routes>
       <Footer />
     </BrowserRouter>

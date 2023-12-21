@@ -35,7 +35,7 @@ const HomeNews = () => {
           {news.map((article, index) => (
             <Col key={article.id} md={6} lg={4} xl={4} className={`mb-4 ${index >= 3 ? "d-none d-md-block" : ""}`}>
               <Card
-                className="text-white cursor-pointer p-0 border-0 "
+                className="text-white cursor-pointer p-0 border-0 rounded-0"
                 onClick={() => {
                   navigate("/news/" + article.id);
                 }}

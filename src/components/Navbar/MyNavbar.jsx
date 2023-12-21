@@ -369,48 +369,54 @@ const MyNavbar = () => {
               </Col>
             </Row>
           )}
-          <div className="d-lg-none">
-            <div onClick={handleShow} className="ms-3 text-white cursor-pointer">
-              <List className="fs-1" />
+          {user && token && (
+            <div className="d-lg-none">
+              <div onClick={handleShow} className="ms-3 text-white cursor-pointer">
+                <List className="fs-1" />
+              </div>
+              <Offcanvas show={show} onHide={handleClose} placement="end" className="bg-dark text-white">
+                <Offcanvas.Header closeButton>
+                  <Offcanvas.Title>
+                    <div
+                      className="d-flex align-items-center"
+                      navigate={"/profile/" + user.id}
+                      onClick={() => handleClose()}
+                    >
+                      <img
+                        src={user?.avatar}
+                        width={50}
+                        height={50}
+                        className="object-fit-cover m-auto me-3"
+                        alt="user"
+                        style={{ border: "solid 2px #4D95B1" }}
+                      />
+                      <span className="fs-4">{user?.username}</span>
+                    </div>
+                  </Offcanvas.Title>
+                </Offcanvas.Header>
+                <Offcanvas.Body className="fs-4 cursor-pointer">
+                  <div
+                    className="p-2 offcanvas-btn"
+                    onClick={() => {
+                      navigate("/profile/" + user.id);
+                      handleClose();
+                    }}
+                  >
+                    View my profile
+                  </div>
+                  <div
+                    className="p-2 offcanvas-btn"
+                    onClick={e => {
+                      handleLogout(e);
+                      handleClose();
+                    }}
+                  >
+                    Sign out of account
+                  </div>
+                </Offcanvas.Body>
+              </Offcanvas>
             </div>
-            <Offcanvas show={show} onHide={handleClose} placement="end" className="bg-dark text-white">
-              <Offcanvas.Header closeButton>
-                <Offcanvas.Title>
-                  <Link to={"/profile/" + user.id}>
-                    <img
-                      src={user?.avatar}
-                      width={50}
-                      height={50}
-                      className="object-fit-cover m-auto me-3"
-                      alt="user"
-                      style={{ border: "solid 2px #4D95B1" }}
-                    />
-                  </Link>
-                  <span className="fs-4">{user?.username}</span>
-                </Offcanvas.Title>
-              </Offcanvas.Header>
-              <Offcanvas.Body className="fs-4 cursor-pointer">
-                <div
-                  className="p-2 offcanvas-btn"
-                  onClick={() => {
-                    navigate("/profile/" + user.id);
-                    handleClose();
-                  }}
-                >
-                  View my profile
-                </div>
-                <div
-                  className="p-2 offcanvas-btn"
-                  onClick={e => {
-                    handleLogout(e);
-                    handleClose();
-                  }}
-                >
-                  Sign out of account
-                </div>
-              </Offcanvas.Body>
-            </Offcanvas>
-          </div>
+          )}
         </Container>
       </Navbar>
 
