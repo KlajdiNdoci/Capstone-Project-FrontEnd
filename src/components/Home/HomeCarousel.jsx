@@ -57,7 +57,11 @@ const HomeCarousel = () => {
         </div>
       </div>
       {games && (
-        <Carousel className="my-box-shadow mb-5" style={{ backgroundColor: "#0E1821", cursor: "pointer" }}>
+        <Carousel
+          className="my-box-shadow mb-5"
+          style={{ backgroundColor: "#0E1821", cursor: "pointer" }}
+          interval={10000000000000000}
+        >
           {games.map(game => (
             <Carousel.Item
               key={game.id}
@@ -66,38 +70,38 @@ const HomeCarousel = () => {
               }}
             >
               <Row>
-                <Col xs={12} md={8}>
+                <Col xs={12} lg={8}>
                   <img
                     src={hoveredImageIndex === null ? game.gameCover : game.gameImages[hoveredImageIndex]}
                     alt={game.title}
                     className="object-fit-cover me-3 carousel-cover w-100"
                   />
                 </Col>
-                <Col>
-                  <div className="d-none d-lg-flex flex-column text-white text-truncate">
+                <Col xs={4} className="d-none d-lg-flex">
+                  <div className="flex-column text-white text-truncate">
                     <h3 className="text-truncate mt-4 mb-4 me-3">{game.title}</h3>
-                    <div className="d-flex mb-3" style={{ height: "90px" }}>
+                    <div className="d-flex mb-3">
                       {[0, 1].map(index => (
-                        <div key={index} className="me-3">
+                        <div key={index} className="me-3 w-100">
                           <img
                             src={game.gameImages[index]}
-                            alt={`img-${index}`}
                             onMouseEnter={() => handleMouseEnter(index)}
                             onMouseLeave={handleMouseLeave}
-                            className="img-fluid carousel-images object-fit-cover h-100"
+                            alt={`img-${index}`}
+                            className="img-fluid carousel-images object-fit-cover w-100"
                           />
                         </div>
                       ))}
                     </div>
                     <div className="d-flex mb-3">
                       {[2, 3].map(index => (
-                        <div key={index} className="me-3" style={{ height: "90px" }}>
+                        <div key={index} className="me-3 w-100">
                           <img
                             src={game.gameImages[index]}
                             onMouseEnter={() => handleMouseEnter(index)}
                             onMouseLeave={handleMouseLeave}
                             alt={`img-${index}`}
-                            className="img-fluid carousel-images object-fit-cover h-100"
+                            className="img-fluid carousel-images object-fit-cover "
                           />
                         </div>
                       ))}
@@ -119,7 +123,7 @@ const HomeCarousel = () => {
                   </div>
                 </Col>
               </Row>
-              <div className="p-2 text-white">
+              <div className="p-2 text-white d-lg-none">
                 <div className="mb-2">{game.title}</div>
                 <div className="mb-2">
                   {[0, 1, 2].map(index => (
