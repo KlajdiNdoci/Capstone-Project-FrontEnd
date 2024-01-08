@@ -57,11 +57,7 @@ const HomeCarousel = () => {
         </div>
       </div>
       {games && (
-        <Carousel
-          className="my-box-shadow mb-5"
-          style={{ backgroundColor: "#0E1821", cursor: "pointer" }}
-          interval={10000000000000000}
-        >
+        <Carousel className="my-box-shadow mb-5" style={{ backgroundColor: "#0E1821", cursor: "pointer" }}>
           {games.map(game => (
             <Carousel.Item
               key={game.id}
@@ -113,9 +109,9 @@ const HomeCarousel = () => {
                         </Badge>
                       ))}
                     </div>
-                    <div className="d-flex mb-3 justify-content-end me-3" style={{ marginTop: "auto" }}>
+                    <div className="d-flex mb-3 justify-content-end me-3" style={{ fontSize: "1.5rem" }}>
                       {game.platforms.map((platform, index) => (
-                        <div key={index} className="fs-4 ms-2">
+                        <div key={index} className="ms-2">
                           {getPlatformIcon(platform)}
                         </div>
                       ))}
