@@ -74,7 +74,7 @@ const HomeCarousel = () => {
                   />
                 </Col>
                 <Col xs={4} className="d-none d-lg-flex">
-                  <div className="flex-column text-white text-truncate">
+                  <div className="d-flex flex-column text-white text-truncate">
                     <h3 className="text-truncate mt-4 mb-4 me-3">{game.title}</h3>
                     <div className="d-flex mb-3">
                       {[0, 1].map(index => (
@@ -102,6 +102,7 @@ const HomeCarousel = () => {
                         </div>
                       ))}
                     </div>
+
                     <div className="d-flex">
                       {[0, 1, 2].map(index => (
                         <Badge key={index} bg="secondary" className="rounded-1 me-2">
@@ -109,7 +110,7 @@ const HomeCarousel = () => {
                         </Badge>
                       ))}
                     </div>
-                    <div className="d-flex mb-3 justify-content-end me-3" style={{ fontSize: "1.5rem" }}>
+                    <div className="d-flex mb-3 justify-content-end me-3 mt-auto" style={{ fontSize: "1.5rem" }}>
                       {game.platforms.map((platform, index) => (
                         <div key={index} className="ms-2">
                           {getPlatformIcon(platform)}
